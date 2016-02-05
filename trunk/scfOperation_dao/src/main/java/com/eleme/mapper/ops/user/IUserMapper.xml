@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.eleme.mapper.ops.user.IUserMapper">
+	<resultMap id="BaseResultMap" type="com.eleme.domain.ops.MUsers">
+		<id column="USER_ID" property="userId" jdbcType="INTEGER" />
+		<result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+		<result column="PSWD" property="pswd" jdbcType="VARCHAR" />
+		<result column="USER_STATUS" property="userStatus" jdbcType="CHAR" />
+		<result column="IS_ADMIN" property="isAdmin" jdbcType="CHAR" />
+		<result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
+		<result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<resultMap id="userInfoResultMap" type="com.eleme.domain.ops.UserRole"
+		extends="BaseResultMap">
+		<result column="ROLE_ID" property="roleId" jdbcType="INTEGER" />
+		<result column="ROLE_NAME" property="roleName" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		USER_ID, USER_NAME, PSWD, USER_STATUS, IS_ADMIN,
+		CREATED_AT, UPDATED_AT
+	</sql>
+	<select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from M_USERS
+		where USER_ID = #{userId}
+	</select>
+
+	<select id="selectMenusByUserId" parameterType="java.lang.Long"
+		resultMap="com.eleme.mapper.ops.user.ResourceMapper.ResourceResultMap">
+
+		select distinct res.RESOURCE_STRING, res.RESOURCE_NAME,
+		res.RESOURCE_ID, res.PARENT_ID, res.SORT_INDEX, res.GRADE
+		from M_USERS
+		as usr
+		inner join T_ATR_USERS_ROLES usr_rol on usr_rol.USER_ID =
+		usr.USER_ID
+		inner join T_ATR_ROLES rol on rol.ROLE_ID = usr_rol.ROLE_ID
+		and rol.PRJ_TYPE = '0'
+		inner join T_ATR_AUTHORITIES_ROLES auth_rol on
+		auth_rol.ROLE_ID = rol.ROLE_ID
+		inner join T_ATR_AUTHORITIES auth on
+		auth.AUTHORITIES_ID = auth_rol.AUTHORITIES_ID and auth.IS_ENABLED =
+		'1'
+		inner join T_ATR_RESOURCE_AUTHORITIES res_auth on
+		res_auth.AUTHORITIES_ID = auth.AUTHORITIES_ID
+		inner join M_RESOURCE res
+		on res.RESOURCE_ID = res_auth.RESOURCE_ID
+		and res.IS_ENABLED = '1'
+		and
+		res.PRJ_TYPE = '0'
+		and res.SHOW_NAV = '1'
+		<!-- and res.RESOURCE_TYPE = 'URL' -->
+		where usr.USER_ID = #{userId}
+		order by res.PARENT_ID, res.SORT_INDEX
+		<!-- select res.RESOURCE_STRING, res.RESOURCE_NAME, res.RESOURCE_ID, res.PARENT_ID, 
+			res.SORT_INDEX, res.GRADE from M_RESOURCE res where res.IS_ENABLED = '1' 
+			and res.PRJ_TYPE = '0' and res.SHOW_NAV = '1' and res.RESOURCE_TYPE = 'URL' 
+			order by res.PARENT_ID, res.SORT_INDEX -->
+	</select>
+	<insert id="insert" parameterType="com.eleme.domain.ops.MUsers">
+		insert into M_USERS
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userName != null">
+				USER_NAME,
+			</if>
+			<if test="pswd != null">
+				PSWD,
+			</if>
+			<if test="userStatus != null">
+				USER_STATUS,
+			</if>
+			<if test="isAdmin != null">
+				IS_ADMIN,
+			</if>
+			<if test="createdAt != null">
+				CREATED_AT,
+			</if>
+			<if test="updatedAt != null">
+				UPDATED_AT,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="userName != null">
+				#{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="pswd != null">
+				#{pswd,jdbcType=VARCHAR},
+			</if>
+			<if test="userStatus != null">
+				#{userStatus,jdbcType=CHAR},
+			</if>
+			<if test="isAdmin != null">
+				#{isAdmin,jdbcType=CHAR},
+			</if>
+			<if test="createdAt != null">
+				#{createdAt,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updatedAt != null">
+				#{updatedAt,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+		<selectKey resultType="java.lang.Integer" keyProperty="userId"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+
+	</insert>
+
+	<update id="updateById" parameterType="com.eleme.domain.ops.MUsers">
+		update M_USERS
+		<set>
+			<if test="userName != null">
+				USER_NAME = #{userName},
+			</if>
+			<if test="pswd != null">
+				PSWD = #{pswd},
+			</if>
+			<if test="userStatus != null">
+				USER_STATUS = #{userStatus},
+			</if>
+			<if test="isAdmin != null">
+				IS_ADMIN = #{isAdmin},
+			</if>
+			<if test="createdAt != null">
+				CREATED_AT = #{createdAt},
+			</if>
+			<if test="updatedAt != null">
+				UPDATED_AT = #{updatedAt},
+			</if>
+		</set>
+		where USER_ID = #{userId}
+	</update>
+
+	<!-- 增加用户和角色关联 -->
+	<insert id="insertUserAndRole" parameterType="com.eleme.domain.ops.UserRole">
+		insert into
+		T_ATR_USERS_ROLES(USER_ID, ROLE_ID)
+		values(#{userId}, #{roleId})
+	</insert>
+	<!-- 查询用户信息 -->
+	<select id="userInfo" resultMap="userInfoResultMap"
+		parameterType="java.lang.Integer">
+		select
+		u.USER_ID, u.USER_NAME, u.IS_ADMIN, u.CREATED_AT, u.UPDATED_AT, r.ROLE_NAME ,r.ROLE_ID
+		from M_USERS u left join
+		T_ATR_USERS_ROLES t on u.USER_ID=t.USER_ID
+		left JOIN
+		T_ATR_ROLES r on
+		r.ROLE_ID=t.ROLE_ID
+		where u.USER_ID=#{userId}
+	</select>
+	<!-- update 用户和角色表 -->
+	<update id="updateUserAndRole" parameterType="com.eleme.domain.ops.UserRole">
+		update T_ATR_USERS_ROLES
+		<set>
+			ROLE_ID = #{roleId}
+		</set>
+		where USER_ID = #{userId}
+	</update>
+	<!-- UserId是否存在用户角色关联表中 -->
+	<select id="isUserIdExist" parameterType="java.lang.Integer"
+		resultType="java.lang.Integer">
+		select count(*)
+		from T_ATR_USERS_ROLES
+		where USER_ID =
+		#{userId}
+	</select>
+	<!-- 删除用户 -->
+	<update id="updateUserOfDel" parameterType="java.lang.Integer">
+		update M_USERS
+		set
+		USER_STATUS = 1
+		where USER_ID = #{id}
+	</update>
+	<!-- 根据角色ID查用户信息 -->
+	<select id="selectUserByRoleId" parameterType="java.lang.Integer"
+		resultMap="userInfoResultMap">
+		select u.USER_NAME as USER_NAME,u.USER_ID as
+		USER_ID,r.ROLE_ID as ROLE_ID
+		from M_USERS u
+		left join T_ATR_USERS_ROLES
+		ur on u.USER_ID=ur.USER_ID
+		left join T_ATR_ROLES r on
+		r.ROLE_ID=ur.ROLE_ID
+		where r.ROLE_ID=#{roleId};
+	</select>
+	<!-- 根据角色ID和用户ID删除该用户的该角色 -->
+	<delete id="deleteUserAndRole" parameterType="com.eleme.domain.ops.UserRole">
+		DELETE
+		from
+		T_ATR_USERS_ROLES
+		where USER_ID=#{userId} and ROLE_ID=#{roleId}
+	</delete>
+	
+</mapper>

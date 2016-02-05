@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.eleme.mapper.mart.loan.TApvFlowTeamMapper" >
+  <resultMap id="BaseResultMap" type="com.eleme.domain.mart.loan.TApvFlowTeam" >
+    <id column="FT_ID" property="ftId" jdbcType="INTEGER" />
+    <result column="TEAM_NAME" property="teamName" jdbcType="VARCHAR" />
+    <result column="APP_USER_IDS" property="appUserIds" jdbcType="VARCHAR" />
+    <result column="APP_USER_NAMES" property="appUserNames" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    FT_ID, TEAM_NAME, APP_USER_IDS, APP_USER_NAMES
+  </sql>
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_APV_FLOW_TEAM
+    where FT_ID = #{ftId}
+  </select>
+  
+  <insert id="insert" parameterType="com.eleme.domain.mart.loan.TApvFlowTeam" >
+    insert into T_APV_FLOW_TEAM
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="teamName != null" >
+        TEAM_NAME,
+      </if>
+      <if test="appUserIds != null" >
+        APP_USER_IDS,
+      </if>
+      <if test="appUserNames != null" >
+        APP_USER_NAMES,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="teamName != null" >
+        #{teamName},
+      </if>
+      <if test="appUserIds != null" >
+        #{appUserIds},
+      </if>
+      <if test="appUserNames != null" >
+        #{appUserNames},
+      </if>
+    </trim>
+    
+    <selectKey resultType="java.lang.Integer" keyProperty="ftId"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+  </insert>
+  
+  <update id="updateById" parameterType="com.eleme.domain.mart.loan.TApvFlowTeam" >
+    update T_APV_FLOW_TEAM
+    <set >
+      <if test="teamName != null" >
+        TEAM_NAME = #{teamName},
+      </if>
+      <if test="appUserIds != null" >
+        APP_USER_IDS = #{appUserIds},
+      </if>
+      <if test="appUserNames != null" >
+        APP_USER_NAMES = #{appUserNames},
+      </if>
+    </set>
+    where FT_ID = #{ftId}
+  </update>
+  
+  <!-- 根据审批组名称查询总件数  -->
+  <select id="selectByName" resultType="java.lang.Integer" parameterType="java.lang.String" >
+    select 
+    count(*)
+    from T_APV_FLOW_TEAM
+    where TEAM_NAME = #{teamName}
+  </select>
+  
+   <!-- 获得team名相同的审批组信息  -->
+  <select id="selectApvFlowTeams" resultMap="BaseResultMap" parameterType="com.eleme.bean.apv.ApvFlowTeamQueryBean" >
+    select 
+    <include refid="Base_Column_List"></include>
+    from T_APV_FLOW_TEAM
+    <if test="teamName != null" >
+        where TEAM_NAME = #{teamName}
+    </if>
+    <if test="startPage != null and pageSize != null" >
+        limit #{startPage},#{pageSize}
+    </if>
+  </select>
+  
+   <!-- 获得team名相同的审批组数量  -->
+  <select id="selectApvFlowTeamTotal" resultType="java.lang.Integer" parameterType="com.eleme.bean.apv.ApvFlowTeamQueryBean" >
+   	select 
+   	count(*)
+    from T_APV_FLOW_TEAM
+    <if test="teamName != null" >
+        where TEAM_NAME = #{teamName}
+    </if>
+  </select>
+
+	<select id="selectTeamByName" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select 
+		<include refid="Base_Column_List"></include>
+		from T_APV_FLOW_TEAM
+        where TEAM_NAME = #{teamName}
+	</select>
+
+</mapper>

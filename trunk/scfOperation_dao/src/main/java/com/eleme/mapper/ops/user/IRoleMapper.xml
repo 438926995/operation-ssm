@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.eleme.mapper.ops.user.IRoleMapper">
+	<resultMap id="rolesResultMap" type="com.eleme.bean.security.RolesBean">
+		<id column="ROLE_ID" property="roleId" jdbcType="INTEGER" />
+		<result column="ROLE_NAME" property="roleName" jdbcType="VARCHAR" />
+	</resultMap>
+	<resultMap id="roleInfoMap" type="com.eleme.bean.user.RoleBean">
+		<result column="ROLE_ID" property="roleId" jdbcType="INTEGER"/>
+		<result column="ROLE_NAME" property="roleName" jdbcType="VARCHAR"/>
+		<result column="IS_DEFAULT" property="isDefault" jdbcType="INTEGER"/>
+		<result column="AUTHORITIES_ID" property="authId" jdbcType="INTEGER"/>
+		<result column="AUTH_NAME" property="authName" jdbcType="VARCHAR"/>
+	</resultMap>
+	<!-- 查询角色集合 分页 -->
+	<select id="getRolesPageList" resultMap="rolesResultMap">
+		select role_id,role_name
+		from T_ATR_ROLES
+		limit #{startRecord}, #{pageSize}
+	</select>
+	<!-- 查询角色集合 不分页 -->
+	<select id="getRolesList" resultMap="rolesResultMap">
+		select role_id,role_name
+		from T_ATR_ROLES
+	</select>
+	<!-- 查询角色总记录 -->
+	<select id="selectCount" resultType="java.lang.Integer">
+		select count(*)
+		from T_ATR_ROLES
+	</select>
+	<!-- 根据角色名查找 -->
+	<select id="findRoleByName" parameterType="java.lang.String" resultType="java.lang.Integer">
+		select count(*)
+		from T_ATR_ROLES
+		where ROLE_NAME = #{roleName}
+	</select>
+	<!-- 添加角色 -->
+	<insert id="insertRole" parameterType="com.eleme.bean.user.RoleBean">
+		insert into T_ATR_ROLES(ROLE_NAME,IS_DEFAULT)
+		values (#{roleName},#{isDefault})
+		<selectKey resultType="java.lang.Integer" keyProperty="roleId"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+	<!-- 添加角色权限关联 -->
+	<insert id="insertRoleAndAuth" parameterType="com.eleme.bean.user.RoleBean">
+		insert into T_ATR_AUTHORITIES_ROLES(ROLE_ID,AUTHORITIES_ID)
+		values
+		<foreach collection="authList" item="item" separator=",">
+			(#{roleId},#{item})
+		</foreach>
+	</insert>
+	<!-- 根据角色Id查询角色信息 -->
+	<select id="selectRoleById" resultMap="roleInfoMap">
+		select
+		r.ROLE_ID AS ROLE_ID,r.ROLE_NAME AS ROLE_NAME,r.IS_DEFAULT AS IS_DEFAULT,
+		a.AUTHORITIES_ID AS AUTHORITIES_ID,a.AUTH_NAME AS AUTH_NAME
+		from T_ATR_ROLES r left join T_ATR_AUTHORITIES_ROLES t on r.ROLE_ID=t.ROLE_ID
+		left JOIN
+		T_ATR_AUTHORITIES a on a.AUTHORITIES_ID=t.AUTHORITIES_ID
+		where r.ROLE_ID=#{id}
+	</select>
+	<!-- 根据角色Id删除角色权限 -->
+	<delete id="deleteAuth" parameterType="java.lang.Integer">
+		delete 
+		from T_ATR_AUTHORITIES_ROLES
+		where ROLE_ID = #{roleId}
+	</delete>
+	<!-- update 角色 -->
+	<update id="updateRole" parameterType="com.eleme.bean.user.RoleBean">
+		update T_ATR_ROLES
+		<set>
+			<if test="roleName != null and roleName != '' ">
+				ROLE_NAME = #{roleName},
+			</if>
+			<if test="isDefault != null">
+				IS_DEFAULT = #{isDefault},
+			</if>
+			<if test="updateAt != null">
+				UPDATED_AT = #{updateAt},
+			</if>
+		</set>
+		where ROLE_ID = #{roleId}
+	</update>
+	<!-- 根据角色Id查询是否有对应的权限 -->
+	<select id="isAuthById" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+		select count(*)
+		from T_ATR_AUTHORITIES_ROLES
+		where ROLE_ID = #{roleId}
+	</select>
+	<!-- 根据角色Id删除角色 -->
+	<delete id="deleteRole" parameterType="java.lang.Integer">
+		delete
+		from T_ATR_ROLES
+		where ROLE_ID = #{roleId}
+	</delete>
+	<!-- 根据角色Id删除角色对应的权限 -->
+	<delete id="deleteRoleAndAuth" parameterType="java.lang.Integer">
+		delete
+		from T_ATR_AUTHORITIES_ROLES
+		where ROLE_ID = #{roleId}
+	</delete>
+</mapper>

@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.eleme.mapper.mart.finance.MFinanceOrgMapper">
+	<resultMap id="BaseResultMap" type="com.eleme.domain.mart.finance.MFinanceOrg">
+		<id column="FO_ID" property="foId" jdbcType="INTEGER" />
+		<result column="FO_NAME" property="foName" jdbcType="VARCHAR" />
+		<result column="FO_DESC" property="foDesc" jdbcType="VARCHAR" />
+		<result column="CONTACT_NAME" property="contactName" jdbcType="VARCHAR" />
+		<result column="CONTACT_PHONE" property="contactPhone" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="FO_STATUS" property="foStatus" jdbcType="INTEGER" />
+		<result column="FO_ADDR" property="foAddr" jdbcType="VARCHAR" />
+		<result column="FO_URL" property="foUrl" jdbcType="VARCHAR" />
+		<result column="FO_PHONE" property="foPhone" jdbcType="VARCHAR" />
+		<result column="UF_ID" property="ufId" jdbcType="INTEGER" />
+	</resultMap>
+
+	<resultMap id="VoBaseResultMap" type="com.eleme.domain.mart.finance.MFinanceOrgVo" extends="BaseResultMap">
+		<collection property="financeProducts" ofType="com.eleme.domain.mart.product.MFinanceProduct" resultMap="com.eleme.mapper.mart.product.MFinanceProductMapper.BaseResultMap">
+			<!-- <id column="FP_ID" property="fpId" jdbcType="INTEGER" />
+			<result column="FP_NAME" property="fpName" jdbcType="VARCHAR" /> -->
+		</collection>
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		FO_ID, FO_NAME, FO_DESC, CONTACT_NAME,
+		CONTACT_PHONE, CREATE_TIME,FO_STATUS,
+		FO_ADDR,FO_URL,FO_PHONE,UF_ID
+	</sql>
+	<select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from M_FINANCE_ORG
+		where FO_ID = #{foId}
+	</select>
+
+	<insert id="insert" parameterType="com.eleme.domain.mart.finance.MFinanceOrg">
+		insert into M_FINANCE_ORG
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="foName != null">
+				FO_NAME,
+			</if>
+			<if test="foDesc != null">
+				FO_DESC,
+			</if>
+			<if test="contactName != null">
+				CONTACT_NAME,
+			</if>
+			<if test="contactPhone != null">
+				CONTACT_PHONE,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="foStatus != null">
+				FO_STATUS,
+			</if>
+			<if test="foAddr != null">
+				FO_ADDR,
+			</if>
+			<if test="foUrl != null">
+				FO_URL,
+			</if>
+			<if test="foPhone != null">
+				FO_PHONE,
+			</if>
+			<if test="ufId != null">
+				UF_ID,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="foName != null">
+				#{foName},
+			</if>
+			<if test="foDesc != null">
+				#{foDesc},
+			</if>
+			<if test="contactName != null">
+				#{contactName},
+			</if>
+			<if test="contactPhone != null">
+				#{contactPhone},
+			</if>
+			<if test="createTime != null">
+				#{createTime},
+			</if>
+			<if test="foStatus != null">
+				#{foStatus},
+			</if>
+			<if test="foAddr != null">
+				#{foAddr},
+			</if>
+			<if test="foUrl != null">
+				#{foUrl},
+			</if>
+			<if test="foPhone != null">
+				#{foPhone},
+			</if>
+			<if test="ufId != null">
+				#{ufId},
+			</if>
+		</trim>
+		<selectKey resultType="java.lang.Integer" keyProperty="foId"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+	
+	<update id="updateById" parameterType="com.eleme.domain.mart.finance.MFinanceOrg">
+		update M_FINANCE_ORG
+		<set>
+			<if test="foName != null">
+				FO_NAME = #{foName},
+			</if>
+			<if test="foDesc != null">
+				FO_DESC = #{foDesc},
+			</if>
+			<if test="contactName != null">
+				CONTACT_NAME = #{contactName},
+			</if>
+			<if test="contactPhone != null">
+				CONTACT_PHONE = #{contactPhone},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime},
+			</if>
+			<if test="foStatus != null">
+				FO_STATUS = #{foStatus},
+			</if>
+			<if test="foAddr != null">
+				FO_ADDR = #{foAddr},
+			</if>
+			<if test="foUrl != null">
+				FO_URL = #{foUrl},
+			</if>
+			<if test="foPhone != null">
+				FO_PHONE = #{foPhone},
+			</if>
+			<if test="ufId != null">
+				UF_ID = #{ufId},
+			</if>
+		</set>
+		where FO_ID = #{foId}
+	</update>
+	
+	<select id="selectFinanceList" resultMap="BaseResultMap" parameterType="com.eleme.domain.mart.finance.FinanceQueryBean">
+		select
+		<include refid="Base_Column_List" />
+		from M_FINANCE_ORG
+		<where>
+			<if test="foName != null and foName != ''">
+				<![CDATA[ AND FO_NAME LIKE '%${foName}%' ]]>
+			</if>
+			<if test="foStatus != null and foStatus != ''">
+				<![CDATA[ AND FO_STATUS = #{foStatus} ]]>
+			</if>
+			<if test="startDate != null">
+				<![CDATA[ AND CREATE_TIME >=#{startDate} ]]>
+			</if>
+			<if test="endDate != null">
+				<![CDATA[ AND CREATE_TIME <=#{endDate} ]]>
+			</if>
+		</where>
+		ORDER BY CREATE_TIME DESC
+		<if test="startRecord != null and pageSize != null">
+			limit ${startRecord},${pageSize}
+		</if>
+	</select>
+	
+	<select id="selectFinanceListCount" resultType="java.lang.Integer" parameterType="com.eleme.domain.mart.finance.FinanceQueryBean">
+		select
+		count(*)
+		from M_FINANCE_ORG
+		<where>
+			<if test="foName != null and foName != ''">
+				<![CDATA[ AND FO_NAME LIKE '%${foName}%' ]]>
+			</if>
+			<if test="foStatus != null and foStatus != ''">
+				<![CDATA[ AND FO_STATUS = #{foStatus} ]]>
+			</if>
+			<if test="startDate != null">
+				<![CDATA[ AND CREATE_TIME >=#{startDate} ]]>
+			</if>
+			<if test="endDate != null">
+				<![CDATA[ AND CREATE_TIME <=#{endDate} ]]>
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectByName" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from M_FINANCE_ORG
+		where FO_NAME = #{foName}
+	</select>
+	
+	<select id="selectIsNotSelfCount" resultType="java.lang.Integer" parameterType="com.eleme.domain.mart.finance.FinanceQueryBean">
+		select
+			count(*)
+		from M_FINANCE_ORG
+		<where>
+			AND FO_ID != #{foId}
+			AND FO_NAME = #{foName}
+		</where>
+	</select>
+	
+	<select id="selectAllFinanceOrgs" resultMap="BaseResultMap">
+		select
+			<include refid="Base_Column_List" />
+		from M_FINANCE_ORG t
+	</select>
+	
+	<select id="selectOrgProductList" resultMap="VoBaseResultMap">
+		select o.FO_ID, o.FO_NAME, p.FP_ID, p.FP_NAME
+		from M_FINANCE_ORG o
+		inner join M_FINANCE_PRODUCT p on o.FO_ID = p.FO_ID and p.PRODUCT_STATUS = 1
+		order by o.FO_ID
+	</select>
+</mapper>

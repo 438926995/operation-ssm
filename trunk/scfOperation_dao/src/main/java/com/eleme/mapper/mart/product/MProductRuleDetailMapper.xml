@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.eleme.mapper.mart.product.MProductRuleDetailMapper">
+	<resultMap id="BaseResultMap"
+		type="com.eleme.domain.mart.product.MProductRuleDetail">
+		<id column="PR_ID" property="prId" jdbcType="INTEGER" />
+		<result column="FP_ID" property="fpId" jdbcType="INTEGER" />
+		<result column="RULE_NAME" property="ruleName" jdbcType="VARCHAR" />
+		<result column="RULE_CONTENT" property="ruleContent" jdbcType="VARCHAR" />
+		<result column="RULE_TYPE" property="ruleType" jdbcType="INTEGER" />
+		<result column="DEL_FLAG" property="delFlag" jdbcType="INTEGER" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		PR_ID, FP_ID, RULE_NAME, RULE_CONTENT, RULE_TYPE, DEL_FLAG,
+		CREATE_TIME
+	</sql>
+	
+	<!-- 根据ID查询产品规则明细  -->
+	<select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from M_PRODUCT_RULE_DETAIL
+		where PR_ID = #{prId}
+	</select>
+
+	<!-- 新增规则明细 -->
+	<insert id="insert" parameterType="com.eleme.domain.mart.product.MProductRuleDetail">
+		insert into M_PRODUCT_RULE_DETAIL
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="fpId != null">
+				FP_ID,
+			</if>
+			<if test="ruleName != null">
+				RULE_NAME,
+			</if>
+			<if test="ruleContent != null">
+				RULE_CONTENT,
+			</if>
+			<if test="ruleType != null">
+				RULE_TYPE,
+			</if>
+			<if test="delFlag != null">
+				DEL_FLAG,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="fpId != null">
+				#{fpId},
+			</if>
+			<if test="ruleName != null">
+				#{ruleName},
+			</if>
+			<if test="ruleContent != null">
+				#{ruleContent},
+			</if>
+			<if test="ruleType != null">
+				#{ruleType},
+			</if>
+			<if test="delFlag != null">
+				#{delFlag},
+			</if>
+			<if test="createTime != null">
+				#{createTime},
+			</if>
+		</trim>
+		
+		<selectKey resultType="java.lang.Integer" keyProperty="prId"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+
+	<!-- 根据ID修改产品规则明细 -->
+	<update id="updateById" parameterType="com.eleme.domain.mart.product.MProductRuleDetail">
+		update M_PRODUCT_RULE_DETAIL
+		<set>
+			<if test="fpId != null">
+				FP_ID = #{fpId},
+			</if>
+			<if test="ruleName != null">
+				RULE_NAME = #{ruleName},
+			</if>
+			<if test="ruleContent != null">
+				RULE_CONTENT = #{ruleContent},
+			</if>
+			<if test="ruleType != null">
+				RULE_TYPE = #{ruleType},
+			</if>
+			<if test="delFlag != null">
+				DEL_FLAG = #{delFlag},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime},
+			</if>
+		</set>
+		where PR_ID = #{prId}
+	</update>
+	
+	<!-- 根据条件查询产品规则明细  -->
+	<select id="selectListByCnd" resultMap="BaseResultMap" parameterType="com.eleme.domain.mart.product.ProductRuleDetailCnd">
+		select
+		<include refid="Base_Column_List" />
+		from M_PRODUCT_RULE_DETAIL 
+		where RULE_TYPE = #{ruleType}
+		  and DEL_FLAG = 1
+		  and FP_ID = #{fpId}
+		<if test="startRecord != null and pageSize != null">
+			limit ${startRecord},${pageSize}
+		</if>
+	</select>
+	
+	<!-- 根据条件查询产品规则明细总件数  -->
+	<select id="selectListCountByCnd" resultType="java.lang.Integer" parameterType="com.eleme.domain.mart.product.ProductRuleDetailCnd">
+		select
+		count(*)
+		from M_PRODUCT_RULE_DETAIL 
+		where RULE_TYPE = #{ruleType}
+		  and DEL_FLAG = 1
+		  and FP_ID = #{fpId}
+	</select>
+	
+	<!-- 根据条件查询产品规则明细总件数  -->
+	<select id="selectCountByName" resultType="java.lang.Integer" parameterType="com.eleme.domain.mart.product.ProductRuleDetailCnd">
+		select
+		count(*)
+		from M_PRODUCT_RULE_DETAIL 
+		where RULE_TYPE = #{ruleType}
+		  and DEL_FLAG = 1
+		  and FP_ID = #{fpId}
+		  and RULE_NAME = #{ruleName}
+		  <if test="prId != null">
+			and PR_ID != #{prId}
+		  </if>
+		  
+	</select>
+	
+</mapper>

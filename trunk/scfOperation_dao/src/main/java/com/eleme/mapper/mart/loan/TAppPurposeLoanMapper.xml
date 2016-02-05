@@ -1,0 +1,454 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.eleme.mapper.mart.loan.TAppPurposeLoanMapper">
+
+	<resultMap id="BaseResultMap" type="com.eleme.domain.mart.loan.TAppPurposeLoan">
+		<id column="PL_ID" property="plId" jdbcType="INTEGER" />
+		<result column="LOAN_AMOUNT" property="loanAmount" jdbcType="INTEGER" />
+		<result column="PROPOSER_NAME" property="proposerName" jdbcType="VARCHAR" />
+		<result column="PROPOSER_SEX" property="proposerSex" jdbcType="INTEGER" />
+		<result column="PROPOSER_PHONE" property="proposerPhone" jdbcType="VARCHAR" />
+		<result column="PROPOSER_EMAIL" property="proposerEmail" jdbcType="VARCHAR" />
+		<result column="PROPOSER_CITY_NAME" property="proposerCityName" jdbcType="VARCHAR" />
+		<result column="SELLER_ID" property="sellerId" jdbcType="INTEGER" />
+		<result column="SELLER_NAME" property="sellerName" jdbcType="VARCHAR" />
+		<result column="SUBMIT_TIME" property="submitTime" jdbcType="TIMESTAMP" />
+		<result column="DOC_STATUS" property="docStatus" jdbcType="INTEGER" />
+		<result column="APP_STATUS" property="appStatus" jdbcType="VARCHAR" />
+		<result column="PROCS_ID" property="procsId" jdbcType="INTEGER" />
+		<result column="STOP_BY_SELLER" property="stopBySeller" jdbcType="INTEGER" />
+		<result column="PROPOSER_AGE" property="proposerAge" jdbcType="INTEGER" />
+		<result column="PROPOSER_SID" property="proposerSid" jdbcType="VARCHAR" />
+		<result column="DOC_NO" property="docNo" jdbcType="VARCHAR" />
+		<result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
+		<result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<resultMap type="com.eleme.domain.mart.loan.TAppPurposeLoanVo" extends="BaseResultMap" id="ResultMap">
+		<result column="CITY_NAME" property="cityName" />
+		<result column="ADDRESS_TEXT" property="addressText" />
+		<result column="CREATED_DATE" property="createdDate" />
+		<result column="NAPOS_RES_OID" property="naposResOid" />
+		<result column="naposResId" property="naposResId" />
+		<result column="PER_DAY_TOTAL" property="perDayTotal" />
+		<result column="repeatFlag" property="repeatFlag" />
+	</resultMap>
+
+	<resultMap type="com.eleme.domain.mart.loan.PurposeLoanStatisticsVo"  id="StatisticsResultMap">
+		<result column="proposerCityId" property="proposerCityId" />
+		<result column="proposerCityName" property="proposerCityName" />
+		<result column="totalLoanAmount" property="totalLoanAmount" />
+		<result column="totalAccount" property="totalAccount" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		t.PL_ID, t.LOAN_AMOUNT, t.PROPOSER_NAME, t.PROPOSER_SEX, t.PROPOSER_PHONE,
+		t.PROPOSER_EMAIL,
+		t.PROPOSER_CITY_NAME, t.SELLER_ID, t.SELLER_NAME, t.SUBMIT_TIME, t.DOC_STATUS, t.APP_STATUS,
+		t.PROCS_ID, t.STOP_BY_SELLER, t.PROPOSER_AGE, t.PROPOSER_SID, t.DOC_NO,
+		t.CREATED_AT, t.UPDATED_AT
+	</sql>
+
+    <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from T_APP_PURPOSE_LOAN t
+        where t.PL_ID = #{plId}
+    </select>
+
+    <insert id="insert" parameterType="com.eleme.domain.mart.loan.TAppPurposeLoan">
+        insert into T_APP_PURPOSE_LOAN
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="loanAmount != null">
+                LOAN_AMOUNT,
+            </if>
+            <if test="proposerName != null">
+                PROPOSER_NAME,
+            </if>
+            <if test="proposerSex != null">
+                PROPOSER_SEX,
+            </if>
+            <if test="proposerPhone != null">
+                PROPOSER_PHONE,
+            </if>
+            <if test="proposerEmail != null">
+                PROPOSER_EMAIL,
+            </if>
+            <if test="proposerCityName != null">
+                PROPOSER_CITY_NAME,
+            </if>
+            <if test="sellerId != null">
+                SELLER_ID,
+            </if>
+            <if test="sellerName != null">
+                SELLER_NAME,
+            </if>
+            <if test="submitTime != null">
+                SUBMIT_TIME,
+            </if>
+            <if test="docStatus != null">
+                DOC_STATUS,
+            </if>
+            <if test="appStatus != null">
+                APP_STATUS,
+            </if>
+            <if test="procsId != null">
+                PROCS_ID,
+            </if>
+            <if test="stopBySeller != null">
+                STOP_BY_SELLER,
+            </if>
+            <if test="proposerAge != null">
+                PROPOSER_AGE,
+            </if>
+            <if test="proposerSid != null">
+                PROPOSER_SID,
+            </if>
+            <if test="docNo != null">
+                DOC_NO,
+            </if>
+            <if test="createdAt != null">
+                CREATED_AT,
+            </if>
+            <if test="updatedAt != null">
+                UPDATED_AT,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="loanAmount != null">
+                #{loanAmount},
+            </if>
+            <if test="proposerName != null">
+                #{proposerName},
+            </if>
+            <if test="proposerSex != null">
+                #{proposerSex},
+            </if>
+            <if test="proposerPhone != null">
+                #{proposerPhone},
+            </if>
+            <if test="proposerEmail != null">
+                #{proposerEmail},
+            </if>
+            <if test="proposerCityName != null">
+                #{proposerCityName},
+            </if>
+            <if test="sellerId != null">
+                #{sellerId},
+            </if>
+            <if test="sellerName != null">
+                #{sellerName},
+            </if>
+            <if test="submitTime != null">
+                #{submitTime},
+            </if>
+            <if test="docStatus != null">
+                #{docStatus},
+            </if>
+            <if test="appStatus != null">
+                #{appStatus},
+            </if>
+            <if test="procsId != null">
+                #{procsId},
+            </if>
+            <if test="stopBySeller != null">
+                #{stopBySeller},
+            </if>
+            <if test="proposerAge != null">
+                #{proposerAge},
+            </if>
+            <if test="proposerSid != null">
+                #{proposerSid},
+            </if>
+            <if test="docNo != null">
+                #{docNo},
+            </if>
+            <if test="createdAt != null">
+                #{createdAt},
+            </if>
+            <if test="updatedAt != null">
+                #{updatedAt},
+            </if>
+        </trim>
+        <selectKey resultType="java.lang.Integer" keyProperty="plId"
+                   order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+
+    </insert>
+
+    <update id="updateById" parameterType="com.eleme.domain.mart.loan.TAppPurposeLoan">
+        update T_APP_PURPOSE_LOAN
+        <set>
+            <if test="loanAmount != null">
+                LOAN_AMOUNT = #{loanAmount},
+            </if>
+            <if test="proposerName != null">
+                PROPOSER_NAME = #{proposerName},
+            </if>
+            <if test="proposerSex != null">
+                PROPOSER_SEX = #{proposerSex},
+            </if>
+            <if test="proposerPhone != null">
+                PROPOSER_PHONE = #{proposerPhone},
+            </if>
+            <if test="proposerEmail != null">
+                PROPOSER_EMAIL = #{proposerEmail},
+            </if>
+            <if test="proposerCityName != null">
+                PROPOSER_CITY_NAME = #{proposerCityName},
+            </if>
+            <if test="sellerId != null">
+                SELLER_ID = #{sellerId},
+            </if>
+            <if test="sellerName != null">
+                SELLER_NAME = #{sellerName},
+            </if>
+            <if test="submitTime != null">
+                SUBMIT_TIME = #{submitTime},
+            </if>
+            <if test="docStatus != null">
+                DOC_STATUS = #{docStatus},
+            </if>
+            <if test="appStatus != null">
+                APP_STATUS = #{appStatus},
+            </if>
+            <if test="procsId != null">
+                PROCS_ID = #{procsId},
+            </if>
+            <if test="stopBySeller != null">
+                STOP_BY_SELLER = #{stopBySeller},
+            </if>
+            <if test="proposerAge != null">
+                PROPOSER_AGE = #{proposerAge},
+            </if>
+            <if test="proposerSid != null">
+                PROPOSER_SID = #{proposerSid},
+            </if>
+            <if test="docNo != null">
+                DOC_NO = #{docNo},
+            </if>
+            <if test="createdAt != null">
+                CREATED_AT = #{createdAt},
+            </if>
+            <if test="updatedAt != null">
+                UPDATED_AT = #{updatedAt},
+            </if>
+        </set>
+        where PL_ID = #{plId}
+    </update>
+
+    <!-- 根据条件查询商户借贷意向申请 -->
+    <select id="selectPurposeLoanListByCnd" resultMap="ResultMap"
+            parameterType="com.eleme.domain.mart.loan.PurposeLoanQueryCnd">
+        select
+        <include refid="Base_Column_List"/>,mst.CITY_NAME,
+        mns.ADDRESS_TEXT as ADDRESS_TEXT,
+        DATE_FORMAT( mns.CREATED_AT, '%Y-%m-%d' ) as CREATED_DATE,mns.OID AS NAPOS_RES_OID
+        FROM T_APP_PURPOSE_LOAN t
+        INNER JOIN M_SELLER ms ON t.SELLER_ID = ms.SELLER_ID
+        INNER JOIN M_NAPOS_SELLERS mns ON t.SELLER_ID = mns.SELLER_ID
+        LEFT JOIN M_CITY_TREE mst ON ms.CITY_ID = mst.CITY_ID
+        WHERE t.DOC_STATUS = 0
+        <include refid="selectSellerLoanListWhere"/>
+
+        order by t.SUBMIT_TIME DESC
+        <if test="startRecord != null and pageSize != null">
+            limit ${startRecord},${pageSize}
+        </if>
+    </select>
+
+    <!-- 根据条件查询商户借贷意向申请件数 -->
+    <select id="selectSellerLoanListCount" resultType="java.lang.Integer"
+            parameterType="com.eleme.domain.mart.loan.PurposeLoanQueryCnd">
+        select count(*)
+        FROM T_APP_PURPOSE_LOAN t
+        INNER JOIN M_SELLER mns ON t.SELLER_ID = mns.SELLER_ID
+        LEFT JOIN M_CITY_TREE mst ON mns.CITY_ID = mst.CITY_ID
+        WHERE t.DOC_STATUS = 0
+        <include refid="selectSellerLoanListWhere"/>
+    </select>
+    
+    <!-- 根据条件查询商户借贷意向申请金额总和 -->
+    <select id="selectLoanAmountSum" resultType="java.math.BigDecimal"
+            parameterType="com.eleme.domain.mart.loan.PurposeLoanQueryCnd">
+        select IFNULL(sum(t.LOAN_AMOUNT),0)
+        FROM T_APP_PURPOSE_LOAN t
+        INNER JOIN M_SELLER mns ON t.SELLER_ID = mns.SELLER_ID
+        LEFT JOIN M_CITY_TREE mst ON mns.CITY_ID = mst.CITY_ID
+        WHERE t.DOC_STATUS = 0
+        <include refid="selectSellerLoanListWhere"/>
+    </select>
+
+    <sql id="selectSellerLoanListWhere">
+        <if test="submitTimeFrom != null">
+            <![CDATA[ AND t.SUBMIT_TIME >= #{submitTimeFrom} ]]>
+        </if>
+        <if test="submitTimeTo != null">
+            <![CDATA[ AND t.SUBMIT_TIME <= #{submitTimeTo} ]]>
+        </if>
+        <if test="cityId != null">
+            AND mst.CITY_ID = #{cityId}
+        </if>
+        <if test="provinceId != null">
+            AND mst.PARENT_ID = #{provinceId}
+        </if>
+    </sql>
+
+    <!-- 根据城市名称统计贷款信息 -->
+    <select id="selectSellerLoanStatistics" resultMap="StatisticsResultMap">
+	  SELECT mst.PARENT_ID as proposerProvId,
+	        mst.PARENT_NAME as proposerProvName,
+	        COUNT(t.PL_ID) as totalAccount,
+	        IF(mst.CITY_NAME='','其他',mst.CITY_NAME) as proposerCityName
+      FROM T_APP_PURPOSE_LOAN t
+      INNER JOIN M_SELLER mns ON t.SELLER_ID = mns.SELLER_ID
+      LEFT JOIN M_CITY_TREE mst ON mns.CITY_ID = mst.CITY_ID
+      WHERE t.DOC_STATUS = 0
+      GROUP BY mns.CITY_ID
+      ORDER BY mst.PARENT_ID ASC
+	</select>
+	
+	<!-- 根据查询条件 统计贷款信息 -->
+    <select id="selectSellerLoanStatisticsByCnd" resultMap="StatisticsResultMap" parameterType="com.eleme.domain.mart.loan.PurposeLoanQueryCnd">
+	  SELECT mst.PARENT_ID as proposerProvId,
+	        mst.PARENT_NAME as proposerProvName,
+	        COUNT(t.PL_ID) as totalAccount,
+	        SUM(t.LOAN_AMOUNT) as totalLoanAmount,
+	        mst.CITY_ID as proposerCityId,
+	        IF(mst.CITY_NAME='','其他',mst.CITY_NAME) as proposerCityName
+      FROM T_APP_PURPOSE_LOAN t
+      INNER JOIN M_SELLER mns ON t.SELLER_ID = mns.SELLER_ID
+      LEFT JOIN M_CITY_TREE mst ON mns.CITY_ID = mst.CITY_ID
+      WHERE t.DOC_STATUS = 0
+      <if test="submitTimeFrom != null">
+      	AND date(t.SUBMIT_TIME) <![CDATA[ >= ]]> date(#{submitTimeFrom})
+      </if>
+      <if test="submitTimeTo != null">
+      	AND date(t.SUBMIT_TIME) <![CDATA[<= ]]> date(#{submitTimeTo})
+      </if>
+      GROUP BY mns.CITY_ID
+      ORDER BY mst.PARENT_ID ASC
+	</select>
+
+    <insert id="updateForAssignOrg" parameterType="java.util.Map">
+        update T_APP_PURPOSE_LOAN set DOC_STATUS = 1 where PL_ID in (
+        <foreach collection="plIds" item="plId" separator=",">#{plId}</foreach>
+        )
+    </insert>
+    <insert id="assignOrg" parameterType="java.util.Map">
+        insert into T_APP_SELLER_LOAN (
+        FP_ID,
+        LOAN_AMOUNT,
+        PROPOSER_NAME,
+        PROPOSER_SEX,
+        PROPOSER_PHONE,
+        PROPOSER_EMAIL,
+        PROPOSER_CITY_NAME,
+        SELLER_ID,
+        SELLER_NAME,
+        SUBMIT_TIME,
+        DOC_STATUS,
+        APP_STATUS,
+        PROCS_ID,
+        STOP_BY_SELLER,
+        PROPOSER_AGE,
+        PROPOSER_SID,
+        DOC_NO,
+        CREATED_AT,
+        UPDATED_AT
+        )
+        select
+        #{fpId},
+        LOAN_AMOUNT,
+        PROPOSER_NAME,
+        PROPOSER_SEX,
+        PROPOSER_PHONE,
+        PROPOSER_EMAIL,
+        PROPOSER_CITY_NAME,
+        SELLER_ID,
+        SELLER_NAME,
+        SUBMIT_TIME,
+        DOC_STATUS,
+        APP_STATUS,
+        PROCS_ID,
+        STOP_BY_SELLER,
+        PROPOSER_AGE,
+        PROPOSER_SID,
+        DOC_NO,
+        CREATED_AT,
+        UPDATED_AT
+        from T_APP_PURPOSE_LOAN where PL_ID in (
+        <foreach collection="plIds" item="plId" separator=",">#{plId}</foreach>
+        )
+    </insert>
+
+	<!-- 根据主键ID查询无城市贷款申请详情 -->
+	<select id="selectPurposeLoanDetail" resultMap="ResultMap" parameterType="java.lang.Integer">
+		SELECT
+		<include refid="Base_Column_List" />
+		,ns.ADDRESS_TEXT as ADDRESS_TEXT,
+		DATE_FORMAT( ns.CREATED_AT, '%Y-%m-%d' ) as createdDate,stfs.PER_DAY_TOTAL,
+		ns.ID as naposResId,ns.OID AS NAPOS_RES_OID,mst.CITY_NAME
+		 FROM T_APP_PURPOSE_LOAN t
+		INNER JOIN M_SELLER ms ON t.SELLER_ID = ms.SELLER_ID
+		INNER JOIN M_NAPOS_SELLERS ns ON t.SELLER_ID = ns.SELLER_ID
+		LEFT JOIN M_CITY_TREE mst ON ms.CITY_ID = mst.CITY_ID
+		LEFT JOIN T_SDC_TRADE_FLOW_STATISTICS stfs ON t.SELLER_ID = stfs.SELLER_ID and stfs.TYPE = 1
+		WHERE t.DOC_STATUS = 0
+		  AND t.PL_ID = #{plId}
+	</select>
+	
+	<!-- 根据主键集合查询商户ID集合 -->
+	<select id="selectNaposResIdsByPlids" parameterType="java.util.Map" resultMap="ResultMap">
+		SELECT
+		ns.ID as naposResId
+		 FROM T_APP_PURPOSE_LOAN t
+		INNER JOIN M_NAPOS_SELLERS ns ON t.SELLER_ID = ns.SELLER_ID
+		
+		WHERE  t.PL_ID in (
+        <foreach collection="plIds" item="plId" separator=",">#{plId}</foreach>
+        )
+	</select>
+	
+	<!-- 查询所有未开通城市贷款申请重复数据 -->
+	<select id="selectAllRepeatPurposeLoan" resultMap="ResultMap" parameterType="com.eleme.domain.mart.loan.PurposeLoanQueryCnd">
+		SELECT
+		<include refid="Base_Column_List" />,
+		IF(t.PL_ID = t2.MAX_PL_ID, 0, 1) AS repeatFlag,mst.CITY_NAME,
+        mns.ADDRESS_TEXT as ADDRESS_TEXT,
+        DATE_FORMAT( mns.CREATED_AT, '%Y-%m-%d' ) as CREATED_DATE,mns.OID AS NAPOS_RES_OID
+		FROM T_APP_PURPOSE_LOAN t
+		INNER JOIN (
+			SELECT PROPOSER_NAME, CREATED_AT, MAX(PL_ID) AS MAX_PL_ID FROM
+			T_APP_PURPOSE_LOAN GROUP BY PROPOSER_NAME, CREATED_AT HAVING COUNT(*) > 1
+		) t2 on t.PROPOSER_NAME = t2.PROPOSER_NAME and t.CREATED_AT = t2.CREATED_AT
+		INNER JOIN M_SELLER ms ON t.SELLER_ID = ms.SELLER_ID
+        INNER JOIN M_NAPOS_SELLERS mns ON t.SELLER_ID = mns.SELLER_ID
+        LEFT JOIN M_CITY_TREE mst ON ms.CITY_ID = mst.CITY_ID
+        WHERE t.DOC_STATUS = 0
+        <include refid="selectSellerLoanListWhere"/>
+		ORDER BY t.PROPOSER_NAME, t.CREATED_AT, t.PL_ID DESC
+		<if test="startRecord != null and pageSize != null">
+            limit ${startRecord},${pageSize}
+        </if>
+	</select>
+	
+	<!-- 查询所有未开通城市贷款申请重复数据总件数 -->
+	<select id="selectAllRepeatPurposeLoanCount" resultType="java.lang.Integer" parameterType="com.eleme.domain.mart.loan.PurposeLoanQueryCnd">
+		SELECT
+			COUNT(*)
+		FROM T_APP_PURPOSE_LOAN t
+		INNER JOIN (
+			SELECT PROPOSER_NAME, CREATED_AT, MAX(PL_ID) AS MAX_PL_ID FROM
+			T_APP_PURPOSE_LOAN GROUP BY PROPOSER_NAME, CREATED_AT HAVING COUNT(*) > 1
+		) t2 on t.PROPOSER_NAME = t2.PROPOSER_NAME and t.CREATED_AT = t2.CREATED_AT
+		INNER JOIN M_SELLER ms ON t.SELLER_ID = ms.SELLER_ID
+        INNER JOIN M_NAPOS_SELLERS mns ON t.SELLER_ID = mns.SELLER_ID
+        LEFT JOIN M_CITY_TREE mst ON ms.CITY_ID = mst.CITY_ID
+        WHERE t.DOC_STATUS = 0
+        <include refid="selectSellerLoanListWhere"/>
+	</select>
+
+</mapper>

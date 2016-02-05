@@ -1,0 +1,8 @@
+
+test_sendTo={{_ .test_sendTo}}
+
+smtp.username={{_ .smtp_username}}
+smtp.password={{_ .smtp_password}}
+smtp.host=email.ele.me
+mailFrom={{_ .mailFrom}}
+mailSMTPPort=25

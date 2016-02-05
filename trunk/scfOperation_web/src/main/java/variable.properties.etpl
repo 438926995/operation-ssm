@@ -1,0 +1,7 @@
+devModel={{_ .devModel}}
+maxUploadSize={{_ .maxUploadSize}}
+project_url={{_ .project_url}}
+
+mail.sellerLoan.excel.exportPath={{_ .excel_exportPath}}/sellerloan
+
+variable.properties.from=etpl

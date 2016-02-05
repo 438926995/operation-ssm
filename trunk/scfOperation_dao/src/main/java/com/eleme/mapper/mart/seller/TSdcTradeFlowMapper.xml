@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.eleme.mapper.mart.seller.TSdcTradeFlowMapper">
+	<resultMap id="BaseResultMap" type="com.eleme.domain.mart.seller.TSdcTradeFlow">
+		<id column="TF_ID" property="tfId" jdbcType="INTEGER" />
+		<result column="SELLER_ID" property="sellerId" jdbcType="INTEGER" />
+		<result column="OID" property="oid" jdbcType="INTEGER" />
+		<result column="ORDER_DATE" property="orderDate" jdbcType="DATE" />
+		<result column="ORDER_ID" property="orderId" jdbcType="VARCHAR" />
+		<result column="RESTAURANT_NAME" property="restaurantName"
+			jdbcType="VARCHAR" />
+		<result column="RST_OWNER_ID" property="rstOwnerId" jdbcType="INTEGER" />
+		<result column="TOTAL" property="total" jdbcType="INTEGER" />
+		<result column="ELEME_TOTAL" property="elemeTotal" jdbcType="INTEGER" />
+		<result column="SETTLED_AT" property="settledAt" jdbcType="TIMESTAMP" />
+		<result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
+		<result column="SOURCE" property="source" jdbcType="INTEGER" />
+		<result column="DELIVERY_STATUS" property="deliveryStatus"
+			jdbcType="INTEGER" />
+		<result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
+		<result column="MD5_PHONE_1" property="md5Phone1" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		t.TF_ID, t.SELLER_ID, t.OID, t.ORDER_DATE, t.ORDER_ID,
+		t.RESTAURANT_NAME, t.RST_OWNER_ID,t.TOTAL,
+		t.ELEME_TOTAL,
+		t.SETTLED_AT,t.CREATED_AT, t.SOURCE,
+		t.DELIVERY_STATUS, t.UPDATED_AT,t.MD5_PHONE_1
+	</sql>
+	<select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from T_SDC_TRADE_FLOW t
+		where t.TF_ID = #{tfId}
+	</select>
+
+
+	<insert id="insert" parameterType="com.eleme.domain.mart.seller.TSdcTradeFlow">
+		insert into T_SDC_TRADE_FLOW
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="sellerId != null">
+				SELLER_ID,
+			</if>
+			<if test="oid != null">
+				OID,
+			</if>
+			<if test="orderDate != null">
+				ORDER_DATE,
+			</if>
+			<if test="orderId != null">
+				ORDER_ID,
+			</if>
+			<if test="restaurantName != null">
+				RESTAURANT_NAME,
+			</if>
+			<if test="rstOwnerId != null">
+				RST_OWNER_ID,
+			</if>
+			<if test="total != null">
+				TOTAL,
+			</if>
+			<if test="elemeTotal != null">
+				ELEME_TOTAL,
+			</if>
+			<if test="settledAt != null">
+				SETTLED_AT,
+			</if>
+			<if test="createdAt != null">
+				CREATED_AT,
+			</if>
+			<if test="source != null">
+				SOURCE,
+			</if>
+			<if test="deliveryStatus != null">
+				DELIVERY_STATUS,
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME,
+			</if>
+			<if test="md5Phone1 != null">
+				MD5_PHONE_1,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="sellerId != null">
+				#{sellerId},
+			</if>
+			<if test="oid != null">
+				#{oid},
+			</if>
+			<if test="orderDate != null">
+				#{orderDate},
+			</if>
+			<if test="orderId != null">
+				#{orderId},
+			</if>
+			<if test="restaurantName != null">
+				#{restaurantName},
+			</if>
+			<if test="rstOwnerId != null">
+				#{rstOwnerId},
+			</if>
+			<if test="total != null">
+				#{total},
+			</if>
+			<if test="elemeTotal != null">
+				#{elemeTotal},
+			</if>
+			<if test="settledAt != null">
+				#{settledAt},
+			</if>
+			<if test="createdAt != null">
+				#{createdAt},
+			</if>
+			<if test="source != null">
+				#{source},
+			</if>
+			<if test="deliveryStatus != null">
+				#{deliveryStatus},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime},
+			</if>
+			<if test="md5Phone1 != null">
+				#{md5Phone1},
+			</if>
+		</trim>
+	</insert>
+
+	<insert id="insertBatch" useGeneratedKeys="true" parameterType="java.util.List">
+		<selectKey resultType="INTEGER" keyProperty="tfId" order="AFTER">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+		insert into T_SDC_TRADE_FLOW
+		(SELLER_ID, OID,
+		ORDER_DATE, ORDER_ID,
+		RESTAURANT_NAME,
+		RST_OWNER_ID, TOTAL, ELEME_TOTAL,
+		SETTLED_AT,
+		CREATED_AT, SOURCE,
+		DELIVERY_STATUS, UPDATED_AT, MD5_PHONE_1
+		)
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			( #{item.sellerId},
+			#{item.oid},
+			#{item.orderDate},
+			#{item.orderId}, #{item.restaurantName},
+			#{item.rstOwnerId}, #{item.total},
+			#{item.elemeTotal},
+			<if test="item.settledAt != null">
+				#{item.settledAt},
+			</if>
+			<if test="item.settledAt == null">
+				'0000-00-00 00:00:00',
+			</if>
+			#{item.createdAt}, #{item.source},
+			#{item.deliveryStatus}, #{item.updatedAt},
+			#{item.md5Phone1}
+			)
+		</foreach>
+	</insert>
+
+	<update id="updateById" parameterType="com.eleme.domain.mart.seller.TSdcTradeFlow">
+		update T_SDC_TRADE_FLOW
+		<set>
+			<if test="sellerId != null">
+				SELLER_ID = #{sellerId},
+			</if>
+			<if test="oid != null">
+				OID = #{oid},
+			</if>
+			<if test="orderDate != null">
+				ORDER_DATE = #{orderDate},
+			</if>
+			<if test="orderId != null">
+				ORDER_ID = #{orderId},
+			</if>
+			<if test="restaurantName != null">
+				RESTAURANT_NAME = #{restaurantName},
+			</if>
+			<if test="rstOwnerId != null">
+				RST_OWNER_ID = #{rstOwnerId},
+			</if>
+			<if test="total != null">
+				TOTAL = #{total},
+			</if>
+			<if test="elemeTotal != null">
+				ELEME_TOTAL = #{elemeTotal},
+			</if>
+			<if test="settledAt != null">
+				SETTLED_AT = #{settledAt},
+			</if>
+			<if test="createdAt != null">
+				CREATED_AT = #{createdAt},
+			</if>
+			<if test="source != null">
+				SOURCE = #{source},
+			</if>
+			<if test="deliveryStatus != null">
+				DELIVERY_STATUS = #{deliveryStatus},
+			</if>
+			<if test="updatedAt != null">
+				UPDATED_AT = #{updateAt},
+			</if>
+			<if test="md5Phone1 != null">
+				MD5_PHONE_1 = #{md5Phone1},
+			</if>
+		</set>
+		where TF_ID = #{tfId}
+	</update>
+
+	<delete id="deleteBySellerId" parameterType="java.lang.Integer">
+		delete from T_SDC_TRADE_FLOW
+		where SELLER_ID = #{sellerId}
+	</delete>
+
+	<!-- 根据餐厅Id来获取餐厅流水 -->
+	<select id="selectByOid" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from T_SDC_TRADE_FLOW t
+		where t.OID = #{oid}
+	</select>
+	
+	<!-- 根据商户Id来获取餐厅流水 -->
+	<select id="selectBySellerId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		SELECT
+		<include refid="Base_Column_List" />
+		from T_SDC_TRADE_FLOW t
+		where t.SELLER_ID = #{sellerId}
+	</select>
+</mapper>

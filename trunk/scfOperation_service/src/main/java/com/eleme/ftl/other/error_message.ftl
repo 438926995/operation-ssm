@@ -1,0 +1,1 @@
+<ul><#list messageList as message><li style="color:red;">${message!""}</li></#list></ul>

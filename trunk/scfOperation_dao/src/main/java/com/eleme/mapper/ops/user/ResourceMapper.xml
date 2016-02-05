@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.eleme.mapper.ops.user.ResourceMapper">
+
+	<resultMap id="ResourceResultMap" type="com.eleme.domain.ops.user.Resource">
+		<id column="RESOURCE_ID" property="resourceId" jdbcType="INTEGER" />
+		<result column="RESOURCE_NAME" property="resourceName"
+			jdbcType="VARCHAR" />
+		<result column="RESOURCE_DESC" property="resourceDesc"
+			jdbcType="VARCHAR" />
+		<result column="RESOURCE_TYPE" property="resourceType"
+			jdbcType="VARCHAR" />
+		<result column="RESOURCE_STRING" property="resourceString"
+			jdbcType="VARCHAR" />
+		<result column="IS_ENABLED" property="isEnabled" jdbcType="CHAR" />
+		<result column="SORT_INDEX" property="sortIndex" jdbcType="INTEGER" />
+		<result column="SHOW_NAV" property="showNav" jdbcType="CHAR" />
+		<result column="PARENT_ID" property="parentId" jdbcType="INTEGER" />
+		<result column="CLASS_ID" property="classId" jdbcType="INTEGER" />
+		<result column="GRADE" property="grade" jdbcType="CHAR" />
+		<result column="PRJ_TYPE" property="prjType" jdbcType="CHAR" />
+		<result column="CREATE_USER" property="createUser" jdbcType="INTEGER" />
+		<result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
+		<result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
+		<result column="CLASS_NAME" property="className" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="ResourceClassResultMap" type="com.eleme.domain.ops.user.ResourceClassName">
+		<id column="CLASS_ID" property="classId" jdbcType="INTEGER" />
+		<result column="CLASS_NAME" property="className" jdbcType="VARCHAR" />
+		<result column="PRJ_TYPE" property="prjType" jdbcType="CHAR" />
+		<result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
+		<result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<sql id="Resource_Column_List">
+		RESOURCE_ID, RESOURCE_NAME, RESOURCE_DESC, RESOURCE_TYPE,
+		RESOURCE_STRING, IS_ENABLED,
+		SORT_INDEX, SHOW_NAV, PARENT_ID, CLASS_ID,
+		GRADE, PRJ_TYPE, CREATE_USER, CREATED_AT, UPDATED_AT
+	</sql>
+
+	<select id="countResourceList" resultType="java.lang.Integer"
+		parameterType="com.eleme.domain.ops.user.ResourceQueryBean">
+		select count(*) from M_RESOURCE
+		<include refid="where_ResourceList" />
+	</select>
+
+	<select id="queryResourceList" resultMap="ResourceResultMap"
+		parameterType="com.eleme.domain.ops.user.ResourceQueryBean">
+		select
+		<include refid="Resource_Column_List" />
+		from M_RESOURCE
+		<include refid="where_ResourceList" />
+		limit #{offset}, #{limit}
+	</select>
+
+	<sql id="where_ResourceList">
+		<where>
+			PRJ_TYPE = '0'
+			<if test="resourceName != null and resourceName != ''">
+				and RESOURCE_NAME like concat('%', #{resourceName}, '%')
+			</if>
+			<if test="parentId != null">
+				and PARENT_ID = #{parentId}
+			</if>
+			<if test="isEnabled != null and isEnabled != ''">
+				and IS_ENABLED = #{isEnabled}
+			</if>
+		</where>
+	</sql>
+
+	<select id="queryResourceById" resultMap="ResourceResultMap"
+		parameterType="java.lang.Integer">
+		select
+		r.RESOURCE_ID, r.RESOURCE_NAME, r.RESOURCE_DESC, r.RESOURCE_TYPE, r.RESOURCE_STRING,
+		r.IS_ENABLED,
+		r.SORT_INDEX, r.SHOW_NAV, r.PARENT_ID, r.CLASS_ID,
+		r.GRADE, r.PRJ_TYPE, r.CREATE_USER, r.CREATED_AT, r.UPDATED_AT,
+		rc.CLASS_NAME
+		from M_RESOURCE r
+		left join T_ATR_RESOURCE_CLASSNAME rc on
+		rc.CLASS_ID = r.CLASS_ID
+		where r.RESOURCE_ID =
+		#{resourceId,jdbcType=INTEGER} and r.PRJ_TYPE = '0'
+	</select>
+
+	<select id="queryParentIdById" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+		<!-- select RESOURCE_ID from M_RESOURCE where
+		find_in_set(RESOURCE_ID, fn_getParentMenus(#{resourceId})) -->
+		select PARENT_ID from M_RESOURCE where RESOURCE_ID = #{resourceId}
+	</select>
+
+	<update id="deleteResourceById" parameterType="java.lang.Integer">
+		update M_RESOURCE
+		set IS_ENABLED = 0 where RESOURCE_ID = #{resourceId,jdbcType=INTEGER}
+	</update>
+
+	<insert id="insertResource" parameterType="com.eleme.domain.ops.user.Resource">
+		insert into M_RESOURCE (
+		RESOURCE_NAME, RESOURCE_DESC,
+		RESOURCE_TYPE,
+		RESOURCE_STRING, IS_ENABLED,
+		SORT_INDEX, SHOW_NAV, PARENT_ID,
+		CLASS_ID,
+		GRADE, PRJ_TYPE,
+		CREATE_USER, CREATED_AT, UPDATED_AT
+		)
+		values (
+		#{resourceName,jdbcType=VARCHAR}, #{resourceDesc,jdbcType=VARCHAR},
+		#{resourceType,jdbcType=VARCHAR}, #{resourceString,jdbcType=VARCHAR},
+		#{isEnabled,jdbcType=CHAR},
+		#{sortIndex,jdbcType=INTEGER},
+		<!-- ifnull((select max(SORT_INDEX) + 10 from M_RESOURCE where PARENT_ID 
+			= #{parentId,jdbcType=INTEGER}), 1000), -->
+		#{showNav,jdbcType=CHAR}, #{parentId,jdbcType=INTEGER},
+		#{classId,jdbcType=INTEGER}, #{grade,jdbcType=CHAR},
+		#{prjType,jdbcType=CHAR},
+		#{createUser,jdbcType=INTEGER},
+		#{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}
+		)
+	</insert>
+
+	<update id="updateResourceById" parameterType="com.eleme.domain.ops.user.Resource">
+		update M_RESOURCE
+		set RESOURCE_NAME = #{resourceName,jdbcType=VARCHAR},
+		RESOURCE_DESC = #{resourceDesc,jdbcType=VARCHAR},
+		RESOURCE_TYPE =
+		#{resourceType,jdbcType=VARCHAR},
+		RESOURCE_STRING =
+		#{resourceString,jdbcType=VARCHAR},
+		IS_ENABLED =
+		#{isEnabled,jdbcType=CHAR},
+		SORT_INDEX = #{sortIndex,jdbcType=INTEGER},
+		SHOW_NAV = #{showNav,jdbcType=CHAR},
+		PARENT_ID =
+		#{parentId,jdbcType=INTEGER},
+		CLASS_ID = #{classId,jdbcType=INTEGER},
+		GRADE = #{grade,jdbcType=CHAR},
+		<!-- PRJ_TYPE = #{prjType,jdbcType=CHAR}, CREATE_USER = #{createUser,jdbcType=INTEGER}, 
+			CREATED_AT = #{createdAt,jdbcType=TIMESTAMP}, -->
+		UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP}
+		where RESOURCE_ID =
+		#{resourceId,jdbcType=INTEGER}
+	</update>
+
+
+	<select id="countResourceClassList" resultType="java.lang.Integer"
+		parameterType="com.eleme.domain.ops.user.ResourceQueryBean">
+		select count(*) from T_ATR_RESOURCE_CLASSNAME
+		<include refid="where_ResourceClassList" />
+	</select>
+
+	<select id="queryResourceClassList" resultMap="ResourceClassResultMap"
+		parameterType="com.eleme.domain.ops.user.ResourceQueryBean">
+		select CLASS_ID, CLASS_NAME, PRJ_TYPE, CREATED_AT, UPDATED_AT
+		from
+		T_ATR_RESOURCE_CLASSNAME
+		<include refid="where_ResourceClassList" />
+		limit #{offset}, #{limit}
+	</select>
+
+	<sql id="where_ResourceClassList">
+		<where>
+			PRJ_TYPE = '0'
+			<if test="className != null and className != ''">
+				and CLASS_NAME like concat('%', #{className}, '%')
+			</if>
+		</where>
+	</sql>
+
+	<select id="queryResourceClassById" resultMap="ResourceClassResultMap"
+		parameterType="java.lang.Integer">
+		select CLASS_ID, CLASS_NAME, PRJ_TYPE, CREATED_AT,
+		UPDATED_AT
+		from T_ATR_RESOURCE_CLASSNAME
+		where CLASS_ID =
+		#{classId,jdbcType=INTEGER}
+	</select>
+
+	<insert id="insertResourceClass" parameterType="com.eleme.domain.ops.user.ResourceClassName"
+		useGeneratedKeys="true" keyProperty="classId" keyColumn="CLASS_ID">
+		insert into
+		T_ATR_RESOURCE_CLASSNAME (CLASS_NAME, PRJ_TYPE, CREATED_AT,
+		UPDATED_AT)
+		values (#{className,jdbcType=VARCHAR},
+		#{prjType,jdbcType=CHAR}, #{createdAt,jdbcType=TIMESTAMP},
+		#{updatedAt,jdbcType=TIMESTAMP})
+	</insert>
+
+	<update id="updateResourceClassById" parameterType="com.eleme.domain.ops.user.ResourceClassName">
+		update
+		T_ATR_RESOURCE_CLASSNAME
+		set CLASS_NAME =
+		#{className,jdbcType=VARCHAR},
+		UPDATED_AT =
+		#{updatedAt,jdbcType=TIMESTAMP}
+		where CLASS_ID =
+		#{classId,jdbcType=INTEGER}
+	</update>
+	<!-- 判断资源组名是否唯一 -->
+	<select id="findClassByName" parameterType="java.lang.String" resultType="java.lang.Integer">
+		select count(*)
+		from T_ATR_RESOURCE_CLASSNAME
+		where
+		CLASS_NAME = #{className};
+	</select>
+</mapper>

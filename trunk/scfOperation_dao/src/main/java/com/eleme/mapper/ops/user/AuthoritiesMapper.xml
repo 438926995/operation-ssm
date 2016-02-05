@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.eleme.mapper.ops.user.AuthoritiesMapper">
+
+	<resultMap id="AuthoritiesResultMap" type="com.eleme.domain.ops.user.Authorities">
+		<id column="AUTHORITIES_ID" property="authoritiesId" jdbcType="INTEGER" />
+		<result column="AUTH_NAME" property="authName" jdbcType="VARCHAR" />
+		<result column="AUTH_DESC" property="authDesc" jdbcType="VARCHAR" />
+		<result column="IS_ENABLED" property="isEnabled" jdbcType="CHAR" />
+		<result column="AUTH_MODULE_ID" property="authModuleId"
+			jdbcType="INTEGER" />
+		<result column="IS_DEFAULT" property="isDefault" jdbcType="CHAR" />
+		<result column="PRJ_TYPE" property="prjType" jdbcType="CHAR" />
+		<result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
+		<result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<resultMap id="authResultMap" type="com.eleme.domain.ops.user.AuthoritieBean">
+		<id column="AUTHORITIES_ID" property="authId" jdbcType="INTEGER" />
+		<result column="AUTH_NAME" property="authName" jdbcType="VARCHAR" />
+		<result column="AUTH_MODULE_ID" property="authModuleId"
+			jdbcType="INTEGER" />
+	</resultMap>
+
+	<resultMap id="AuthoritiesModuleResultMap" type="com.eleme.domain.ops.user.AuthoritiesModule">
+		<id column="AUTH_MODULE_ID" property="authModuleId" jdbcType="INTEGER" />
+		<result column="AUTH_MODULE_NAME" property="authModuleName"
+			jdbcType="VARCHAR" />
+		<result column="PRJ_TYPE" property="prjType" jdbcType="CHAR" />
+		<result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
+		<result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<sql id="Authorities_Column_List">
+		AUTHORITIES_ID, AUTH_NAME, AUTH_DESC, IS_ENABLED,
+		AUTH_MODULE_ID, IS_DEFAULT, PRJ_TYPE, CREATED_AT, UPDATED_AT
+	</sql>
+
+	<select id="countAuthoritiesList" resultType="java.lang.Integer"
+		parameterType="com.eleme.domain.ops.user.AuthoritiesQueryBean">
+		select count(*) from T_ATR_AUTHORITIES
+		<include refid="where_AuthoritiesList" />
+	</select>
+
+	<select id="queryAuthoritiesList" resultMap="AuthoritiesResultMap"
+		parameterType="com.eleme.domain.ops.user.AuthoritiesQueryBean">
+		select
+		<include refid="Authorities_Column_List" />
+		from T_ATR_AUTHORITIES
+		<include refid="where_AuthoritiesList" />
+		limit #{offset}, #{limit}
+	</select>
+
+	<sql id="where_AuthoritiesList">
+		<where>
+			PRJ_TYPE = '0'
+			<if test="authName != null and authName != ''">
+				and AUTH_NAME like concat('%', #{authName}, '%')
+			</if>
+			<if test="isEnabled != null and isEnabled != ''">
+				and IS_ENABLED = #{isEnabled}
+			</if>
+		</where>
+	</sql>
+
+	<select id="queryAuthoritiesById" resultMap="AuthoritiesResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Authorities_Column_List" />
+		from T_ATR_AUTHORITIES
+		where AUTHORITIES_ID =
+		#{authoritiesId,jdbcType=INTEGER}
+	</select>
+
+	<select id="queryResourceIdsByAuthId" parameterType="java.lang.Integer"
+		resultType="java.lang.Integer">
+		select RESOURCE_ID from T_ATR_RESOURCE_AUTHORITIES where
+		AUTHORITIES_ID = #{authoritiesId,jdbcType=INTEGER}
+	</select>
+
+	<insert id="insertAuthorities" parameterType="com.eleme.domain.ops.user.Authorities"
+		useGeneratedKeys="true" keyProperty="authoritiesId" keyColumn="AUTHORITIES_ID">
+		insert
+		into T_ATR_AUTHORITIES (
+		AUTH_NAME, AUTH_DESC,
+		IS_ENABLED,
+		AUTH_MODULE_ID, IS_DEFAULT,
+		PRJ_TYPE, CREATED_AT, UPDATED_AT
+		)
+		values (
+		#{authName,jdbcType=VARCHAR}, #{authDesc,jdbcType=VARCHAR},
+		#{isEnabled,jdbcType=CHAR}, #{authModuleId,jdbcType=INTEGER},
+		#{isDefault,jdbcType=CHAR},
+		#{prjType,jdbcType=CHAR},
+		#{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}
+		)
+	</insert>
+
+	<update id="updateAuthoritiesById" parameterType="com.eleme.domain.ops.user.Authorities">
+		update T_ATR_AUTHORITIES
+		set AUTH_NAME = #{authName,jdbcType=VARCHAR},
+		AUTH_DESC = #{authDesc,jdbcType=VARCHAR},
+		IS_ENABLED =
+		#{isEnabled,jdbcType=CHAR},
+		AUTH_MODULE_ID =
+		#{authModuleId,jdbcType=INTEGER},
+		IS_DEFAULT =
+		#{isDefault,jdbcType=CHAR},
+		<!-- PRJ_TYPE = #{prjType,jdbcType=CHAR}, -->
+		UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP}
+		where AUTHORITIES_ID =
+		#{authoritiesId,jdbcType=INTEGER}
+	</update>
+
+	<insert id="insertResourceAuthorities" parameterType="com.eleme.domain.ops.user.Authorities">
+		insert into T_ATR_RESOURCE_AUTHORITIES (AUTHORITIES_ID, RESOURCE_ID)
+		values
+		<foreach collection="resourcesIds" item="resourcesId"
+			separator=",">(#{authoritiesId}, #{resourcesId})</foreach>
+	</insert>
+	<delete id="deleteResourceAuthoritiesByAuthoritiesId"
+		parameterType="java.lang.Integer">
+		delete from T_ATR_RESOURCE_AUTHORITIES where
+		AUTHORITIES_ID = #{authoritiesId}
+	</delete>
+
+
+	<sql id="AuthoritiesModule_Column_List">
+		AUTH_MODULE_ID, AUTH_MODULE_NAME, PRJ_TYPE, CREATED_AT,
+		UPDATED_AT
+	</sql>
+
+	<select id="countAuthoritiesModuleList" resultType="java.lang.Integer"
+		parameterType="com.eleme.domain.ops.user.AuthoritiesQueryBean">
+		select count(*) from T_ATR_AUTHORITIES_MODULE
+		<include refid="where_AuthoritiesModuleList" />
+	</select>
+
+	<select id="queryAuthoritiesModuleList" resultMap="AuthoritiesModuleResultMap"
+		parameterType="com.eleme.domain.ops.user.AuthoritiesQueryBean">
+		select
+		<include refid="AuthoritiesModule_Column_List" />
+		from T_ATR_AUTHORITIES_MODULE
+		<include refid="where_AuthoritiesModuleList" />
+		limit #{offset}, #{limit}
+	</select>
+
+	<sql id="where_AuthoritiesModuleList">
+		<where>
+			PRJ_TYPE = '0'
+			<if test="authModuleName != null and authModuleName != ''">
+				and AUTH_MODULE_NAME like concat('%', #{authModuleName},
+				'%')
+			</if>
+		</where>
+	</sql>
+
+	<select id="queryAuthoritiesModuleById" resultMap="AuthoritiesModuleResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="AuthoritiesModule_Column_List" />
+		from T_ATR_AUTHORITIES_MODULE
+		where AUTH_MODULE_ID =
+		#{authModuleId,jdbcType=INTEGER}
+	</select>
+
+	<insert id="insertAuthoritiesModule" parameterType="com.eleme.domain.ops.user.AuthoritiesModule">
+		insert into
+		T_ATR_AUTHORITIES_MODULE (
+		AUTH_MODULE_NAME, PRJ_TYPE,
+		CREATED_AT,
+		UPDATED_AT
+		)
+		values (
+		#{authModuleName,jdbcType=VARCHAR},
+		#{prjType,jdbcType=CHAR},
+		#{createdAt,jdbcType=TIMESTAMP},
+		#{updatedAt,jdbcType=TIMESTAMP}
+		)
+	</insert>
+
+	<update id="updateAuthoritiesModuleById" parameterType="com.eleme.domain.ops.user.AuthoritiesModule">
+		update T_ATR_AUTHORITIES_MODULE
+		set AUTH_MODULE_NAME =
+		#{authModuleName,jdbcType=VARCHAR},
+		<!-- PRJ_TYPE = #{prjType,jdbcType=CHAR}, -->
+		UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP}
+		where AUTH_MODULE_ID =
+		#{authModuleId,jdbcType=INTEGER}
+	</update>
+	<!-- 判断权限名字是否唯一 -->
+	<select id="findAuthByName" parameterType="java.lang.String"
+		resultType="java.lang.Integer">
+		select count(*)
+		from T_ATR_AUTHORITIES
+		where AUTH_NAME =
+		#{authName}
+	</select>
+	<!-- 判断模块名字是否唯一 -->
+	<select id="findModuleByName" parameterType="java.lang.String"
+		resultType="java.lang.Integer">
+		select count(*)
+		from T_ATR_AUTHORITIES_MODULE
+		where
+		AUTH_MODULE_NAME = #{moduleName}
+	</select>
+
+	<!-- 查询权限集合 -->
+	<select id="getAuthoritieList" resultMap="authResultMap">
+		select
+		AUTHORITIES_ID,AUTH_NAME,AUTH_MODULE_ID
+		from T_ATR_AUTHORITIES
+		order by
+		AUTH_MODULE_ID, AUTH_NAME
+	</select>
+	<!-- 根据对应的资源ID找URL -->
+	<select id="findUrlById" parameterType="java.lang.Integer"
+		resultMap="com.eleme.mapper.ops.user.ResourceMapper.ResourceResultMap">
+		select RESOURCE_ID,RESOURCE_STRING
+		from M_RESOURCE
+		where RESOURCE_STRING in
+		(select RESOURCE_STRING
+		from M_RESOURCE
+		where RESOURCE_ID=#{resourceId}
+		and
+		RESOURCE_TYPE='URL')
+	</select>
+</mapper>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>e金融-邮件</title>
+		<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+		<style>
+			body{
+				font-family:"Microsoft YaHei"
+				font-size : 0.9rem;
+				padding-right: 2rem;
+			}
+			.footer{
+				display:inline-flex;
+				margin-top: 3rem;
+			}
+			.logo{
+				padding-left: 1rem;
+			}
+			.logo img {
+				width:70px;
+			}
+			.logo-text{
+				padding-right: 1rem;
+				padding-top:1rem;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="content">
+			<p>您好，${sellerInfoMail.orgName}:</p>
+			<p style="text-indent:2em">这是${sellerInfoMail.sellerName}餐厅的基本信息和近180天订单流水，请下载附件查看详细内容。</p>
+			<p style="text-indent:2em">如有疑问，请回复邮件，e金融工作人员会在三个工作日之内答复你的疑问。</p>
+			<p style="text-indent:4em">谢谢！</p>
+			<p style="text-align:right">e金融</p>
+			<p style="text-align:right">${sellerInfoMail.sendDate}</p>
+		</div>
+		<div class="footer"><!-- 
+			<div class="logo">
+				<img src="/tpl/mail/image/elogo.png"/>
+			</div> -->
+			<div class="logo-text">
+				---------------------------------------------------------------------<br/>
+				拉扎斯网络科技（上海）有限公司<br/>
+				上海市普陀区金沙江路1518弄近铁城市广场401室<br/>
+ 				http://www.ele.me/<br/>
+ 				T:(021) 8024-1717 <br/>
+			</div>
+		</div>
+	</body>
+</html>

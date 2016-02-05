@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.eleme.mapper.mart.mail.MailSellerInfoMapper">
+	<resultMap id="MailSellerInfoEntityMap"
+		type="com.eleme.domain.mart.mail.MailSellerInfoEntity">
+		<id column="SIM_ID" property="simId"
+			jdbcType="INTEGER" />
+		<result column="SL_ID" property="slId" jdbcType="INTEGER" />
+		<result column="MAIL_SELLER_INFO_EXCEL_PATH" property="mailSellerInfoExcelPath"
+			jdbcType="VARCHAR" />
+		<result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
+		<result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
+		<result column="USER_ID" property="userId" jdbcType="INTEGER" />
+	</resultMap>
+
+	<resultMap type="com.eleme.domain.mart.mail.MailSellerInfoVO"
+		id="MailSellerInfoVOMap" extends="MailSellerInfoEntityMap">
+		<result column="USER_NAME" property="userName" jdbcType="VARCHAR"></result>
+		<result column="USER_EMAIL" property="userEmail" jdbcType="VARCHAR"></result>
+		<result column="SELLER_NAME" property="sellerName" jdbcType="VARCHAR"></result>
+		<result column="SELLER_ID" property="sellerId" jdbcType="INTEGER" />
+		<result column="MAIL_ID" property="mailId" jdbcType="INTEGER"></result>
+		<result column="MAIL_SEND_STATUS" property="mailSendStatus"
+			jdbcType="INTEGER"></result>
+		<result column="FO_NAME" property="foName" jdbcType="VARCHAR"></result>
+		<result column="NAPOS_OID" property="naposOid" jdbcType="INTEGER"></result>
+	</resultMap>
+
+	<sql id="mailSellerInfo_Column_List">
+		SIM.SIM_ID,
+		SIM.SL_ID,
+		SIM.MAIL_SELLER_INFO_EXCEL_PATH,
+		SIM.CREATED_AT,
+		SIM.UPDATED_AT,
+		SIM.USER_ID
+	</sql>
+
+	<select id="selectMailSellerInfos" resultMap="MailSellerInfoVOMap"
+		parameterType="com.eleme.domain.mart.mail.MailSellerInfoListQueryBean">
+		SELECT
+		ASL.SELLER_ID,
+		S.SELLER_NAME,
+		MU.USER_NAME,
+		MU.USER_EMAIL,
+		MSQ.MAIL_ID,
+		MSQ.MAIL_SEND_STATUS,
+		FO.FO_NAME,
+		NS.OID AS NAPOS_OID,
+		<include refid="mailSellerInfo_Column_List" />
+		FROM
+		T_URR_SELLER_INFO_MAIL SIM
+		LEFT JOIN T_APP_SELLER_LOAN ASL ON
+		ASL.SL_ID=SIM.SL_ID
+		LEFT JOIN
+		M_SELLER S ON S.SELLER_ID = ASL.SELLER_ID
+		LEFT JOIN M_NAPOS_SELLERS NS
+		ON S.SELLER_ID = NS.SELLER_ID
+		LEFT JOIN
+		M_MART_USERS MU ON MU.USER_ID =
+		SIM.USER_ID
+		LEFT JOIN M_FINANCE_ORG FO
+		ON FO.FO_ID = MU.FO_ID
+		LEFT JOIN
+		T_SYS_MAIL_QUEUE MSQ ON
+		MSQ.MAIL_CONTAIN_TYPE = #{mailType}
+		AND MSQ.MAIL_CONTAIN_ID =
+		SIM.SIM_ID
+		<where>
+			<if test=" foId != null ">
+				MU.FO_ID=#{foId}
+			</if>
+			<!-- 当发送状态未0时where条件为 -->
+			<if test=" sendStatus == 0 ">
+				AND (MSQ.MAIL_SEND_STATUS IS NULL OR MSQ.MAIL_SEND_STATUS
+				= 0)
+			</if>
+			<if test=" sendStatus != null and sendStatus != 0">
+				AND MSQ.MAIL_SEND_STATUS = #{sendStatus}
+			</if>
+			<if test="queryStartDate != null">
+				AND Date(SIM.CREATED_AT) >= #{queryStartDate}
+			</if>
+			<if test="queryEndDate != null">
+				<![CDATA[ AND Date(SIM.CREATED_AT) <= #{queryEndDate} ]]>
+			</if>
+		</where>
+		ORDER BY SIM.CREATED_AT DESC
+		<![CDATA[LIMIT #{startItem}, #{pageSize}]]>
+	</select>
+
+	<select id="selectMailSellerInfosCount" resultType="java.lang.Integer"
+		parameterType="com.eleme.domain.mart.mail.MailSellerInfoListQueryBean">
+		SELECT
+		COUNT(*)
+		FROM
+		T_URR_SELLER_INFO_MAIL SIM
+		LEFT JOIN T_APP_SELLER_LOAN
+		ASL ON ASL.SL_ID=SIM.SL_ID
+		LEFT JOIN
+		M_SELLER S ON S.SELLER_ID =
+		ASL.SELLER_ID
+		LEFT JOIN M_NAPOS_SELLERS NS
+		ON S.SELLER_ID = NS.SELLER_ID
+		LEFT JOIN M_MART_USERS MU ON MU.USER_ID =
+		SIM.USER_ID
+		LEFT JOIN
+		M_FINANCE_ORG FO ON FO.FO_ID = MU.FO_ID
+		LEFT JOIN
+		T_SYS_MAIL_QUEUE MSQ
+		ON MSQ.MAIL_CONTAIN_TYPE = #{mailType}
+		AND MSQ.MAIL_CONTAIN_ID =
+		SIM.SIM_ID
+		<where>
+			<if test=" foId != null ">
+				MU.FO_ID=#{foId}
+			</if>
+			<!-- 当发送状态未0时where条件为 -->
+			<if test=" sendStatus == 0 ">
+				AND (MSQ.MAIL_SEND_STATUS IS NULL OR MSQ.MAIL_SEND_STATUS
+				= 0)
+			</if>
+			<if test=" sendStatus != null and sendStatus != 0">
+				AND MSQ.MAIL_SEND_STATUS = #{sendStatus}
+			</if>
+			<if test="queryStartDate != null">
+				AND SIM.CREATED_AT >= #{queryStartDate}
+			</if>
+			<if test="queryEndDate != null">
+				<![CDATA[ AND SIM.CREATED_AT <= #{queryEndDate} ]]>
+			</if>
+		</where>
+	</select>
+
+	<select id="selectMailSellerInfosByIds" resultMap="MailSellerInfoVOMap">
+		SELECT
+		ASL.SELLER_ID,
+		S.SELLER_NAME,
+		MU.USER_NAME,
+		MU.USER_EMAIL,
+		MSQ.MAIL_ID,
+		MSQ.MAIL_SEND_STATUS,
+		FO.FO_NAME,
+		NS.OID AS NAPOS_OID,
+		<include refid="mailSellerInfo_Column_List" />
+		FROM
+		T_URR_SELLER_INFO_MAIL SIM
+		LEFT JOIN T_APP_SELLER_LOAN ASL ON
+		ASL.SL_ID=SIM.SL_ID
+		LEFT JOIN
+		M_SELLER S ON S.SELLER_ID = ASL.SELLER_ID
+		LEFT JOIN M_NAPOS_SELLERS NS
+		ON S.SELLER_ID = NS.SELLER_ID
+		LEFT JOIN
+		M_MART_USERS MU ON MU.USER_ID =
+		SIM.USER_ID
+		LEFT JOIN M_FINANCE_ORG FO
+		ON FO.FO_ID = MU.FO_ID
+		LEFT JOIN
+		T_SYS_MAIL_QUEUE MSQ ON
+		MSQ.MAIL_CONTAIN_TYPE = 0
+		AND MSQ.MAIL_CONTAIN_ID =
+		SIM.SIM_ID
+		WHERE
+		SIM.SIM_ID IN
+		<foreach item="simId" index="index" collection="array"
+             open="(" separator="," close=")">
+        	#{simId}
+    	</foreach>
+	</select>
+
+	<select id="selectMailSellerInfoVOById" resultMap="MailSellerInfoVOMap"
+		parameterType="java.lang.Integer">
+		SELECT
+		ASL.SELLER_ID,
+		S.SELLER_NAME,
+		MU.USER_NAME,
+		MU.USER_EMAIL,
+		MSQ.MAIL_ID,
+		MSQ.MAIL_SEND_STATUS,
+		FO.FO_NAME,
+		NS.OID AS NAPOS_OID,
+		<include refid="mailSellerInfo_Column_List" />
+		FROM
+		T_URR_SELLER_INFO_MAIL SIM
+		LEFT JOIN T_APP_SELLER_LOAN ASL ON
+		ASL.SL_ID=SIM.SL_ID
+		LEFT JOIN
+		M_SELLER S ON S.SELLER_ID = ASL.SELLER_ID
+		LEFT JOIN M_NAPOS_SELLERS NS
+		ON S.SELLER_ID = NS.SELLER_ID
+		LEFT JOIN
+		M_MART_USERS MU ON MU.USER_ID =
+		SIM.USER_ID
+		LEFT JOIN M_FINANCE_ORG FO
+		ON FO.FO_ID = MU.FO_ID
+		LEFT JOIN
+		T_SYS_MAIL_QUEUE MSQ ON
+		MSQ.MAIL_CONTAIN_TYPE = 0
+		AND MSQ.MAIL_CONTAIN_ID =
+		SIM.SIM_ID
+		WHERE
+		SIM.SIM_ID=#{mailSellerInfoId}
+	</select>
+
+	<update id="updateById" parameterType="MailSellerInfoEntity">
+		update T_URR_SELLER_INFO_MAIL
+		<set>
+			<if test="mailSellerInfoExcelPath != null">
+				MAIL_SELLER_INFO_EXCEL_PATH = #{mailSellerInfoExcelPath}
+			</if>
+		</set>
+		where SIM_ID = #{simId}
+	</update>
+
+</mapper>
+	

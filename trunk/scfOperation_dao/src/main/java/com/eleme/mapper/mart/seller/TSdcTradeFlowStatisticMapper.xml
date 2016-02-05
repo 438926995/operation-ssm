@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.eleme.mapper.mart.seller.TSdcTradeFlowStatisticMapper">
+
+	<resultMap id="BaseResultMap"
+		type="com.eleme.domain.mart.seller.TSdcTradeFlowStatistic">
+		<id column="TFS_ID" property="tfsId" jdbcType="INTEGER" />
+		<result column="YEAR" property="year" jdbcType="INTEGER" />
+		<result column="MONTH" property="month" jdbcType="INTEGER" />
+		<result column="SUM_TOTAL" property="sumTotal" jdbcType="FLOAT" />
+		<result column="ORDER_COUNT" property="orderCount" jdbcType="INTEGER" />
+		<result column="PER_DAY_TOTAL" property="perDayTotal" jdbcType="FLOAT" />
+		<result column="SELLER_ID" property="sellerId" jdbcType="INTEGER" />
+		<result column="TYPE" property="type" jdbcType="INTEGER" />
+		<result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
+		<result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<delete id="deleteBySellerId" parameterType="java.lang.Integer">
+		delete from
+		T_SDC_TRADE_FLOW_STATISTICS
+		where SELLER_ID = #{sellerId}
+	</delete>
+
+	<insert id="insertBatch" useGeneratedKeys="true" parameterType="java.util.List">
+		<selectKey resultType="INTEGER" keyProperty="tfsId" order="AFTER">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+		insert into T_SDC_TRADE_FLOW_STATISTICS
+		(YEAR,
+		MONTH,
+		SUM_TOTAL,
+		ORDER_COUNT,
+		PER_DAY_TOTAL,
+		SELLER_ID,
+		TYPE,
+		CREATED_AT
+		)
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(
+			<if test="item.year!=null">
+				#{item.year},
+			</if>
+			<if test="item.year==null">
+				0,
+			</if>
+			<if test="item.month!=null">
+				#{item.month},
+			</if>
+			<if test="item.month==null">
+				0,
+			</if>
+			#{item.sumTotal},
+			#{item.orderCount},
+			#{item.perDayTotal},
+			#{item.sellerId},
+			#{item.type},
+			now()
+			)
+		</foreach>
+	</insert>
+
+	<select id="selectBySellerId" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		SELECT
+		TFS_ID,YEAR,MONTH,SUM_TOTAL,ORDER_COUNT,
+		PER_DAY_TOTAL,SELLER_ID,TYPE,CREATED_AT,UPDATED_AT
+		FROM T_SDC_TRADE_FLOW_STATISTICS
+		WHERE SELLER_ID=#{sellerId}
+		ORDER BY TYPE,YEAR,MONTH
+	</select>
+</mapper>

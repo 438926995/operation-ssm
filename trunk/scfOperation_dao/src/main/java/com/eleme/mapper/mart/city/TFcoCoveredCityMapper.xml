@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.eleme.mapper.mart.city.TFcoCoveredCityMapper">
+    <resultMap id="BaseResultMap" type="com.eleme.domain.mart.city.TFcoCoveredCity">
+        <id column="ID" property="id" jdbcType="INTEGER"/>
+        <result column="FO_ID" property="foID" jdbcType="INTEGER"/>
+        <result column="CITY_ID" property="cityID" jdbcType="INTEGER"/>
+        <result column="CITY_NAME" property="cityName" jdbcType="VARCHAR"/>
+        <result column="PROV_ID" property="provID" jdbcType="INTEGER"/>
+        <result column="PROV_NAME" property="provName" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+		ID, FO_ID, CITY_ID, CITY_NAME, PROV_ID, PROV_NAME
+	</sql>
+
+    <select id="selectCoveredCityInfosByFoID" resultMap="BaseResultMap"
+            parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from T_FCO_COVERED_CITY
+        where FO_ID = #{foID}
+    </select>
+
+    <insert id="insertCoveredCityInfos" parameterType="java.util.Map">
+        insert into T_FCO_COVERED_CITY
+        (<include refid="Base_Column_List"/>)
+        values
+        <foreach collection="cities" item="city" index="index" separator=",">
+            (null,#{foId},#{city.cityID},#{city.cityName},#{city.parentID},#{city.parentName})
+        </foreach>
+        <selectKey resultType="java.lang.Integer" keyProperty="foID"
+                   order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <delete id="deleteCoveredCityInfosByFoID" parameterType="java.lang.Integer">
+		delete
+		from T_FCO_COVERED_CITY where FO_ID = #{foID}
+	</delete>
+
+    <select id="selectCoveredCitiesByProvName" resultType="java.lang.String"
+            parameterType="java.lang.String">
+		select CITY_NAME
+		from T_FCO_COVERED_CITY
+		where PROV_NAME =
+		#{provName}
+	</select>
+
+    <select id="selectCoveredCitiesByFoIDProvName" resultType="java.lang.String"
+            parameterType="java.util.Map">
+		select CITY_NAME
+		from T_FCO_COVERED_CITY
+		where FO_ID =
+		#{foID} and PROV_NAME = #{provName}
+	</select>
+    <!-- 根据城市ID 查询金融机构 -->
+    <select id="selectFoInfoByCityId" parameterType="java.lang.Integer"
+            resultMap="com.eleme.mapper.mart.finance.MFinanceOrgMapper.BaseResultMap">
+		select FO_ID,FO_NAME
+		from M_FINANCE_ORG
+		where FO_ID in
+		(select
+		FO_ID
+		from T_FCO_COVERED_CITY
+		where CITY_ID = #{cityId} or PROV_ID =
+		#{cityId})
+		order by FO_ID
+	</select>
+    <!-- 根据城市Id 查询金融产品 -->
+    <select id="selectProductByCityId" parameterType="java.lang.Integer"
+            resultMap="com.eleme.mapper.mart.product.MFinanceProductMapper.BaseResultMap">
+		SELECT FP_ID,FP_NAME,FO_ID
+		from M_FINANCE_PRODUCT
+		where
+		FP_AREA =
+		#{cityId} or FP_AREA like concat('%',#{cityId},',%') or
+		FP_AREA like
+		concat('%,',#{cityId})
+		order by FO_ID
+	</select>
+</mapper>

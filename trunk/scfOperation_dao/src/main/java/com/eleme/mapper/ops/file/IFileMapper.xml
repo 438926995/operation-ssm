@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.eleme.mapper.ops.file.IFileMapper">
+
+    <resultMap type="com.eleme.bean.file.SysUploadFileBean" id="BaseResultMap">
+        <id column="UF_ID" property="ufId" jdbcType="INTEGER"/>
+        <result column="PROJECT_NAME" property="projectName" jdbcType="VARCHAR"/>
+        <result column="CONTEXT_PATH" property="contextPath" jdbcType="VARCHAR"/>
+        <result column="SOURCE_NAME" property="sourceName" jdbcType="VARCHAR"/>
+        <result column="FILE_EDIT_NAME" property="fileEditName"
+                jdbcType="VARCHAR"/>
+        <result column="MIME_TYPE" property="mimeType" jdbcType="VARCHAR"/>
+        <result column="POSTFIX" property="postFix" jdbcType="VARCHAR"/>
+        <result column="FILE_SIZE" property="fileSize" jdbcType="INTEGER"/>
+        <result column="URL" property="url" jdbcType="VARCHAR"/>
+        <result column="USER_OF_UPLOAD" property="userOfUpload"
+                jdbcType="VARCHAR"/>
+        <result column="IMAGE_RESOLUTION" property="imageResolution"
+                jdbcType="VARCHAR"/>
+        <result column="CONTAIN_ID" property="containId" jdbcType="INTEGER"/>
+        <result column="CONTAIN_TYPE" property="containType" jdbcType="VARCHAR"/>
+        <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP"/>
+        <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <resultMap type="com.eleme.domain.ops.file.TSysExcelTemplate" id="excelTemplateResultMap"
+               extends="BaseResultMap">
+        <result column="EXCEL_TEMPLATE_ID" property="excelTemplateId"
+                jdbcType="INTEGER"/>
+        <result column="EXCEL_TEMPLATE_NAME" property="excelTemplateName"
+                jdbcType="VARCHAR"/>
+        <result column="EXCEL_TEMPLATE_DESC" property="excelTemplateDesc"
+                jdbcType="VARCHAR"/>
+        <result column="EXCEL_TEMPLATE_TYPE" property="excelTemplateType" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+		T1.UF_ID, T1.PROJECT_NAME, T1.CONTEXT_PATH, T1.SOURCE_NAME,
+		T1.FILE_EDIT_NAME, T1.MIME_TYPE, T1.POSTFIX,
+		T1.FILE_SIZE, T1.URL, 
+		T1.USER_OF_UPLOAD,
+		T1.IMAGE_RESOLUTION, T1.CONTAIN_ID, T1.CONTAIN_TYPE, T1.CREATED_AT,T1.UPDATED_AT
+	</sql>
+
+    <select id="selectExcelTemplateByTemplateId" resultMap="excelTemplateResultMap">
+        SELECT
+        <include refid="Base_Column_List"></include>
+        ,T2.EXCEL_TEMPLATE_ID,T2.EXCEL_TEMPLATE_NAME,T2.EXCEL_TEMPLATE_DESC,T2.EXCEL_TEMPLATE_TYPE
+        FROM
+        T_SYS_UPLOAD_FILE T1
+        LEFT JOIN T_SYS_EXCEL_TEMPLATE T2
+        ON
+        T1.CONTAIN_TYPE=#{containType}
+        AND T1.CONTAIN_ID=T2.EXCEL_TEMPLATE_ID
+        WHERE
+        T2.EXCEL_TEMPLATE_ID=#{templateId}
+        AND T2.EXCEL_TEMPLATE_TYPE=0
+    </select>
+</mapper>

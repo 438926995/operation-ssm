@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pylon="http://ele.me/schema/pylon"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://ele.me/schema/pylon http://ele.me/schema/pylon/spring-pylon.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:property-placeholder location="classpath:pylon.properties" />
+
+	<pylon:common huskarUrl="${huskarUrl}" huskarToken="${huskarToken}"
+		metricUrl="${metricUrl}" traceUrl="${traceUrl}" />
+	<!-- 大数据组 订单流水 -->
+	<pylon:client name="dt.napos.order" threadPoolSize="100"
+		timeoutInMillis="50000" protocol="json" lbStrategy="rr" group="stable"
+		providerList="">
+		<pylon:interface class="me.ele.dt.order.detail.DTOrderDetailService" />
+	</pylon:client>
+	<!-- eleme restaurant service -->
+	<pylon:client name="zeus.ers" threadPoolSize="100"
+		timeoutInMillis="50000" protocol="thrift" lbStrategy="rr" group="${ersGroup}"
+		providerList="">
+		<pylon:interface class="com.eleme.soa.ers.ElemeRestaurantService" />
+	</pylon:client>
+	<!-- eleme user service -->
+	<pylon:client name="zeus.eus" threadPoolSize="100"
+		timeoutInMillis="50000" protocol="thrift" lbStrategy="rr" group="${eusGroup}"
+		providerList="">
+		<pylon:interface class="com.eleme.soa.eus.ElemeUserService" />
+	</pylon:client>
+	<!-- 同步城市信息 -->
+	<pylon:client name="base.gaia" threadPoolSize="100"
+		timeoutInMillis="50000" protocol="thrift" lbStrategy="rr" group="${gaiaGroup}"
+		providerList="">
+		<pylon:interface class="com.eleme.soa.gaia.GaiaService" />
+	</pylon:client>
+	<!-- 附件上传 -->
+	<pylon:client name="arch.fuss" threadPoolSize="100"
+		timeoutInMillis="50000" protocol="thrift" lbStrategy="rr" group="${fussGroup}"
+		providerList="">
+		<pylon:interface class="com.eleme.soa.fuss.FussService" />
+	</pylon:client>
+	
+</beans>
