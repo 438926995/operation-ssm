@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.eleme</groupId>
-	<artifactId>scfOperation</artifactId>
+	<artifactId>operation</artifactId>
 	<version>${scfOperation-version}</version>
 	<packaging>pom</packaging>
 	<name>Supply Chain Finance Operation</name>
@@ -20,11 +20,11 @@
 	</scm>
 
 	<modules>
-		<module>scfOperation_common</module>
-		<module>scfOperation_dao</module>
-		<module>scfOperation_service</module>
-		<module>scfOperation_controller</module>
-		<module>scfOperation_web</module>
+		<module>operation_common</module>
+		<module>operation_dao</module>
+		<module>operation_service</module>
+		<module>operation_controller</module>
+		<module>operation_web</module>
 	</modules>
 
 	<repositories>

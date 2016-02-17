@@ -5,10 +5,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.eleme</groupId>
-		<artifactId>scfOperation</artifactId>
+		<artifactId>operation</artifactId>
 		<version>${scfOperation-version}</version>
 	</parent>
-	<artifactId>scfOperation_service</artifactId>
+	<artifactId>operation_service</artifactId>
 	<name>Supply Chain Finance Operation Service</name>
 	<packaging>jar</packaging>
 	<properties>

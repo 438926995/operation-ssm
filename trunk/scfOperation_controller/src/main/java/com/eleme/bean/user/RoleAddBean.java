@@ -6,7 +6,6 @@ import javax.validation.GroupSequence;
 
 import org.hibernate.validator.constraints.NotBlank;
 
-import com.eleme.annotation.validator.SingleUserName;
 import com.eleme.validatorgroup.First;
 import com.eleme.validatorgroup.Four;
 import com.eleme.validatorgroup.Second;
@@ -28,7 +27,6 @@ public class RoleAddBean implements Serializable {
 
   // 角色名
   @NotBlank(message = "{field.required}", groups = {First.class})
-  @SingleUserName(message = "{user.name.single}", groups = {Second.class})
   private String roleName;
   // 角色ID
   private Integer roleId;

@@ -9,7 +9,6 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import com.eleme.annotation.validator.SingleUserName;
 import com.eleme.validatorgroup.First;
 import com.eleme.validatorgroup.Four;
 import com.eleme.validatorgroup.Second;
@@ -32,7 +31,6 @@ public class UserAddBean implements Serializable {
   @NotEmpty(message = "{field.required}", groups = {First.class})
   @Length(min = 5, max = 30, message = "{field.range}", groups = {Second.class})
   @Email(message = "{field.email}", groups = {Third.class})
-  @SingleUserName(message = "{user.name.single}", groups = {Four.class})
   private String userName;
 
   @NotNull(message = "{field.required}", groups = {First.class})

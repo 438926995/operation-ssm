@@ -5,10 +5,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.eleme</groupId>
-		<artifactId>scfOperation</artifactId>
+		<artifactId>operation</artifactId>
 		<version>${scfOperation-version}</version>
 	</parent>
-	<artifactId>scfOperation_dao</artifactId>
+	<artifactId>operation_dao</artifactId>
 	<name>Supply Chain Finance Operation Dao</name>
 	<packaging>jar</packaging>
 	<properties>

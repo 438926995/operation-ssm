@@ -18,7 +18,6 @@ import com.eleme.annotation.controller.UserMenu;
 import com.eleme.bean.SessionBean;
 import com.eleme.constants.GlobalConstants;
 import com.eleme.controller.BaseController;
-import com.eleme.service.security.ISecurityService;
 import com.eleme.util.CommonUtil;
 import com.eleme.util.HttpSessionUtil;
 import com.octo.captcha.service.image.ImageCaptchaService;
@@ -38,8 +37,8 @@ public class AccountController extends BaseController {
 
 	// @Inject
 	// private IAccountService accountServiceImpl;
-	@Inject
-	protected ISecurityService securityServiceImpl;
+//	@Inject
+//	protected ISecurityService securityServiceImpl;
 	@Inject
 	private ImageCaptchaService imageCaptchaService;
 	/**
