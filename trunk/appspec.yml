@@ -1,0 +1,9 @@
+appid: me.ele.scf.scfoperation
+version: 0.0.1-SNAPSHOT
+os: centos7
+language: java
+apptype: web
+hooks:
+  ValidateService:
+    - location: sh ./validate.sh
+      timeout: 180

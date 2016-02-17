@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.eleme.domain.ops.user.MenuTree;
 import com.eleme.domain.ops.user.Resource;
-import com.eleme.domain.ops.user.ResourceClassName;
 import com.eleme.domain.ops.user.ResourceQueryBean;
 import com.eleme.util.pager.TbData;
 
@@ -34,17 +33,6 @@ public interface IResourceService {
   public TbData queryResourceTbData(Integer currentPage, ResourceQueryBean rqb) throws Exception;
 
   /**
-   * 查询资源组列表信息
-   * 
-   * @param currentPage
-   * @param rqb
-   * @return
-   * @throws Exception
-   */
-  public TbData queryResourceClassTbData(Integer currentPage, ResourceQueryBean rqb)
-      throws Exception;
-
-  /**
    * 根据parentId查询资源列表
    * 
    * @param parentId
@@ -52,14 +40,6 @@ public interface IResourceService {
    * @throws Exception
    */
   public List<Resource> queryResourceListByParentId(Integer parentId) throws Exception;
-
-  /**
-   * 查询所有资源组信息
-   * 
-   * @return
-   * @throws Exception
-   */
-  public List<ResourceClassName> queryResourceClassListAll() throws Exception;
 
   /**
    * 根据ID查询资源对象
@@ -71,15 +51,6 @@ public interface IResourceService {
   public Resource queryResourceById(Integer resourceId) throws Exception;
 
   /**
-   * 根据ID查询资源组对象
-   * 
-   * @param classId
-   * @return
-   * @throws Exception
-   */
-  public ResourceClassName queryResourceClassById(Integer classId) throws Exception;
-
-  /**
    * 保存一条资源记录
    * 
    * @param resource
@@ -87,22 +58,5 @@ public interface IResourceService {
    * @throws Exception
    */
   public int saveResource(Resource resource) throws Exception;
-
-  /**
-   * 保存一条资源组记录
-   * 
-   * @param resourceClassName
-   * @return
-   * @throws Exception
-   */
-  public int saveResourceClass(ResourceClassName resourceClassName) throws Exception;
-
-  /**
-   * 判断资源组名是否唯一
-   * 
-   * @param className
-   * @return
-   */
-  public boolean judgeIfClassNameSingle(String className);
 
 }

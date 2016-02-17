@@ -3,7 +3,6 @@ package com.eleme.mapper.ops.user;
 import java.util.List;
 
 import com.eleme.domain.ops.user.Resource;
-import com.eleme.domain.ops.user.ResourceClassName;
 import com.eleme.domain.ops.user.ResourceQueryBean;
 
 /**
@@ -77,43 +76,5 @@ public interface ResourceMapper {
    * @return
    */
   int countResourceClassList(ResourceQueryBean rqb);
-
-  /**
-   * 查询资源组列表信息
-   * 
-   * @param rqb
-   * @return
-   */
-  List<ResourceClassName> queryResourceClassList(ResourceQueryBean rqb);
-
-  /**
-   * 根据ID查询资源组对象
-   * 
-   * @param classId
-   * @return
-   */
-  ResourceClassName queryResourceClassById(Integer classId);
-
-  /**
-   * 新增一条资源组纪录
-   * 
-   * @param resourceClassName
-   * @return
-   */
-  int insertResourceClass(ResourceClassName resourceClassName);
-
-  /**
-   * 更新一条资源组纪录
-   * 
-   * @param resource
-   * @return
-   */
-  int updateResourceClassById(ResourceClassName resourceClassName);
   
-  /**
-   * 判断资源组名是否唯一
-   * @param className
-   * @return
-   */
-  int findClassByName(String className);
 }

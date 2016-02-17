@@ -1,6 +1,7 @@
 package com.eleme.domain.ops.user;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 权限信息查询
@@ -28,10 +29,50 @@ public class AuthoritiesQueryBean implements Serializable {
   private Integer authoritiesId;
   // 是否可用
   private String isEnabled;
-
+  // 权限组id
+  private Integer authModuleId;
+  // 创建时间开始
+  private Date createdFrom;
+  // 创建时间结束
+  private Date createdEnd;
+  // 导出标志
+  private Integer exportFlg;
+  
   // 用于分页 limit :offset, :limit
   private Integer offset;
   private Integer limit;
+
+  public Integer getExportFlg() {
+    return exportFlg;
+  }
+
+  public void setExportFlg(Integer exportFlg) {
+    this.exportFlg = exportFlg;
+  }
+
+  public Integer getAuthModuleId() {
+    return authModuleId;
+  }
+
+  public void setAuthModuleId(Integer authModuleId) {
+    this.authModuleId = authModuleId;
+  }
+
+  public Date getCreatedFrom() {
+    return createdFrom;
+  }
+
+  public void setCreatedFrom(Date createdFrom) {
+    this.createdFrom = createdFrom;
+  }
+
+  public Date getCreatedEnd() {
+    return createdEnd;
+  }
+
+  public void setCreatedEnd(Date createdEnd) {
+    this.createdEnd = createdEnd;
+  }
 
   public String getAuthName() {
     return authName;

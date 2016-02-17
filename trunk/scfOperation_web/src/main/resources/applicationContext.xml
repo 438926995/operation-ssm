@@ -235,5 +235,4 @@
 
 	<bean class="com.eleme.util.mail.CustomMailSender" />
 	<bean class="com.eleme.util.mail.CommonMailSender"/>
-	<bean class="com.eleme.util.fuss.FussUtil"/>
 </beans>    

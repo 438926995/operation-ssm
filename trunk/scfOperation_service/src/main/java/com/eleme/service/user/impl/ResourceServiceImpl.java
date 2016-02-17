@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.eleme.constants.PagerConstants;
 import com.eleme.domain.ops.user.MenuTree;
 import com.eleme.domain.ops.user.Resource;
-import com.eleme.domain.ops.user.ResourceClassName;
 import com.eleme.domain.ops.user.ResourceQueryBean;
 import com.eleme.mapper.ops.user.ResourceMapper;
 import com.eleme.service.BaseService;
@@ -58,26 +57,10 @@ public class ResourceServiceImpl extends BaseService implements IResourceService
   }
 
   @Transactional(readOnly = true)
-  public TbData queryResourceClassTbData(Integer currentPage, ResourceQueryBean rqb) throws Exception {
-    currentPage = (currentPage == null) ? 1 : currentPage;
-    rqb.setOffset((currentPage - 1) * PagerConstants.PAGE_SIZE);
-    rqb.setLimit(PagerConstants.PAGE_SIZE);
-
-    int totalCount = resourceMapper.countResourceClassList(rqb);
-    List<ResourceClassName> list = resourceMapper.queryResourceClassList(rqb);
-    return initTbData(totalCount, currentPage, PagerConstants.PAGE_SIZE, list);
-  }
-
-  @Transactional(readOnly = true)
   public List<Resource> queryResourceListByParentId(Integer parentId) throws Exception {
     ResourceQueryBean rqb = new ResourceQueryBean(0, Integer.MAX_VALUE);
     rqb.setParentId(parentId);
     return resourceMapper.queryResourceList(rqb);
-  }
-
-  @Transactional(readOnly = true)
-  public List<ResourceClassName> queryResourceClassListAll() throws Exception {
-    return resourceMapper.queryResourceClassList(ResourceQueryBean.EMPTY);
   }
 
   @Transactional(readOnly = true)
@@ -95,11 +78,6 @@ public class ResourceServiceImpl extends BaseService implements IResourceService
     return resource;
   }
 
-  @Transactional(readOnly = true)
-  public ResourceClassName queryResourceClassById(Integer classId) throws Exception {
-    return resourceMapper.queryResourceClassById(classId);
-  }
-
   @Transactional(rollbackFor = Throwable.class)
   public int saveResource(Resource resource) throws Exception {
     int line = 0;
@@ -115,21 +93,4 @@ public class ResourceServiceImpl extends BaseService implements IResourceService
     return line;
   }
 
-  @Transactional(rollbackFor = Throwable.class)
-  public int saveResourceClass(ResourceClassName resourceClassName) throws Exception {
-    int line = 0;
-    resourceClassName.setUpdatedAt(new Date());
-    if (resourceClassName.getClassId() == null) {
-      resourceClassName.setCreatedAt(new Date());
-      line = resourceMapper.insertResourceClass(resourceClassName);
-    } else {
-      line = resourceMapper.updateResourceClassById(resourceClassName);
-    }
-    return line;
-  }
-
-  @Override
-  public boolean judgeIfClassNameSingle(String className) {
-    return resourceMapper.findClassByName(className) == 0;
-  }
 }

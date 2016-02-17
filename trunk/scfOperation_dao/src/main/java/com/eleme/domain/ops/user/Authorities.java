@@ -25,6 +25,9 @@ public class Authorities implements Serializable {
 
   // 所属权限模块
   private Integer authModuleId;
+  
+  // 所属权限模块的名称
+  private String authModuleName;
 
   // 是否默认
   private String isDefault;
@@ -119,5 +122,13 @@ public class Authorities implements Serializable {
 
   public void setResourcesIds(Integer[] resourcesIds) {
     this.resourcesIds = resourcesIds;
+  }
+
+  public String getAuthModuleName() {
+    return authModuleName;
+  }
+
+  public void setAuthModuleName(String authModuleName) {
+    this.authModuleName = authModuleName;
   }
 }

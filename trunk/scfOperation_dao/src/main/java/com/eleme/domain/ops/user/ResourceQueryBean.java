@@ -1,6 +1,7 @@
 package com.eleme.domain.ops.user;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 资源信息查询
@@ -30,10 +31,70 @@ public class ResourceQueryBean implements Serializable {
   private Integer parentId;
   // 是否可用
   private String isEnabled;
-
+  // 添加人
+  private Integer createUser;
+  // 添加时间开始
+  private Date createdFrom;
+  // 添加时间结束
+  private Date createdTo;
+  // 更新时间开始
+  private Date updatedFrom;
+  // 更新时间结束
+  private Date updatedTo;
+  // 导出flg
+  private Integer exportFlg;
+  
   // 用于分页 limit :offset, :limit
   private Integer offset;
   private Integer limit;
+  
+  public Integer getExportFlg() {
+    return exportFlg;
+  }
+
+  public void setExportFlg(Integer exportFlg) {
+    this.exportFlg = exportFlg;
+  }
+
+  public Date getCreatedFrom() {
+    return createdFrom;
+  }
+
+  public void setCreatedFrom(Date createdFrom) {
+    this.createdFrom = createdFrom;
+  }
+
+  public Date getCreatedTo() {
+    return createdTo;
+  }
+
+  public void setCreatedTo(Date createdTo) {
+    this.createdTo = createdTo;
+  }
+
+  public Date getUpdatedFrom() {
+    return updatedFrom;
+  }
+
+  public void setUpdatedFrom(Date updatedFrom) {
+    this.updatedFrom = updatedFrom;
+  }
+
+  public Date getUpdatedTo() {
+    return updatedTo;
+  }
+
+  public void setUpdatedTo(Date updatedTo) {
+    this.updatedTo = updatedTo;
+  }
+
+  public Integer getCreateUser() {
+    return createUser;
+  }
+
+  public void setCreateUser(Integer createUser) {
+    this.createUser = createUser;
+  }
 
   public String getResourceName() {
     return resourceName;

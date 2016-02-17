@@ -38,9 +38,12 @@ public class Resource implements Serializable {
 
   // 属于左侧某一栏目下
   private Integer parentId;
-
-  // 资源所属contorller类名下
-  private Integer classId;
+ 
+  // 属于哪个栏目
+  private String parentName;
+  
+  // 父节点的url
+  private String parentString;
 
   // 菜单级别
   private String grade;
@@ -57,11 +60,16 @@ public class Resource implements Serializable {
   // 更新时间
   private Date updatedAt;
 
-  // 所属资源组名称
-  private String className;
-
   // 所有父节点ID
   private Integer[] parentIds;
+
+  public String getParentString() {
+    return parentString;
+  }
+
+  public void setParentString(String parentString) {
+    this.parentString = parentString;
+  }
 
   public Integer getResourceId() {
     return resourceId;
@@ -135,14 +143,6 @@ public class Resource implements Serializable {
     this.parentId = parentId;
   }
 
-  public Integer getClassId() {
-    return classId;
-  }
-
-  public void setClassId(Integer classId) {
-    this.classId = classId;
-  }
-
   public String getGrade() {
     return grade;
   }
@@ -183,19 +183,19 @@ public class Resource implements Serializable {
     this.updatedAt = updatedAt;
   }
 
-  public String getClassName() {
-    return className;
-  }
-
-  public void setClassName(String className) {
-    this.className = className;
-  }
-
   public Integer[] getParentIds() {
     return parentIds;
   }
 
   public void setParentIds(Integer[] parentIds) {
     this.parentIds = parentIds;
+  }
+
+  public String getParentName() {
+    return parentName;
+  }
+
+  public void setParentName(String parentName) {
+    this.parentName = parentName;
   }
 }

@@ -1,0 +1,20 @@
+language: java
+version: oraclejdk8
+script:
+  - cd trunk && mvn -DscfOperation-version=0.0.1-SNAPSHOT -Dmaven.test.skip=true package 
+after_success:
+  - echo 'after_success'
+  - chmod a+x trunk/ci_success.sh
+  - trunk/ci_success.sh
+outfile:
+  - outfile
+notifications:
+  email:
+    - peng.liush@ele.me
+branch:
+  master: alpha_stable
+  deploy: null
+  feature_order: null
+  develop: alpha_dev1
+  fork_wangwei: null
+  '(master|^release.*|^dev.*)': null

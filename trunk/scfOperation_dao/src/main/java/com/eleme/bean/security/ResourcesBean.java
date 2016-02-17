@@ -63,10 +63,6 @@ public class ResourcesBean implements Serializable {
    * 资源描述
    */
   private String resourceDesc;
-  /**
-   * 所属类
-   */
-  private Long classId;
 
   public Long getResourceId() {
     return resourceId;
@@ -162,14 +158,6 @@ public class ResourcesBean implements Serializable {
 
   public void setResourceDesc(String resourceDesc) {
     this.resourceDesc = resourceDesc;
-  }
-
-  public Long getClassId() {
-    return classId;
-  }
-
-  public void setClassId(Long classId) {
-    this.classId = classId;
   }
 
 }
