@@ -54,7 +54,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.eleme</groupId>
-			<artifactId>scfOperation_common</artifactId>
+			<artifactId>operation_common</artifactId>
 			<version>${scfOperation-version}</version>
 		</dependency>
 		<dependency>

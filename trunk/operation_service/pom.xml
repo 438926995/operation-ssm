@@ -32,7 +32,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.eleme</groupId>
-			<artifactId>scfOperation_dao</artifactId>
+			<artifactId>operation_dao</artifactId>
 			<version>${scfOperation-version}</version>
 		</dependency>
 		<dependency>
