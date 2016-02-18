@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.eleme</groupId>
 		<artifactId>operation</artifactId>
-		<version>${scfOperation-version}</version>
+		<version>${operation-version}</version>
 	</parent>
 	<artifactId>operation_common</artifactId>
 	<name>Supply Chain Finance Operation Common</name>

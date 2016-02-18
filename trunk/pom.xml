@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.eleme</groupId>
 	<artifactId>operation</artifactId>
-	<version>${scfOperation-version}</version>
+	<version>${operation-version}</version>
 	<packaging>pom</packaging>
 	<name>Supply Chain Finance Operation</name>
 	<url>http://ef-ops.ele.me</url>
@@ -57,7 +57,7 @@
 		<!-- 其他属性 -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.8</java.version>
-		<scfOperation-version>0.0.1-SNAPSHOT</scfOperation-version>
+		<operation-version>0.0.1-SNAPSHOT</operation-version>
 		<!-- arch.version -->
 		<pylon.version>2.0.3</pylon.version>
 		<utility.version>3.0.3</utility.version>

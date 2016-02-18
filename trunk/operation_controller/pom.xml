@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.eleme</groupId>
 		<artifactId>operation</artifactId>
-		<version>${scfOperation-version}</version>
+		<version>${operation-version}</version>
 	</parent>
 	<artifactId>operation_controller</artifactId>
 	<name>Supply Chain Finance Operation Controller</name>
@@ -32,7 +32,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.eleme</groupId>			<artifactId>operation_service</artifactId>
-			<version>${scfOperation-version}</version>
+			<version>${operation-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
