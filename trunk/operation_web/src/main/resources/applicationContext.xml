@@ -233,6 +233,5 @@
 	</bean>
 	<bean id="imageEngine" class="com.eleme.util.ImageGenericCaptchaEngine" />
 
-	<bean class="com.eleme.util.mail.CustomMailSender" />
-	<bean class="com.eleme.util.mail.CommonMailSender"/>
+	
 </beans>    

@@ -87,7 +87,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.eleme</groupId>
-			<artifactId>scfOperation_controller</artifactId>
+			<artifactId>operation_controller</artifactId>
 			<version>${scfOperation-version}</version>
 		</dependency>
 		<dependency>
