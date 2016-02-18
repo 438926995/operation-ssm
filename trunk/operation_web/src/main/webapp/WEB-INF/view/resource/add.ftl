@@ -53,25 +53,6 @@
 					</label>
 					<input type="text" class="form-control" id="resourceDesc" name="resourceDesc" value="${(rab.resourceDesc)!}" required>
 				</div>
-				
-				<#if rab??>
-				<@spring.bind "rab.classId" />
-				</#if>
-				<div class="form-group <@spring.errorStyle />">
-					所属资源组&nbsp;
-					<label for="classId">
-						<#if rab??>
-						<@spring.showErrors "<br>"/>
-						</#if>
-					</label>
-					<select id="classId" name="classId" class="form-control" required>
-						<#if resourceClassList?? && resourceClassList?size gt 0>
-						<#list resourceClassList as resourceClass>
-						<option value="${resourceClass.classId}" <#if (rab.classId)?? && (rab.classId == resourceClass.classId)>selected="selected"</#if>>${resourceClass.className}</option>
-						</#list>
-						</#if>
-					</select>
-				</div>
 			
 				<#if rab??>
 				<@spring.bind "rab.resourceType" />

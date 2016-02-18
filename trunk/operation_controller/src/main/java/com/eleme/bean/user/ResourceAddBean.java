@@ -60,10 +60,6 @@ public class ResourceAddBean implements Serializable {
   @NotNull(message = "{field.required}", groups = {First.class})
   private Integer parentId;
 
-  // 所属资源组
-  @NotNull(message = "{field.required}", groups = {First.class})
-  private Integer classId;
-
   // 菜单级别
   @NotEmpty(message = "{field.required}", groups = {First.class})
   private String grade;
@@ -141,14 +137,6 @@ public class ResourceAddBean implements Serializable {
 
   public void setParentId(Integer parentId) {
     this.parentId = parentId;
-  }
-
-  public Integer getClassId() {
-    return classId;
-  }
-
-  public void setClassId(Integer classId) {
-    this.classId = classId;
   }
 
   public String getGrade() {

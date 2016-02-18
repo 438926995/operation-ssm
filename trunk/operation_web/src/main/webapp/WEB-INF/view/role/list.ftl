@@ -146,9 +146,9 @@
 					alertMessageBox("角色信息",messBody);
 					$(".role-users-operation li a").click(function(){
 						var _self = $(this);
-						var userId = _self.data("userId");
-						var roleId = _self.data("roleId");
-						
+						console.log(_self);
+						var userId = _self.data("userid");
+						var roleId = _self.data("roleid");
 						if(confirm("确定要删除该用户的角色吗")){
 							$.ajax({
 						   		type: "GET",
