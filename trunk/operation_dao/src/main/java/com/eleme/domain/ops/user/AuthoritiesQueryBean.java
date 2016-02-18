@@ -6,7 +6,7 @@ import java.util.Date;
 /**
  * 权限信息查询
  * 
- * @author zhangqiongbiao
+ * @author huwenwen
  *
  */
 public class AuthoritiesQueryBean implements Serializable {

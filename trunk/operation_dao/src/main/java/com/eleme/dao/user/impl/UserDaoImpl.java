@@ -31,7 +31,7 @@ import me.ele.elog.LogFactory;
 /**
  * IUserDao实现类.
  * 
- * @author penglau
+ * @author huwenwen
  *
  */
 @Repository

@@ -6,7 +6,7 @@ import java.sql.Date;
 /**
  * M_USERS 的实体映射类.
  * 
- * @author penglau
+ * @author huwenwen
  *
  */
 public class MUsers implements Serializable {

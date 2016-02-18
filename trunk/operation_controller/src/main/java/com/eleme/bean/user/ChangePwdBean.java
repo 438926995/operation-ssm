@@ -15,7 +15,7 @@ import com.eleme.validatorgroup.Third;
 /**
  * 用户修改密码的封装bean.
  * 
- * @author yonglin.zhu
+ * @author huwenwen
  *
  */
 @GroupSequence({First.class, Second.class, Third.class, Four.class, ChangePwdBean.class})

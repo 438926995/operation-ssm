@@ -3,7 +3,7 @@ package com.eleme.bean.user;
 /**
  * 用户验证用户名唯一的Bean。
  * 
- * @author penglau
+ * @author huwenwen
  *
  */
 public class UserNameBean {

@@ -11,7 +11,7 @@ import com.eleme.domain.ops.user.Resource;
 /**
  * 权限相关
  * 
- * @author zhangqiongbiao
+ * @author huwenwen
  */
 public interface AuthoritiesMapper {
 

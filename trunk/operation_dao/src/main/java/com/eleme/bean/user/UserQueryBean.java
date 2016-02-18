@@ -3,7 +3,7 @@ package com.eleme.bean.user;
 /**
  * 用户列表查询条件封装类。
  * 
- * @author penglau
+ * @author huwenwen
  *
  */
 public class UserQueryBean {

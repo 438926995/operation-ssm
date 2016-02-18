@@ -26,7 +26,7 @@ import me.ele.elog.LogFactory;
 /**
  * 权限管理实现类
  * 
- * @author zhangqiongbiao
+ * @author huwenwen
  */
 @Service
 public class AuthoritiesServiceImpl extends BaseService implements IAuthoritiesService {

@@ -32,7 +32,7 @@
           <!-- mini logo for sidebar mini 50x50 pixels -->
           <span class="logo-mini">scf</span>
           <!-- logo for regular state and mobile devices -->
-          <span class="logo-lg">供应链金融</span>
+          <span class="logo-lg">用户管理系统</span>
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">

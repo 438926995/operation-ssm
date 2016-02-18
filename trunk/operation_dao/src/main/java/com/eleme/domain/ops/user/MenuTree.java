@@ -7,12 +7,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.eleme.domain.ops.user.Resource;
-
 /**
  * 菜单树
  * 
- * @author zhangqiongbiao
+ * @author huwenwen
  */
 public class MenuTree implements Serializable {
   private static final long serialVersionUID = 5154140857758046959L;

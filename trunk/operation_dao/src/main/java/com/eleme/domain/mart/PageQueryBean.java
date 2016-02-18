@@ -5,8 +5,7 @@ import com.eleme.constants.PagerConstants;
 /**
  * 分页查询
  * 
- * @author sunwei
- * @since 2015年12月27日
+ * @author huwenwen
  */
 public class PageQueryBean {
 

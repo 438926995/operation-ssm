@@ -9,7 +9,7 @@ import com.eleme.domain.ops.user.Resource;
 /**
  * 系统用户基础信息接口
  * 
- * @author yonglin.zhu
+ * @author huwenwen
  *
  */
 public interface IUserMapper {

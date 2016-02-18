@@ -35,7 +35,7 @@ import me.ele.elog.LogFactory;
 /**
  * 资源相关信息管理
  * 
- * @author zhangqiongbiao
+ * @author huwenwen
  */
 @Controller
 @RequestMapping(value = "/resource")

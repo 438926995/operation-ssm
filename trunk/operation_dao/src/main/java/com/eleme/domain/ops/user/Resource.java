@@ -6,7 +6,7 @@ import java.util.Date;
 /**
  * 资源信息
  * 
- * @author zhangqiongbiao
+ * @author huwenwen
  *
  */
 public class Resource implements Serializable {

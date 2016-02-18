@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * 系统用户基础信息封装类
  * 
- * @author yonglin.zhu
+ * @author huwenwen
  *
  */
 public class MUsers {

@@ -26,7 +26,7 @@ import me.ele.elog.LogFactory;
 /**
  * 资源管理实现类
  * 
- * @author zhangqiongbiao
+ * @author huwenwen
  *
  */
 @Service

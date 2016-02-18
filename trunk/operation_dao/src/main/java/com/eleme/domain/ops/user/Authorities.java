@@ -6,7 +6,7 @@ import java.util.Date;
 /**
  * 权限信息
  * 
- * @author zhangqiongbiao
+ * @author huwenwen
  */
 public class Authorities implements Serializable {
   private static final long serialVersionUID = 5127977650947744953L;

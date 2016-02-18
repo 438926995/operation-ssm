@@ -15,7 +15,7 @@ import com.eleme.validatorgroup.Third;
 /**
  * 权限模块 添加界面的封装bean.
  * 
- * @author zhangqiongbiao
+ * @author huwenwen
  */
 @GroupSequence({First.class, Second.class, Third.class, Four.class, AuthoritiesModuleAddBean.class})
 public class AuthoritiesModuleAddBean implements Serializable {

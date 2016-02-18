@@ -44,7 +44,7 @@ import me.ele.elog.LogFactory;
 /**
  * 角色管理
  * 
- * @author zhangqiongbiao
+ * @author huwenwen
  */
 @Controller
 @RequestMapping(value = "/role")

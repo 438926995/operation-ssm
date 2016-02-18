@@ -10,7 +10,7 @@ import com.eleme.util.pager.TbData;
 /**
  * 资源管理接口
  * 
- * @author zhangqiongbiao
+ * @author huwenwen
  */
 public interface IResourceService {
 

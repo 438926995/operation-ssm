@@ -17,7 +17,7 @@ import com.eleme.validatorgroup.Third;
 /**
  * 用户添加界面的封装bean.
  * 
- * @author penglau
+ * @author huwenwen
  *
  */
 @GroupSequence({First.class, Second.class, Third.class, Four.class, UserAddBean.class})

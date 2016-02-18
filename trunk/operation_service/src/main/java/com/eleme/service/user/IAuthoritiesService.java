@@ -12,7 +12,7 @@ import com.eleme.util.pager.TbData;
 /**
  * 权限管理接口
  * 
- * @author zhangqiongbiao
+ * @author huwenwen
  */
 public interface IAuthoritiesService {
 

@@ -21,7 +21,7 @@ import com.eleme.validatorgroup.Third;
 /**
  * 资源添加界面的封装bean.
  * 
- * @author zhangqiongbiao
+ * @author huwenwen
  */
 @GroupSequence({First.class, Second.class, Third.class, Four.class, AuthoritiesAddBean.class})
 public class AuthoritiesAddBean implements Serializable {

@@ -43,7 +43,7 @@ import me.ele.elog.LogFactory;
 /**
  * 权限相关信息管理
  * 
- * @author zhangqiongbiao
+ * @author huwenwen
  */
 @Controller
 @RequestMapping(value = "/authorities")

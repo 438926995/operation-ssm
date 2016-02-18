@@ -8,7 +8,7 @@ import com.eleme.domain.ops.user.ResourceQueryBean;
 /**
  * 资源相关处理
  * 
- * @author zhangqiongbiao
+ * @author huwenwen
  */
 public interface ResourceMapper {
 

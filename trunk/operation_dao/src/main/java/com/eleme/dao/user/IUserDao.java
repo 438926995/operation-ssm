@@ -13,7 +13,7 @@ import com.eleme.bean.user.UserQueryBean;
 /**
  * 用户相关dao层方法.
  * 
- * @author penglau
+ * @author huwenwen
  *
  */
 public interface IUserDao {
