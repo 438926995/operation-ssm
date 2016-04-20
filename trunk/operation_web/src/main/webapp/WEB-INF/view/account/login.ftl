@@ -10,11 +10,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <@security.csrfMetaTags/>  
     <#--
-    <meta name="description" content="供应链金融系统">
+    <meta name="description" content="用户管理系统">
     <link rel="icon" href="${bathPath}/favicon.ico">
     -->
     <base id="basePath" href="${basePath}">
-    <title>供应链金融系统</title>
+    <title>用户管理系统</title>
     <#-- Bootstrap -->
     <link rel="stylesheet" href="${basePath}/stylelib/bootstrap/css/bootstrap.min.css">
 	<#-- Font Awesome -->
@@ -36,7 +36,7 @@
 
 	<div class="login-box">
       <div class="login-box-body">
-        <p class="login-box-msg">供应链金融后台</p>
+        <p class="login-box-msg">用户管理系统</p>
         <font color='red' id="login_error">${loginError!""}</font>
         <form id="loginForm" action="${basePath}/login" method="post" data-parsley-validate="">
           <div class="form-group has-feedback">
