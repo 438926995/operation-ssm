@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="${basePath}/stylelib/adminlte/css/AdminLTE.min.css">
     <#-- AdminLTE Skins. -->
     <link rel="stylesheet" href="${basePath}/stylelib/adminlte/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="${basePath}/stylelib/bootstrap/css/bootstrap-select.min.css">
 </head>
 <body class="hold-transition skin-blue layout-boxed sidebar-mini">
 <!-- Site wrapper -->
@@ -115,6 +116,8 @@
     <script src="${basePath}/stylelib/adminlte/plugins/fastclick/fastclick.min.js"></script>
     <#-- AdminLTE App -->
     <script src="${basePath}/stylelib/adminlte/js/app.min.js"></script>
+    <#-- -->
+    <script src="${basePath}/jslib/bootstrap-select.min.js"></script>
     <script type="text/javascript" >
     	var basePath = "${basePath}/";
     </script>

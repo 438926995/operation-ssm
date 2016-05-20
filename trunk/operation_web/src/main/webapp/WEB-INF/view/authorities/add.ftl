@@ -116,10 +116,10 @@
 			<!-- /.box-body -->
 			
 			<div class="box-footer">
-			<@layout.security.authorize url="authorities/save">
-				<button type="submit" class="btn btn-primary" onclick="return onSubmit();">保存</button>
-			</@layout.security.authorize>
 				<button type="button" class="btn btn-primary" onclick="listAuthorities();">返回</button>
+				<@layout.security.authorize url="authorities/save">
+                    <button type="submit" class="btn btn-primary" onclick="return onSubmit();">保存</button>
+				</@layout.security.authorize>
 			</div>
 			</form>
 		</div>

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.eleme.mapper.ops.loan.LoanAuditMapper">
+
+    <resultMap id="BaseResultMap" type="com.eleme.bean.loan.ApplyLoan">
+        <id column="SL_ID" property="slId" jdbcType="INTEGER" />
+        <result column="FP_ID" property="fpId" jdbcType="INTEGER" />
+        <result column="FP_NAME" property="fpName" jdbcType="VARCHAR" />
+        <result column="LOAN_AMOUNT" property="loanAmount" jdbcType="INTEGER" />
+        <result column="USER_ID" property="userId" jdbcType="INTEGER" />
+        <result column="REAL_NAME" property="realName" jdbcType="VARCHAR" />
+        <result column="SUBMIT_TIME" property="submitTime" jdbcType="TIMESTAMP" />
+        <result column="APP_STATUS" property="appStatus" jdbcType="VARCHAR" />
+        <result column="DOC_NO" property="docNo" jdbcType="VARCHAR" />
+        <result column="APV_USER_ID" property="apvUserId" jdbcType="INTEGER" />
+        <result column="APV_USER_NAME" property="apvUserName" jdbcType="VARCHAR" />
+        <result column="APV_REMARK" property="apvRemark" jdbcType="VARCHAR" />
+        <result column="APV_TIME" property="apvTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <resultMap id="BaseResultMapVo" type="com.eleme.bean.loan.ApplyLoanVo" extends="BaseResultMap">
+        <result column="USER_NAME" property="userName" />
+        <result column="MOBILE_PHONE" property="mobilePhone" />
+        <result column="USER_AGE" property="userAge" />
+        <result column="USER_ADDR" property="userAddr" />
+        <result column="USER_SEX" property="userSex" />
+        <result column="USER_SID" property="userSid" />
+        <result column="MIN_RAIT_RATIO" property="minRaitRaito" />
+        <result column="MAX_RAIT_RATIO" property="maxRaitRaito" />
+        <result column="MIN_LOAN_AMOUNT" property="minLoanAmount" />
+        <result column="MAX_LOAN_AMOUNT" property="maxLoanAmount" />
+        <result column="PAY_LIMIT" property="payLimit" />
+    </resultMap>
+
+    <select id="selectLoanAudit" resultType="com.eleme.bean.loan.LoanAudit">
+        SELECT
+        DATE(SUBMIT_TIME) AS submitTime,
+        IFNULL(count, 0) AS sumCount
+        FROM
+        (SELECT DATE(SUBMIT_TIME) as stime, count(*) as count
+        FROM T_APPLY_LOAN
+        WHERE DOC_STATUS = 0
+        <if test="appStatus">
+            and APP_STATUS = #{appStatus}
+        </if>
+        GROUP BY DATE(SUBMIT_TIME) ) intable
+        RIGHT JOIN T_APPLY_LOAN ON intable.stime = DATE(SUBMIT_TIME)
+        <if test="submitTimeEnd != null">
+            <![CDATA[ and date(SUBMIT_TIME) <= date(#{submitTimeEnd}) ]]>
+        </if>
+        <if test=" submitTimeFrom != null ">
+            <![CDATA[ and date(SUBMIT_TIME) >= date(#{submitTimeFrom}) ]]>
+        </if>
+        <if test="fpId != null">
+            AND FP_ID = #{fpId}
+        </if>
+        ORDER BY DATE(SUBMIT_TIME) DESC
+    </select>
+
+    <select id="selectApplyLoan" resultMap="BaseResultMap">
+        SELECT t.*, mu.REAL_NAME, fp.FP_NAME
+        FROM T_APPLY_LOAN t LEFT JOIN M_MART_USERS mu
+        ON t.USER_ID = mu.USER_ID
+        LEFT JOIN M_FINANCE_PRODUCT fp
+        ON t.FP_ID = fp.FP_ID
+        WHERE DOC_STATUS = 0
+        <if test="submitTimeEnd != null">
+            <![CDATA[ and date(SUBMIT_TIME) <= date(#{submitTimeEnd}) ]]>
+        </if>
+        <if test=" submitTimeFrom != null ">
+            <![CDATA[ and date(SUBMIT_TIME) >= date(#{submitTimeFrom}) ]]>
+        </if>
+        <if test="fpId != null">
+            AND t.FP_ID = #{fpId}
+        </if>
+        <if test="appStatus != null and appStatus != '' ">
+            AND APP_STATUS = #{appStatus}
+        </if>
+        ORDER BY SUBMIT_TIME DESC 
+        limit #{startRecord}, #{pageSize}
+    </select>
+
+    <select id="selectApplyLoanTotal" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM T_APPLY_LOAN
+        WHERE DOC_STATUS = 0
+        <if test="submitTimeEnd != null">
+            <![CDATA[ and date(SUBMIT_TIME) <= date(#{submitTimeEnd}) ]]>
+        </if>
+        <if test=" submitTimeFrom != null ">
+            <![CDATA[ and date(SUBMIT_TIME) >= date(#{submitTimeFrom}) ]]>
+        </if>
+        <if test="fpId != null">
+            AND FP_ID = #{fpId}
+        </if>
+        <if test="appStatus != null and appStatus != '' ">
+            AND APP_STATUS = #{appStatus}
+        </if>
+    </select>
+
+    <select id="selectApplyLoanBySlId" resultMap="BaseResultMapVo">
+        SELECT al.*, mu.USER_NAME, mu.REAL_NAME, mu.MOBILE_PHONE,
+        mu.USER_AGE, mu.USER_ADDR, mu.USER_SEX, mu.USER_SID,
+        fp.FP_NAME, fp.MIN_RAIT_RATIO, fp.MAX_RAIT_RATIO,
+        fp.MAX_LOAN_AMOUNT, fp.MIN_LOAN_AMOUNT, fp.PAY_LIMIT,
+        u.USER_NAME AS APV_USER_NAME
+        FROM T_APPLY_LOAN al LEFT JOIN M_MART_USERS mu
+        ON al.USER_ID = mu.USER_ID
+        LEFT JOIN M_FINANCE_PRODUCT fp
+        ON al.FP_ID = fp.FP_ID
+        LEFT JOIN M_USERS u
+        ON al.APV_USER_ID = u.USER_ID
+        WHERE al.SL_ID = #{slId}
+    </select>
+
+    <update id="updateApplyLoanToApv">
+        UPDATE T_APPLY_LOAN
+        SET APV_USER_ID = #{apvUserId},
+        APV_REMARK = #{remark},
+        APV_TIME = now(),
+        APP_STATUS = #{appStatus}
+        WHERE SL_ID = #{slId}
+    </update>
+
+    <update id="updateApplyLoanToDel">
+        UPDATE T_APPLY_LOAN
+        SET DOC_STATUS = 1
+        WHERE SL_ID = #{slId}
+    </update>
+</mapper>

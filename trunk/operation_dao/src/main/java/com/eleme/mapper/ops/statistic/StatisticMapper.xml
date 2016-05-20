@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.eleme.mapper.ops.statistic.StatisticMapper">
+    <resultMap id="FeedbackResultMap" type="com.eleme.bean.feedback.UserFeedback">
+        <result column="USER_ID" property="userId" jdbcType="INTEGER"/>
+        <result column="USER_NAME" property="userName" jdbcType="VARCHAR"/>
+        <result column="FEEDBACK_TIME" property="feedbackTime" jdbcType="TIMESTAMP"/>
+        <result column="FEEDBACK_CONTENT" property="feedbackContent" jdbcType="VARCHAR"/>
+        <result column="REPLY_TIME" property="replyTime" jdbcType="TIMESTAMP"/>
+        <result column="REPLY_CONTENT" property="replyContent" jdbcType="VARCHAR"/>
+        <result column="IS_REPLY" property="isReply" jdbcType="INTEGER"/>
+        <result column="REPLY_USER_ID" property="replyUserId" jdbcType="INTEGER"/>
+        <result column="REPLY_USER_NAME" property="replyUserName" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="selectUserFeedbakList" resultMap="FeedbackResultMap">
+        SELECT t1.*, t2.USER_NAME AS REPLY_USER_NAME
+        FROM T_USER_FEEDBACK t1
+        LEFT JOIN M_USERS t2 on t1.REPLY_USER_ID = t2.USER_ID
+        ORDER BY t1.FEEDBACK_TIME DESC
+        limit #{startRecord}, #{pageSize}
+    </select>
+
+    <select id="selectUserFeedbackListCount" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM T_USER_FEEDBACK t1
+        LEFT JOIN M_USERS t2 on t1.REPLY_USER_ID = t2.USER_ID
+        ORDER BY t1.FEEDBACK_TIME DESC
+    </select>
+
+    <update id="updateUserFeedbackToReply">
+        UPDATE T_USER_FEEDBACK
+        SET REPLY_USER_ID = #{replyUserId},
+        REPLY_TIME = #{replyTime},
+        REPLY_CONTENT = #{replyContent},
+        IS_REPLY = 1
+        where ID = #{id}
+    </update>
+</mapper>

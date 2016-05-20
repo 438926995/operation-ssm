@@ -72,7 +72,8 @@ public class UserController extends BaseController {
    */
   @RequestMapping(value = "/list", method = RequestMethod.GET)
   @UserMenu
-  public ModelAndView list(HttpServletRequest request, UserQueryBean uqb, Integer currentPage)
+  public ModelAndView list(HttpServletRequest request, HttpServletResponse response, 
+      UserQueryBean uqb, Integer currentPage)
       throws Exception {
     // 记录日志
     SessionBean session = getSessionBean(request);

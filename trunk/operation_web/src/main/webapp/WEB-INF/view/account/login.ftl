@@ -14,14 +14,10 @@
     <link rel="icon" href="${bathPath}/favicon.ico">
     -->
     <base id="basePath" href="${basePath}">
-    <title>用户管理系统</title>
+    <title>贷款管理系统</title>
     <#-- Bootstrap -->
     <link rel="stylesheet" href="${basePath}/stylelib/bootstrap/css/bootstrap.min.css">
-	<#-- Font Awesome -->
-    <link rel="stylesheet" href="${basePath}/stylelib/fontawesome/css/font-awesome.min.css">
-    <#-- Ionicons -->
-    <link rel="stylesheet" href="${basePath}/stylelib/ionicons/css/ionicons.min.css">
-    <#-- Theme style -->
+
     <link rel="stylesheet" href="${basePath}/stylelib/adminlte/css/AdminLTE.min.css">
     <#-- 表单美化插件 -->
     <link rel="stylesheet" href="${basePath}/stylelib/adminlte/plugins/iCheck/square/blue.css">
@@ -36,7 +32,7 @@
 
 	<div class="login-box">
       <div class="login-box-body">
-        <p class="login-box-msg">用户管理系统</p>
+        <p class="login-box-msg">贷款管理系统</p>
         <font color='red' id="login_error">${loginError!""}</font>
         <form id="loginForm" action="${basePath}/login" method="post" data-parsley-validate="">
           <div class="form-group has-feedback">

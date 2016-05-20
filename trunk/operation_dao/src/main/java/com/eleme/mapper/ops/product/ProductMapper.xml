@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.eleme.mapper.ops.product.ProductMapper">
+	<resultMap type="com.eleme.bean.product.MFinanceProduct" id="BaseResultMap">
+		<id column="FP_ID" property="fpId" />
+		<result column="FP_NAME" property="fpName" />
+		<result column="MIN_LOAN_AMOUNT" property="minLoanAmount" />
+		<result column="MAX_LOAN_AMOUNT" property="maxLoanAmount" />
+		<result column="PAY_LIMIT" property="payLimit" />
+		<result column="MIN_RAIT_RATIO" property="minRaitRatio" />
+		<result column="MAX_RAIT_RATIO" property="maxRaitRatio" />
+		<result column="PRODUCT_STATUS" property="productStatus" />
+		<result column="IMAGE_URL" property="imageUrl" />
+		<result column="OTHER_DESC" property="otherDesc" />
+	</resultMap>
+
+    <resultMap id="RuleResultMap" type="com.eleme.bean.product.ProductRuleDetail">
+        <id column="PR_ID" property="prId" jdbcType="INTEGER" />
+        <result column="FP_ID" property="fpId" jdbcType="INTEGER" />
+        <result column="RULE_NAME" property="ruleName" jdbcType="VARCHAR" />
+        <result column="RULE_CONTENT" property="ruleContent" jdbcType="VARCHAR" />
+        <result column="RULE_TYPE" property="ruleType" jdbcType="INTEGER" />
+    </resultMap>
+
+	<select id="selectProductList" resultMap="BaseResultMap">
+		select *
+		from M_FINANCE_PRODUCT
+		where PRODUCT_STATUS in (0,1,2)
+		<if test="fpName != null and fpName != '' ">
+			and FP_NAME like '%${fpName}%'
+		</if>
+		<if test="productStatus != null">
+			and PRODUCT_STATUS = #{productStatus}
+		</if>
+		limit #{offset}, #{limit}
+	</select>
+	
+	<select id="selectProductCount" resultType="java.lang.Integer">
+		select count(*)
+		from M_FINANCE_PRODUCT
+        where PRODUCT_STATUS in (0,1,2)
+        <if test="fpName != null">
+            and FP_NAME like '%${fpName}%'
+        </if>
+        <if test="productStatus != null">
+            and PRODUCT_STATUS = #{productStatus}
+        </if>
+	</select>
+	
+	<select id="selectProductInfoByFpId" resultMap="BaseResultMap">
+		select *
+		from M_FINANCE_PRODUCT
+		where FP_ID = #{fpId}
+	</select>
+	
+	<update id="updateProductToDelete">
+		update M_FINANCE_PRODUCT
+		set PRODUCT_STATUS = 3
+		where FP_ID = #{fpId}
+	</update>
+	
+	<update id="updateProduct">
+		update M_FINANCE_PRODUCT
+		<set>
+			<if test="fpName != null">
+				FP_NAME = #{fpName},
+			</if>
+			<if test="minLoanAmount != null">
+				MIN_LOAN_AMOUNT = #{minLoanAmount},
+			</if>
+			<if test="maxLoanAmount != null">
+				MAX_LOAN_AMOUNT = #{maxLoanAmount},
+			</if>
+			<if test="payLimit != null">
+				PAY_LIMIT = #{payLimit},
+			</if>
+			<if test="minRaitRatio != null">
+				MIN_RAIT_RATIO = #{minRaitRatio},
+			</if>
+			<if test="maxRaitRatio != null">
+				MAX_RAIT_RATIO = #{maxRaitRatio},
+			</if>
+			<if test="productStatus != null">
+				PRODUCT_STATUS = #{productStatus},
+			</if>
+			<if test="imageUrl != null">
+				IMAGE_URL = #{imageUrl},
+			</if>
+			<if test="otherDesc != null">
+				OTHER_DESC = #{otherDesc},
+			</if>
+		</set>
+		where FP_ID = #{fpId}
+	</update>
+
+	<insert id="insertProduct">
+		INSERT INTO M_FINANCE_PRODUCT(FP_NAME, MIN_LOAN_AMOUNT, MAX_LOAN_AMOUNT, PAY_LIMIT,
+		 MIN_RAIT_RATIO, MAX_RAIT_RATIO, PRODUCT_STATUS, IMAGE_URL, OTHER_DESC)
+		 VALUES (#{fpName}, #{minLoanAmount}, #{maxLoanAmount}, #{payLimit}, #{minRaitRatio},
+		  #{maxRaitRatio}, #{productStatus}, #{imageUrl}, #{otherDesc})
+	</insert>
+
+    <select id="selectProductRuleDetailByFpId" resultMap="RuleResultMap">
+        SELECT PR_ID, RULE_NAME, RULE_CONTENT, RULE_TYPE
+        FROM M_PRODUCT_RULE_DETAIL
+        WHERE FP_ID = #{fpId} AND DEL_FLAG = 1
+    </select>
+
+    <insert id="insertProductRule">
+        INSERT INTO M_PRODUCT_RULE_DETAIL(FP_ID, RULE_NAME, RULE_CONTENT, RULE_TYPE)
+        VALUES (#{fpId}, #{ruleName}, #{ruleContent}, #{ruleType})
+    </insert>
+
+    <update id="updateProductRule">
+        UPDATE M_PRODUCT_RULE_DETAIL
+        <set>
+            <if test="ruleName != null">
+                RULE_NAME = #{ruleName},
+            </if>
+            <if test="ruleContent != null">
+                RULE_CONTENT = #{ruleContent},
+            </if>
+        </set>
+        WHERE PR_ID = #{prId}
+    </update>
+
+    <update id="deleteProductRuleById">
+        UPDATE M_PRODUCT_RULE_DETAIL
+        set DEL_FLAG = 0
+        WHERE PR_ID = #{id}
+    </update>
+
+    <select id="selectProductRuleByPrId" resultMap="RuleResultMap">
+        SELECT PR_ID, FP_ID, RULE_NAME, RULE_CONTENT, RULE_TYPE
+        FROM M_PRODUCT_RULE_DETAIL
+        WHERE PR_ID = #{prId}
+    </select>
+
+	<select id="selectAllProductList" resultMap="BaseResultMap">
+		SELECT FP_ID, FP_NAME
+		FROM M_FINANCE_PRODUCT
+		WHERE PRODUCT_STATUS in (0,1,2)
+	</select>
+</mapper>
