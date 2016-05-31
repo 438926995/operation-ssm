@@ -23,10 +23,10 @@
 		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
 			<level>INFO</level>
 		</filter>
-		<file>/Users/sunwei/WorkSpace/HttpServer/apache-tomcat-8.0.29/logs/scfOperation/${APP_ID}/access.log
+		<file>/Users/huwenwen/WorkSpace/HttpServer/apache-tomcat-8.0.29/logs/scfOperation/${APP_ID}/access.log
 		</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>/Users/sunwei/WorkSpace/HttpServer/apache-tomcat-8.0.29/logs/scfOperation/${APP_ID}/access.%d{yyyy-MM-dd}.log.gz
+			<fileNamePattern>/Users/huwenwen/WorkSpace/HttpServer/apache-tomcat-8.0.29/logs/scfOperation/${APP_ID}/access.%d{yyyy-MM-dd}.log.gz
 			</fileNamePattern>
 			<maxHistory>7</maxHistory>
 		</rollingPolicy>

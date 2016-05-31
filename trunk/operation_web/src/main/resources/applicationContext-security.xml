@@ -21,7 +21,7 @@
 	<!-- logout跳转后的界面，经过过滤器时，退出会到sessionclosed页面 ？ -->
 	<http pattern="/" security="none" />
 	<http pattern="/account/login" security="none" />
-	<!-- -->
+
 	<http pattern="/account/sessionclosed" security="none" />
 	<http pattern="/account/accessdenied" security="none" />
 	<http pattern="/account/notfound" security="none" />
@@ -72,6 +72,7 @@
 		</session-management>
 
 		<custom-filter ref="logoutFilter" position="LOGOUT_FILTER" />
+		<!--<custom-filter ref="csrfFilter" position="CSRF_FILTER"/>-->
 		<custom-filter ref="rememberMeFilter" position="REMEMBER_ME_FILTER" />
 		<custom-filter ref="loginFilter" position="FORM_LOGIN_FILTER" />
 		<custom-filter ref="securityFilter" before="FILTER_SECURITY_INTERCEPTOR" />
@@ -82,6 +83,11 @@
 		class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
 		<beans:constructor-arg index="0" value="/" />
 	</beans:bean>
+
+	<!-- csrf -->
+	<!--<beans:bean id="csrfFilter" class="org.springframework.security.web.csrf.CsrfFilter">-->
+		<!--<beans:constructor-arg ref="csrfTokenRepository"/>-->
+	<!--</beans:bean>-->
 
 	<authentication-manager alias="customAuthenticationManager"
 		erase-credentials="false">

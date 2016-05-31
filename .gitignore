@@ -1,1 +1,6 @@
 .classpath
+.iml
+.idea/**
+**/*.rebel.xml
+**/.project
+.gitignore
