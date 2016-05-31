@@ -12,7 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * 通用工具类.
  * 
- * @author penglau
+ * @author huwenwen
  *
  */
 public class CommonUtil {

@@ -115,7 +115,7 @@ public class MenuTree implements Serializable {
   /**
    * 菜单节点
    * 
-   * @author zhangqiongbiao
+   * @author huwenwen
    */
   public class MenuNode implements Serializable {
     private static final long serialVersionUID = -959374682329150971L;

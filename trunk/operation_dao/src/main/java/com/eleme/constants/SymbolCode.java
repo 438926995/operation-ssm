@@ -2,7 +2,7 @@ package com.eleme.constants;
 
 /**
  * 产品规则常量
- * @author a
+ * @author huwenwen
  *
  */
 public enum SymbolCode {

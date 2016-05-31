@@ -17,7 +17,7 @@ import com.eleme.util.MapUtil;
 /**
  * 通用参数封装类,封装分页参数、页码数据，封装使用sql查询出来以Map<String,Object>为对象的集合.
  * 
- * @author penglau
+ * @author huwenwen
  *
  */
 public class PackagingParamsCondition {

@@ -3,7 +3,7 @@ package com.eleme.constants;
 /**
  * 分页常量类.
  * 
- * @author penglau
+ * @author huwenwen
  *
  */
 public class PagerConstants {

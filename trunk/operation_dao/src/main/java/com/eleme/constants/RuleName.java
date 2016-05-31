@@ -2,7 +2,7 @@ package com.eleme.constants;
 
 /**
  * 产品规则常量
- * @author yonglin.zhu
+ * @author huwenwen
  *
  */
 public enum RuleName {

@@ -7,7 +7,7 @@ import ch.qos.logback.core.spi.FilterReply;
 /**
  * 日志过滤器，定义如果是ControllerInterceptor拦截器类，则不记录日志.
  * 
- * @author penglau
+ * @author huwenwen
  */
 public class ControllerFilter extends Filter<ILoggingEvent> {
   @Override

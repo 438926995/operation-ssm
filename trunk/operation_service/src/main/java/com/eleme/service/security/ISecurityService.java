@@ -13,7 +13,7 @@ import com.eleme.bean.security.RolesBean;
 /**
  * 权限相关业务接口.
  * 
- * @author penglau
+ * @author huwenwen
  *
  */
 public interface ISecurityService {

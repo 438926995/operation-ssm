@@ -28,7 +28,7 @@ import me.ele.elog.LogFactory;
 /**
  * 用户帐号相关方法控制器。
  * 
- * @author penglau
+ * @author huwenwen
  *
  */
 @Controller

@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * session信息封装类.
  * 
- * @author penglau
+ * @author huwenwen
  *
  */
 public class SessionBean implements Serializable {

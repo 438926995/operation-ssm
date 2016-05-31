@@ -5,7 +5,7 @@ import java.util.Map;
 /**
  * map 相关工具类.
  * 
- * @author penglau
+ * @author huwenwen
  *
  */
 public class MapUtil {

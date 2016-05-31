@@ -18,7 +18,7 @@ import java.util.*;
 /**
  * 安全元数据源.
  *
- * @author penglau
+ * @author huwenwen
  */
 public class CustomSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
   /**

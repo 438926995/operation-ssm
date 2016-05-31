@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * 用户登录信息封装类.
  * 
- * @author penglau
+ * @author huwenwen
  *
  */
 public class LoginBean implements Serializable {

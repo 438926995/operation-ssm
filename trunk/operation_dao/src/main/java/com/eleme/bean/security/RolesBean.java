@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * 角色信息封装类.
  * 
- * @author penglau
+ * @author huwenwen
  *
  */
 public class RolesBean implements Serializable {

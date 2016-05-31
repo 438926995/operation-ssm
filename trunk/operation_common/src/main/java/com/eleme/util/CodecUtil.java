@@ -14,7 +14,7 @@ import me.ele.elog.LogFactory;
 /**
  * Codec utils
  * 
- * @author penglau
+ * @author huwenwen
  */
 public class CodecUtil {
 

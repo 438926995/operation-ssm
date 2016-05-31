@@ -29,7 +29,7 @@ import me.ele.elog.LogFactory;
 /**
  * HttpClient工具类
  * 
- * @author penglau
+ * @author huwenwen
  *
  */
 public class HttpClientUtils {

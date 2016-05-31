@@ -23,7 +23,7 @@ import me.ele.elog.LogFactory;
 /**
  * 用户菜单拦截器，用于获取用户对应菜单信息.
  * 
- * @author zhangqiongbiao
+ * @author huwenwen
  */
 public class UserMenuInterceptor extends HandlerInterceptorAdapter {
 

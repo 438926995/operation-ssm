@@ -12,7 +12,7 @@ import com.fasterxml.jackson.databind.type.TypeFactory;
 /**
  * JackSon 工具类.
  * 
- * @author penglau
+ * @author huwenwen
  * @param <T>
  *
  */

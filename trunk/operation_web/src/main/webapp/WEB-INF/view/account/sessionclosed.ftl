@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <#--
     <meta name="description" content="供应链金融系统">
-    <meta name="author" content="penglau">
+    <meta name="author" content="huwenwen">
     <link rel="icon" href="${bathPath}/favicon.ico">
     -->
     <base id="basePath" href="${basePath}">

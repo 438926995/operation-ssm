@@ -11,7 +11,7 @@ import me.ele.elog.LogFactory;
 /**
  * 常量类初始化及获取工具类.
  * 
- * @author penglau
+ * @author huwenwen
  *
  */
 public class ConfigurableConstants {

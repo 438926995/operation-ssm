@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * 权限控制dao接口。
  * 
- * @author penglau
+ * @author huwenwen
  *
  */
 public interface IUserSecurityDao {

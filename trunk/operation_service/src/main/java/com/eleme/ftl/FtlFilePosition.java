@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * ftl文件定位类.
  * 
- * @author penglau
+ * @author huwenwen
  */
 @SuppressWarnings("serial")
 public class FtlFilePosition implements Serializable {

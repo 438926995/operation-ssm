@@ -3,7 +3,7 @@ package com.eleme.constants;
 /**
  * 字符常量接口
  * 
- * @author yonglin.zhu
+ * @author huwenwen
  *
  */
 public interface StringConstants {

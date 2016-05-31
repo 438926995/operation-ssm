@@ -23,7 +23,7 @@ import me.ele.elog.LogFactory;
 /**
  * Controller拦截器，记录执行耗时.
  * 
- * @author penglau
+ * @author huwenwen
  *
  */
 public class ControllerInterceptor extends HandlerInterceptorAdapter {

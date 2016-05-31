@@ -3,7 +3,7 @@ package com.eleme.constants;
 /**
  * 商户借贷审核状态常量
  * 
- * @author yonglin.zhu
+ * @author huwenwen
  *
  */
 public enum LoanStatus {

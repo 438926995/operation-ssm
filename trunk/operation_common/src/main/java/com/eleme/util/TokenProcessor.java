@@ -9,7 +9,7 @@ import javax.servlet.http.HttpSession;
 /**
  * Token处理器，暂只负责生成token.
  * 
- * @author penglau
+ * @author huwenwen
  *
  */
 public class TokenProcessor {

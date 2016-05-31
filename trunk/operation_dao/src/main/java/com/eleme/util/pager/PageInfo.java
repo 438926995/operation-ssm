@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * 页面分页条数据封装类.
  * 
- * @author penglau
+ * @author huwenwen
  *
  */
 public class PageInfo {
@@ -58,7 +58,7 @@ public class PageInfo {
    * @return list
    */
   public static List<PageInfo> packagingPageParams(Integer currentPage, Integer sumPage) {
-    List<PageInfo> pageList = new ArrayList<PageInfo>();
+    List<PageInfo> pageList = new ArrayList<>();
     if (sumPage != null && currentPage != null) {
       Integer[] numArray = getShowPageArray(sumPage, currentPage);
       Integer firstPage = numArray[0];

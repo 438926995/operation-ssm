@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * 定义一个简单的数据库查询，用于监控系统是否可用 如果查询正常，返回alive；如果查询失败，返回error.
  * 
- * @author penglau
+ * @author huwenwen
  */
 public class SystemHealthyServlet extends HttpServlet implements Servlet {
   private static final long serialVersionUID = 1L;

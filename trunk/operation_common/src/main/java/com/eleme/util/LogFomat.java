@@ -7,7 +7,7 @@ import org.springframework.web.method.HandlerMethod;
 /**
  * 日志格式化工具类.
  * 
- * @author penglau
+ * @author huwenwen
  *
  */
 public class LogFomat {

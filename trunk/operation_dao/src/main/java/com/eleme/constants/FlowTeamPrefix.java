@@ -3,7 +3,7 @@ package com.eleme.constants;
 /**
  * 查找审批小组的前缀标识
  * 
- * @author penglau
+ * @author huwenwen
  *
  */
 public enum FlowTeamPrefix {

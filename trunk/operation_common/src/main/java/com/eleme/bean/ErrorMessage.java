@@ -3,8 +3,6 @@ package com.eleme.bean;
 /**
  * 异常消息封装类.
  * 
- * @author penglau
- *
  */
 public class ErrorMessage {
 

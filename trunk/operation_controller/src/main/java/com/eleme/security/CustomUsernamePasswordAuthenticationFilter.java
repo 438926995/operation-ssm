@@ -25,7 +25,7 @@ import me.ele.elog.LogFactory;
 /**
  * 用户名密码身份验证过滤器.
  * 
- * @author penglau
+ * @author huwenwen
  *
  */
 public class CustomUsernamePasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {

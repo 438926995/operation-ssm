@@ -20,7 +20,7 @@ import com.eleme.bean.ErrorMessage;
 /**
  * spring bean 验证工具类
  * 
- * @author penglau
+ * @author huwenwen
  *
  */
 public class BeanValidateUtil {

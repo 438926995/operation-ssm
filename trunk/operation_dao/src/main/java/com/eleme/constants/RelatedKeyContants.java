@@ -3,7 +3,7 @@ package com.eleme.constants;
 /**
  * 系统参数key 参数列表
  * 
- * @author sunwei
+ * @author huwenwen
  * @since 2015年12月28日
  */
 public class RelatedKeyContants {

@@ -3,7 +3,7 @@ package com.eleme.ftl.other;
 /**
  * 非ajax，email ftl文件定位类.
  * 
- * @author penglau
+ * @author huwenwen
  *
  */
 public class OtherFtlPosition {

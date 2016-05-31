@@ -19,7 +19,7 @@ import me.ele.elog.LogFactory;
 /**
  * 自定义spring全局异常处理.
  * 
- * @author penglau
+ * @author huwenwen
  *
  */
 public class CustomSimpleMappingExceptionResolver extends SimpleMappingExceptionResolver {

@@ -10,7 +10,7 @@ import me.ele.elog.LogFactory;
 /**
  * JSON消息封装.
  * 
- * @author penglau
+ * @author huwenwen
  *
  */
 public class JSONMessage implements Serializable {

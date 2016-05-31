@@ -22,7 +22,7 @@ public class StringUtil {
   /**
    * 数组合并 字符串
    * 
-   * @author sunwei
+   * @author huwenwen
    * @since 2015年12月29日
    * @param orgArr 原始字符数组
    * @param contactStr 连接字符串

@@ -18,7 +18,7 @@ import me.ele.elog.LogFactory;
 /**
  * IUserLoginDao 实现类
  * 
- * @author penglau
+ * @author huwenwen
  *
  */
 @Service

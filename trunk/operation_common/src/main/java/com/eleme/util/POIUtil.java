@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * POI类库的工具类
  *
- * @author sunway
+ * @author huwenwen
  */
 public class POIUtil {
 
@@ -52,7 +52,7 @@ public class POIUtil {
    *
    * @param cell
    * @return
-   * @author sunwei
+   * @author huwenwen
    * @since 2015年12月21日
    */
   public static final String getStringCellValue(XSSFCell cell) {
@@ -306,7 +306,7 @@ public class POIUtil {
   /**
    * POI cell辅助内部类
    *
-   * @author sunwei
+   * @author huwenwen
    */
   public static class POICellBean {
 

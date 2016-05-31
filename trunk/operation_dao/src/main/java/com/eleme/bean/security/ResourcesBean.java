@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * 资源信息封装类.
  * 
- * @author penglau
+ * @author huwenwen
  *
  */
 public class ResourcesBean implements Serializable {

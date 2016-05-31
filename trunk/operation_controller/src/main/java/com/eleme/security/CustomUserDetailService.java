@@ -11,7 +11,7 @@ import com.eleme.service.security.ISecurityService;
 /**
  * 用户登录验证业务逻辑实现类.
  * 
- * @author penglau
+ * @author huwenwen
  *
  */
 public class CustomUserDetailService implements UserDetailsService {

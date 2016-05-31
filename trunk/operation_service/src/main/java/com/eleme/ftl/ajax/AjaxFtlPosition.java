@@ -5,7 +5,7 @@ import com.eleme.ftl.email.EmailFtlPosition;
 /**
  * ajax ftl 文件定位类.
  * 
- * @author penglau
+ * @author huwenwen
  *
  */
 public class AjaxFtlPosition {

@@ -104,11 +104,11 @@ public class StatisticController extends BaseController {
    * @return
    * @throws Exception
    */
-  @RequestMapping(value = "getUserFeedbackData", method = RequestMethod.GET)
+  @RequestMapping(value = "/getUserFeedbackData", method = RequestMethod.GET)
   @UserMenu
   public ModelAndView getUserFeedbackData(HttpServletRequest request, FeedbackQueryBean fqb)
       throws Exception {
-    ModelAndView mav = new ModelAndView("feedback");
+    ModelAndView mav = new ModelAndView("statistic/feedback");
     TbData tbData = statisticService.getFeedbackInfo(fqb);
     tbData = tbData.fillTbData("statistic/feedback", fqb, null);
     mav.addObject("tbData", tbData);

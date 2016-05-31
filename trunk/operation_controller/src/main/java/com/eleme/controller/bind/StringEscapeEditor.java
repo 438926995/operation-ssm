@@ -9,7 +9,7 @@ import org.springframework.web.util.JavaScriptUtils;
 /**
  * 请求参数转义工具.
  * 
- * @author penglau
+ * @author huwenwen
  *
  */
 public class StringEscapeEditor extends PropertyEditorSupport {

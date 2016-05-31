@@ -11,7 +11,7 @@ import me.ele.elog.LogFactory;
 /**
  * 对象转换成sessionbean工具类.
  * 
- * @author penglau
+ * @author huwenwen
  *
  */
 public class HttpSessionUtil {

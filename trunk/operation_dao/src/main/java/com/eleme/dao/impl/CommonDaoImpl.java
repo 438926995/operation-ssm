@@ -32,7 +32,7 @@ import com.eleme.util.pager.PackagingParamsCondition;
 /**
  * ICommonDao接口实现类
  * 
- * @author penglau
+ * @author huwenwen
  *
  */
 @Service

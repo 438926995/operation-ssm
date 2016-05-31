@@ -21,7 +21,7 @@ import me.ele.elog.LogFactory;
 /**
  * 用户登录成功后相关处理类.
  * 
- * @author penglau
+ * @author huwenwen
  *
  */
 public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {

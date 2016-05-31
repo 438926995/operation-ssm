@@ -3,7 +3,7 @@ package com.eleme.constants;
 /**
  * 邮件发送状态
  * 
- * @author sunwei
+ * @author huwenwen
  * @since 2015年12月25日
  */
 public enum MailSendStatus {

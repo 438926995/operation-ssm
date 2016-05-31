@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 /**
  * 自定义防止表单重复提交的注解。新建表单页面，设置needSaveToken=true； 保存方法，设置needRemoveToken=true。
  * 
- * @author penglau
+ * @author huwenwen
  *
  */
 @Target(METHOD)

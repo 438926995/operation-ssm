@@ -20,7 +20,7 @@ import me.ele.elog.LogFactory;
 /**
  * 业务逻辑基础类.
  * 
- * @author penglau
+ * @author huwenwen
  *
  */
 @Service

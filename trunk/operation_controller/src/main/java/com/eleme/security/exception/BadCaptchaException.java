@@ -5,7 +5,7 @@ import org.springframework.security.core.AuthenticationException;
 /**
  * 自定义图形验证码异常。
  * 
- * @author penglau
+ * @author huwenwen
  *
  */
 public class BadCaptchaException extends AuthenticationException {

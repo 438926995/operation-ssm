@@ -7,7 +7,7 @@ import java.util.Map;
 /**
  * 公用分页封装类.
  * 
- * @author penglau
+ * @author huwenwen
  *
  */
 public class TbData {

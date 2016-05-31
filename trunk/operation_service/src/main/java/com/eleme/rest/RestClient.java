@@ -29,7 +29,7 @@ import me.ele.elog.LogFactory;
 /**
  * 使用spring的restTemplate替代httpclient工具.
  * 
- * @author penglau
+ * @author huwenwen
  *
  */
 public class RestClient {

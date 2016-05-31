@@ -1,7 +1,7 @@
 package com.eleme.constants;
 
 /**
- * Created by sunwei on 16/1/26.
+ * Created by huwenwen on 16/1/26.
  */
 public enum ExportExcelTplType {
 

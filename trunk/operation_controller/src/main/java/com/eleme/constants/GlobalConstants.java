@@ -3,7 +3,7 @@ package com.eleme.constants;
 /**
  * 全局常量类.
  * 
- * @author penglau
+ * @author huwenwen
  *
  */
 public class GlobalConstants extends ConfigurableConstants {

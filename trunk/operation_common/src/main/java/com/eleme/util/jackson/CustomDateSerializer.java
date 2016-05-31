@@ -12,7 +12,7 @@ import org.codehaus.jackson.map.SerializerProvider;
 /**
  * java日期对象经过Jackson库转换成JSON日期格式化自定义类
  * 
- * @author sunwei
+ * @author huwenwen
  * @since 2015年12月27日
  */
 public class CustomDateSerializer extends JsonSerializer<Date> {

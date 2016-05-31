@@ -3,7 +3,7 @@ package com.eleme.ftl.email;
 /**
  * email ftl 文件定位类.
  * 
- * @author penglau
+ * @author huwenwen
  *
  */
 public class EmailFtlPosition {

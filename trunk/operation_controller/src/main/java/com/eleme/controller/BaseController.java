@@ -25,7 +25,7 @@ import me.ele.elog.LogFactory;
 /**
  * 控制器基础类
  * 
- * @author penglau
+ * @author huwenwen
  *
  */
 public abstract class BaseController extends MultiActionController {

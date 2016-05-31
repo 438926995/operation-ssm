@@ -22,7 +22,7 @@ import freemarker.template.Version;
 /**
  * Spring 与Freemarker结合工具类.
  * 
- * @author penglau
+ * @author huwenwen
  *
  */
 public class FreemarkerUtils {

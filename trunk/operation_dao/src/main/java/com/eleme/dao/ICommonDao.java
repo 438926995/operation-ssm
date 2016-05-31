@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * commonDao接口.
  * 
- * @author penglau
+ * @author huwenwen
  *
  */
 public interface ICommonDao {

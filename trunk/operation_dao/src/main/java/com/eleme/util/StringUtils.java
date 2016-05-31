@@ -3,7 +3,7 @@ package com.eleme.util;
 /**
  * 字符处理工具类
  * 
- * @author yonglin.zhu
+ * @author huwenwen
  *
  */
 public class StringUtils {

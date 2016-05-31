@@ -17,7 +17,7 @@ import me.ele.elog.LogFactory;
 /**
  * 访问权限管理器.
  * 
- * @author penglau
+ * @author huwenwen
  *
  */
 public class CustomAccessDecisionManager implements AccessDecisionManager {

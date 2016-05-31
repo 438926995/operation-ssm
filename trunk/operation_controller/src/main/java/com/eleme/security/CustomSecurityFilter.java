@@ -32,7 +32,7 @@ import me.ele.elog.LogFactory;
 /**
  * 安全过滤器.
  * 
- * @author penglau
+ * @author huwenwen
  *
  */
 public class CustomSecurityFilter extends AbstractSecurityInterceptor implements Filter {

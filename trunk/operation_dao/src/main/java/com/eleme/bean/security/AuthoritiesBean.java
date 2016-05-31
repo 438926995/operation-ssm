@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * 用户权限信息封装类.
  * 
- * @author penglau
+ * @author huwenwen
  *
  */
 public class AuthoritiesBean implements Serializable {

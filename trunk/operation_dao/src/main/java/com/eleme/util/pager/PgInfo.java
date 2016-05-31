@@ -3,7 +3,7 @@ package com.eleme.util.pager;
 /**
  * 公用分页 页码数据封装类.
  * 
- * @author penglau
+ * @author huwenwen
  *
  */
 public class PgInfo {

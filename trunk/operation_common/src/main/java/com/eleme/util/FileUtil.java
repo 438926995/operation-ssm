@@ -13,7 +13,7 @@ import me.ele.elog.LogFactory;
 /**
  * 文件相关方法
  * 
- * @author penglau
+ * @author huwenwen
  *
  */
 public class FileUtil {
@@ -79,7 +79,7 @@ public class FileUtil {
   /**
    * 创建文件夹
    * 
-   * @author sunwei
+   * @author huwenwen
    * @since 2016年1月3日
    * @param destDirName
    * @return
@@ -99,7 +99,7 @@ public class FileUtil {
   /**
    * 删除文件
    * 
-   * @author sunwei
+   * @author huwenwen
    * @since 2016年1月3日
    * @param destFileName
    * @return
