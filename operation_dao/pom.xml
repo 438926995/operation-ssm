@@ -4,12 +4,11 @@
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.eleme</groupId>
+		<groupId>com.operation</groupId>
 		<artifactId>operation</artifactId>
 		<version>${operation-version}</version>
 	</parent>
 	<artifactId>operation_dao</artifactId>
-	<name>Supply Chain Finance Operation Dao</name>
 	<packaging>jar</packaging>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -53,7 +52,7 @@
 	</build>
 	<dependencies>
 		<dependency>
-			<groupId>com.eleme</groupId>
+			<groupId>com.operation</groupId>
 			<artifactId>operation_common</artifactId>
 			<version>${operation-version}</version>
 		</dependency>
