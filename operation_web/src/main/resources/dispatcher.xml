@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc 
+		http://www.springframework.org/schema/mvc/spring-mvc-4.1.xsd
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-4.1.xsd">
+
+	<context:property-placeholder location="classpath:variable.properties" />
+	<!-- 仅扫描@Controller注解 -->
+	<context:component-scan base-package="com.wen.controller"
+		use-default-filters="false">
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+
+	<mvc:view-controller path="/" view-name="account/login" />
+	<!-- 静态资源访问 -->
+	<mvc:resources mapping="/main/**" location="/main/" />
+	<mvc:resources mapping="/jslib/**" location="/jslib/" />
+	<!-- <mvc:resources mapping="/jsview/template/**" location="/jsview/template/" 
+		/> -->
+	<mvc:resources mapping="/jsview/**" location="/jsview/" />
+	<mvc:resources mapping="/image/**" location="/image/" />
+	<mvc:resources mapping="/stylelib/**" location="/stylelib/" />
+	<mvc:resources mapping="/styleview/**" location="/styleview/" />
+	<mvc:resources mapping="/uf/**" location="/uf/" /><!-- upload 
+		file resources -->
+	<mvc:resources mapping="/favicon.ico" location="/image/favicon.ico" />
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<mvc:exclude-mapping path="/main/**" />
+			<mvc:exclude-mapping path="/jslib/**" />
+			<mvc:exclude-mapping path="/jsview/**" />
+			<mvc:exclude-mapping path="/image/**" />
+			<mvc:exclude-mapping path="/stylelib/**" />
+			<mvc:exclude-mapping path="/styleview/**" />
+			<mvc:exclude-mapping path="/uf/**" />
+			<mvc:exclude-mapping path="/" />
+			<mvc:exclude-mapping path="/login" />
+			<mvc:exclude-mapping path="/account/login" />
+			<mvc:exclude-mapping path="/account/sessionclosed" />
+			<mvc:exclude-mapping path="/account/accessdenied" />
+			<mvc:exclude-mapping path="/account/errorpage" />
+			<mvc:exclude-mapping path="/account/notfound" />
+			<bean class="com.wen.aop.ControllerInterceptor" />
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<mvc:exclude-mapping path="/main/**" />
+			<mvc:exclude-mapping path="/jslib/**" />
+			<mvc:exclude-mapping path="/jsview/**" />
+			<mvc:exclude-mapping path="/image/**" />
+			<mvc:exclude-mapping path="/stylelib/**" />
+			<mvc:exclude-mapping path="/styleview/**" />
+			<mvc:exclude-mapping path="/uf/**" />
+			<mvc:exclude-mapping path="/" />
+			<mvc:exclude-mapping path="/login" />
+			<mvc:exclude-mapping path="/account/login" />
+			<mvc:exclude-mapping path="/account/sessionclosed" />
+			<mvc:exclude-mapping path="/account/accessdenied" />
+			<mvc:exclude-mapping path="/account/errorpage" />
+			<mvc:exclude-mapping path="/account/notfound" />
+			<bean class="com.wen.aop.UserMenuInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
+
+	<!-- annotation driven -->
+	<mvc:annotation-driven
+		content-negotiation-manager="contentNegotiationManager" validator="validator">
+		<mvc:message-converters>
+			<ref bean="byteArrayHttpMessageConverter" />
+			<ref bean="stringHttpMessageConverter" />
+			<ref bean="mappingJacksonHttpMessageConverter" />
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+
+	<!-- 设置spring mvc校验，以下 validator ConversionService 在使用 mvc:annotation-driven 
+		会 自动注册 -->
+	<bean id="validator"
+		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+		<property name="providerClass" value="org.hibernate.validator.HibernateValidator" />
+		<!-- 如果不加默认到 使用classpath下的 ValidationMessages.properties -->
+		<property name="validationMessageSource" ref="messageSource" />
+	</bean>
+
+
+	<!-- 配置内容协商功能 -->
+	<bean id="contentNegotiationManager"
+		class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+		<property name="favorPathExtension" value="false" />
+		<property name="favorParameter" value="false" />
+		<property name="ignoreAcceptHeader" value="false" />
+		<property name="mediaTypes">
+			<value>
+				atom=application/atom+xml
+				html=text/html
+				json=application/json
+				*=*/*
+			</value>
+		</property>
+	</bean>
+
+	<!-- 配置不同的HttpMessageConverter，对http传入和传出的内容进行格式转换 -->
+	<bean id="byteArrayHttpMessageConverter"
+		class="org.springframework.http.converter.ByteArrayHttpMessageConverter" />
+	<bean id="stringHttpMessageConverter"
+		class="org.springframework.http.converter.StringHttpMessageConverter">
+		<property name="supportedMediaTypes">
+			<list>
+				<value>text/plain;charset=UTF-8</value>
+				<value>text/html;charset=UTF-8</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="mappingJacksonHttpMessageConverter"
+		class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+		<property name="supportedMediaTypes">
+			<list>
+				<value>application/json;charset=UTF-8</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- 文件上传 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
+		p:defaultEncoding="utf-8">
+		<!-- 解析文件时抛异常 -->
+		<property name="resolveLazily" value="true" />
+		<!-- 单位大小是Byte -->
+		<property name="maxUploadSize" value="${maxUploadSize}" />
+		<property name="maxInMemorySize" value="40960" />
+	</bean>
+
+	<!-- FreeMarker视图解析 -->
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver"
+		abstract="false" scope="singleton" lazy-init="default" autowire="default">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.freemarker.FreeMarkerView" />
+		<property name="suffix" value=".ftl" />
+		<property name="cache" value="true" />
+		<property name="contentType" value="text/html;charset=UTF-8" />
+		<property name="requestContextAttribute" value="request" />
+		<property name="exposeRequestAttributes" value="true" />
+		<property name="exposeSessionAttributes" value="true" />
+		<property name="exposeSpringMacroHelpers" value="true" />
+	</bean>
+</beans>

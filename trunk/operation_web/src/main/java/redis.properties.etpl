@@ -1,8 +1,0 @@
-redis.pool.maxTotal={{_ .redis_pool_maxTotal}}
-redis.pool.maxIdle={{_ .redis_pool_maxIdle}}
-redis.pool.minIdle={{_ .redis_pool_minIdle}}
-
-redis.host-name={{_ .redis_host_name}}
-redis.port={{_ .redis_port}}
-
-redis.key.ttl={{_ .redis_key_ttl}}

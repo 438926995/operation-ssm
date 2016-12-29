@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oxm="http://www.springframework.org/schema/oxm"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:task="http://www.springframework.org/schema/task" xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:cache="http://www.springframework.org/schema/cache"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-4.1.xsd  
+     	http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-4.1.xsd    
+      	http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop-4.1.xsd
+		http://www.springframework.org/schema/task
+        http://www.springframework.org/schema/task/spring-task-4.1.xsd
+		http://www.springframework.org/schema/cache
+        http://www.springframework.org/schema/cache/spring-cache-4.1.xsd
+        http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx-4.1.xsd"
+	default-autowire="byName" default-lazy-init="false">
+
+	<task:annotation-driven />
+	<!-- 仅扫描service、annotation、dao,@Service、@Repository -->
+	<context:component-scan
+		base-package="com.wen.service,com.wen.annotation,com.wen.dao" />
+
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:jdbc.properties</value>
+				<value>classpath:variable.properties</value>
+				<value>classpath:redis.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+
+	<bean id="lobHandler" class="org.springframework.jdbc.support.lob.DefaultLobHandler"
+		lazy-init="true" />
+
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+		  init-method="init" destroy-method="close">
+		<!-- 数据源驱动类可不写，Druid默认会自动根据URL识别DriverClass -->
+		<property name="driverClassName" value="${jdbc.driverClassName}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+
+		<!-- 配置初始化大小、最小、最大 -->
+		<property name="initialSize" value="3" />
+		<property name="minIdle" value="10" />
+		<property name="maxActive" value="35" />
+
+		<!-- 配置获取连接等待超时的时间 -->
+		<property name="maxWait" value="60000" />
+
+		<!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+		<property name="timeBetweenEvictionRunsMillis" value="60000" />
+
+		<!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+		<property name="minEvictableIdleTimeMillis" value="300000" />
+
+		<property name="validationQuery" value="SELECT 'x'" />
+		<property name="testWhileIdle" value="true" />
+		<property name="testOnBorrow" value="true" />
+		<property name="testOnReturn" value="false" />
+
+		<property name="filters" value="stat" />
+	</bean>
+
+
+	<!-- define the SqlSessionFactory -->
+	<bean id="opsSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<!-- 通过package, 可以直接指定package的名字， mybatis会自动扫描你指定包下面的javabean, 并且默认设置一个别名，默认的名字为：
+			javabean 的首字母小写的非限定类名来作为它的别名。 也可在javabean 加上注解@Alias 来自定义别名， 例如： @Alias(user)
+			<package name="com.dy.entity"/> -->
+		<property name="typeAliasesPackage" value="" />
+		<property name="configLocation" value="classpath:mybatis.xml" />
+		<property name="mapperLocations" value="classpath:com/wen/mapper/**/*.xml" />
+	</bean>
+	<!-- scan for mappers and let them be autowired -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.wen.mapper" />
+		<property name="sqlSessionFactoryBeanName" value="opsSqlSessionFactory" />
+	</bean>
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate"
+		scope="prototype">
+		<constructor-arg index="0" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- sprign jdbc -->
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<!-- commondao -->
+	<bean id="commonDao" class="com.wen.dao.impl.CommonDaoImpl"
+		autowire="byType">
+		<property name="jdbcTemplate">
+			<ref bean="jdbcTemplate" />
+		</property>
+	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+
+	<bean id="transactionTemplate"  class="org.springframework.transaction.support.TransactionTemplate">
+		<property name="transactionManager" ref="transactionManager" />
+		<property name="timeout" value="600"/>
+	</bean>
+
+	<!--启用事务 -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<!-- freemarker的配置 -->
+	<bean id="freemarkerConfigurer"
+		class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+		<property name="templateLoaderPath" value="/WEB-INF/view/" />
+		<property name="defaultEncoding" value="UTF-8" />
+		<property name="freemarkerSettings">
+			<props>
+				<prop key="template_update_delay">3</prop>
+				<prop key="locale">zh_CN</prop>
+				<prop key="datetime_format">yyyy-MM-dd HH:mm:ss</prop>
+				<prop key="date_format">yyyy-MM-dd</prop>
+				<prop key="number_format">#.##</prop>
+				<prop key="defaultEncoding">UTF-8</prop>
+				<!-- 自动获取spring.ftl宏，此处路径是上面templateLoaderPath的相对路径 -->
+				<prop key="auto_import">common/spring.ftl as spring</prop>
+			</props>
+		</property>
+		<property name="freemarkerVariables">
+			<map>
+				<entry key="xml_escape" value-ref="fmXmlEscape" />
+			</map>
+		</property>
+	</bean>
+	<bean id="fmXmlEscape" class="freemarker.template.utility.XmlEscape" />
+	<!-- 异常处理 -->
+	<bean id="exceptionResolver"
+		class="com.wen.exception.CustomSimpleMappingExceptionResolver">
+		<!-- 定义默认的异常处理页面，当该异常类型的注册时使用 -->
+		<property name="defaultErrorView" value="/account/errorpage"></property>
+		<!-- 定义异常处理页面用来获取异常信息的变量名，默认名为exception -->
+		<property name="exceptionAttribute" value="ex"></property>
+	</bean>
+
+	<!-- turn on declarative caching -->
+	<cache:annotation-driven cache-manager="cacheManager" />
+	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+		<property name="maxTotal" value="${redis.pool.maxTotal}" />
+		<property name="maxIdle" value="${redis.pool.maxIdle}" />
+		<property name="minIdle" value="${redis.pool.minIdle}" />
+	</bean>
+	<bean id="stringRedisSerializer" class="org.springframework.data.redis.serializer.StringRedisSerializer" />
+	<bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+		<property name="poolConfig" ref="jedisPoolConfig" />
+		<property name="usePool" value="true" />
+		<property name="hostName" value="${redis.host-name}" />
+		<property name="port" value="${redis.port}" />
+	</bean>
+	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+		<property name="connectionFactory" ref="jedisConnectionFactory" />
+		<property name="hashKeySerializer" ref="stringRedisSerializer" />
+		<property name="keySerializer" ref="stringRedisSerializer" />
+	</bean>
+	<bean id="cacheManager" class="org.springframework.data.redis.cache.RedisCacheManager" c:template-ref="redisTemplate">
+		<!-- Set TTL as 1 week, which means the cache will be evicted automatically after created after a week -->
+		<property name="defaultExpiration" value="${redis.key.ttl}" />
+		<property name="usePrefix" value="true" />
+	</bean>
+
+	<!-- 图片验证码 -->
+	<bean
+		class="com.octo.captcha.service.multitype.GenericManageableCaptchaService">
+		<constructor-arg index="0" ref="imageEngine" />
+		<constructor-arg type="int" index="1" value="180" /><!--超时时间 秒 -->
+		<constructor-arg type="int" index="2" value="20000" /><!--最大并发数 -->
+		<constructor-arg type="int" index="3" value="20000" />
+	</bean>
+	<bean id="imageEngine" class="com.wen.util.ImageGenericCaptchaEngine" />
+
+	
+</beans>    
