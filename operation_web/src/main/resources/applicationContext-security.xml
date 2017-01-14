@@ -27,7 +27,7 @@
 	<http pattern="/account/notfound" security="none" />
 	<http pattern="/account/errorpage" security="none" />
 	<http pattern="/systemHealthy" security="none" />
-	<http pattern="/test" security="none" />
+	<http pattern="/inject" security="none" />
 
 
 	<beans:bean class="org.springframework.security.web.access.DefaultWebInvocationPrivilegeEvaluator">

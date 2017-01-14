@@ -92,6 +92,12 @@
 		<constructor-arg index="0" ref="sqlSessionFactory" />
 	</bean>
 
+	<bean class="com.wen.AutoInjectResource">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="controllerPackages" value="com.wen.controller"/>
+		<property name="confirmParentColumns" value="PRJ_TYPE"/>
+	</bean>
+
 	<!-- sprign jdbc -->
 	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
 		<property name="dataSource" ref="dataSource" />
@@ -116,6 +122,8 @@
 
 	<!--启用事务 -->
 	<tx:annotation-driven transaction-manager="transactionManager" />
+
+
 
 	<!-- freemarker的配置 -->
 	<bean id="freemarkerConfigurer"

@@ -192,7 +192,12 @@
 		and RESOURCE_STRING = #{parentString}
 		limit 1
 	</select>
-	
+
+	<select id="selectAllResource" resultMap="ResourceResultMap">
+		SELECT <include refid="Resource_Column_List"/>
+		FROM M_RESOURCE m
+	</select>
+
 	<insert id="insertResourceInfo" parameterType="com.wen.domain.user.Resource">
 		insert into M_RESOURCE(RESOURCE_NAME, RESOURCE_DESC,RESOURCE_TYPE,
 		RESOURCE_STRING,IS_ENABLED, SORT_INDEX, SHOW_NAV, PARENT_ID, GRADE,

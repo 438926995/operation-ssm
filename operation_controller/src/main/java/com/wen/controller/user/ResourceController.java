@@ -1,5 +1,6 @@
 package com.wen.controller.user;
 
+import com.wen.annontation.InjectResource;
 import com.wen.annotation.controller.UserMenu;
 import com.wen.annotation.form.AvoidDuplicateSubmission;
 import com.wen.bean.SessionBean;
@@ -47,6 +48,8 @@ public class ResourceController extends BaseController {
   private IResourceService resourceService;
 
   @RequestMapping(value = "/list", method = RequestMethod.GET)
+  @InjectResource(name = "菜单列表", url = "resource/list", grade = 2, parentName = "用户管理", parentOtherProps = {"PRJ_TYPE:0"},
+      customProps = {"RESOURCE_TYPE:URL", "SHOW_NAV:1", "RESOURCE_DESC:菜单列表"})
   @UserMenu
   public ModelAndView list(HttpServletRequest request, ResourceQueryBean rqb, Integer currentPage)
       throws Exception {
@@ -73,6 +76,8 @@ public class ResourceController extends BaseController {
   @RequestMapping(value = "/add", method = RequestMethod.GET)
   @AvoidDuplicateSubmission(needSaveToken = true)
   @UserMenu
+  @InjectResource(name = "资源添加", url = "resource/add", grade = 3, parentName = "菜单列表", parentOtherProps = {"PRJ_TYPE:0"},
+      customProps = {"RESOURCE_TYPE:URL", "SHOW_NAV:0", "RESOURCE_DESC:资源添加"})
   public ModelAndView add(HttpServletRequest request) throws Exception {
     ModelAndView mav = new ModelAndView("resource/add");
     // 记录日志
@@ -99,6 +104,8 @@ public class ResourceController extends BaseController {
   @RequestMapping(value = "/edit/{resourceId}", method = RequestMethod.GET)
   @AvoidDuplicateSubmission(needSaveToken = true)
   @UserMenu
+  @InjectResource(name = "资源编辑", url = "resource/edit", grade = 3, parentName = "菜单列表", parentOtherProps = {"PRJ_TYPE:0"},
+      customProps = {"RESOURCE_TYPE:URL", "SHOW_NAV:0", "RESOURCE_DESC:资源编辑"})
   public ModelAndView edit(HttpServletRequest request, @PathVariable Integer resourceId)
       throws Exception {
     ModelAndView mav = new ModelAndView("resource/add");
@@ -130,6 +137,8 @@ public class ResourceController extends BaseController {
   @RequestMapping(value = "/children/{parentId}", method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
+  @InjectResource(name = "根据parentId获取其子菜单", url = "resource/children", grade = 3, parentName = "菜单列表", parentOtherProps = {"PRJ_TYPE:0"},
+      customProps = {"RESOURCE_TYPE:URL", "SHOW_NAV:0"})
   public List<Resource> children(@PathVariable Integer parentId) throws Exception {
     return resourceService.queryResourceListByParentId(parentId);
   }
@@ -147,6 +156,8 @@ public class ResourceController extends BaseController {
   @RequestMapping(value = "/save", method = RequestMethod.POST)
   @AvoidDuplicateSubmission(needRemoveToken = true)
   @UserMenu
+  @InjectResource(name = "保存资源", url = "resource/save", grade = 3, parentName = "菜单列表", parentOtherProps = {"PRJ_TYPE:0"},
+      customProps = {"RESOURCE_TYPE:URL", "SHOW_NAV:0"})
   public ModelAndView save(HttpServletRequest request,
       @Valid @ModelAttribute("rab") ResourceAddBean rab, BindingResult result) throws Exception {
     ModelAndView mav = new ModelAndView();

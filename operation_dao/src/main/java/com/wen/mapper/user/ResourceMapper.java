@@ -76,5 +76,11 @@ public interface ResourceMapper {
    * @return
    */
   int countResourceClassList(ResourceQueryBean rqb);
+
+  /**
+   * 查询所有资源
+   * @return
+   */
+  List<Resource> selectAllResource();
   
 }

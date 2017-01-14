@@ -90,4 +90,9 @@ public class ResourceServiceImpl extends BaseService implements IResourceService
     return line;
   }
 
+  @Override
+  public List<Resource> getAllResource() {
+    return resourceMapper.selectAllResource();
+  }
+
 }

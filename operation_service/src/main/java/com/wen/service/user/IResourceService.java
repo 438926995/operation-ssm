@@ -1,11 +1,11 @@
 package com.wen.service.user;
 
-import java.util.List;
-
 import com.wen.domain.user.MenuTree;
 import com.wen.domain.user.Resource;
 import com.wen.domain.user.ResourceQueryBean;
 import com.wen.util.pager.TbData;
+
+import java.util.List;
 
 /**
  * 资源管理接口
@@ -58,5 +58,7 @@ public interface IResourceService {
    * @throws Exception
    */
   public int saveResource(Resource resource) throws Exception;
+
+  public List<Resource> getAllResource();
 
 }
