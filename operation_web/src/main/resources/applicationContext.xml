@@ -92,10 +92,23 @@
 		<constructor-arg index="0" ref="sqlSessionFactory" />
 	</bean>
 
-	<bean class="com.wen.AutoInjectResource">
+	<bean class="com.github.huwenwen.AutoInjectResource">
 		<property name="dataSource" ref="dataSource"/>
-		<property name="controllerPackages" value="com.wen.controller"/>
-		<property name="confirmParentColumns" value="PRJ_TYPE"/>
+		<property name="basePackages" value="com.wen.controller"/>
+		<property name="otherConfirmUniqueColumns" value="PRJ_TYPE"/>
+		<property name="defaultCustomProps">
+			<map>
+				<entry key="PRJ_TYPE" value="0"/>
+				<entry key="RESOURCE_TYPE" value="URL"/>
+				<entry key="SHOW_NAV" value="0"/>
+				<entry key="RESOURCE_DESC" value=""/>
+			</map>
+		</property>
+		<property name="defaultParentOtherProps">
+			<map>
+				<entry key="PRJ_TYPE" value="0"/>
+			</map>
+		</property>
 	</bean>
 
 	<!-- sprign jdbc -->

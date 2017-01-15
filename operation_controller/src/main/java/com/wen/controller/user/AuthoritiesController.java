@@ -1,6 +1,6 @@
 package com.wen.controller.user;
 
-import com.wen.annontation.InjectResource;
+import com.github.huwenwen.annontation.InjectResource;
 import com.wen.annotation.controller.UserMenu;
 import com.wen.annotation.form.AvoidDuplicateSubmission;
 import com.wen.bean.JSONMessage;
@@ -61,8 +61,8 @@ public class AuthoritiesController extends BaseController {
 
   @RequestMapping(value = "/list", method = RequestMethod.GET)
   @UserMenu
-  @InjectResource(name = "权限列表", url = "authorities/list", grade = 2, parentName = "用户管理", parentOtherProps = {"PRJ_TYPE:0"},
-      customProps = {"RESOURCE_TYPE:URL", "SHOW_NAV:1"})
+  @InjectResource(name = "权限列表", url = "authorities/list", grade = 2, parentName = "用户管理",
+      customProps = {"SHOW_NAV:1"})
   public ModelAndView list(HttpServletRequest request, AuthoritiesQueryBean aqb,
       Integer currentPage) throws Exception {
     // 记录日志
@@ -88,8 +88,8 @@ public class AuthoritiesController extends BaseController {
   @RequestMapping(value = "/add", method = RequestMethod.GET)
   @AvoidDuplicateSubmission(needSaveToken = true)
   @UserMenu
-  @InjectResource(name = "添加权限", url = "authorities/add", grade = 2, parentName = "用户管理", parentOtherProps = {"PRJ_TYPE:0"},
-      customProps = {"RESOURCE_TYPE:URL", "SHOW_NAV:1"})
+  @InjectResource(name = "添加权限", url = "authorities/add", grade = 2, parentName = "用户管理",
+      customProps = {"SHOW_NAV:1"})
   public ModelAndView add(HttpServletRequest request) throws Exception {
     ModelAndView mav = new ModelAndView("authorities/add");
     // 记录日志
@@ -118,8 +118,7 @@ public class AuthoritiesController extends BaseController {
   @RequestMapping(value = "/edit/{authoritiesId}", method = RequestMethod.GET)
   @AvoidDuplicateSubmission(needSaveToken = true)
   @UserMenu
-  @InjectResource(name = "编辑权限", url = "authorities/edit", grade = 3, parentName = "权限列表", parentOtherProps = {"PRJ_TYPE:0"},
-      customProps = {"RESOURCE_TYPE:URL", "SHOW_NAV:0"})
+  @InjectResource(name = "编辑权限", url = "authorities/edit", grade = 3, parentName = "权限列表")
   public ModelAndView edit(HttpServletRequest request, @PathVariable Integer authoritiesId)
       throws Exception {
     ModelAndView mav = new ModelAndView("authorities/add");
@@ -152,8 +151,7 @@ public class AuthoritiesController extends BaseController {
   @RequestMapping(value = "/save", method = RequestMethod.POST)
   @AvoidDuplicateSubmission(needRemoveToken = true)
   @UserMenu
-  @InjectResource(name = "保存权限信息", url = "authorities/save", grade = 3, parentName = "权限列表", parentOtherProps = {"PRJ_TYPE:0"},
-      customProps = {"RESOURCE_TYPE:URL", "SHOW_NAV:0"})
+  @InjectResource(name = "保存权限信息", url = "authorities/save", grade = 3, parentName = "权限列表")
   public ModelAndView save(HttpServletRequest request,
       @Valid @ModelAttribute("aab") AuthoritiesAddBean aab, BindingResult result) throws Exception {
     ModelAndView mav = new ModelAndView();
@@ -206,8 +204,8 @@ public class AuthoritiesController extends BaseController {
    */
   @RequestMapping(value = "/module/list", method = RequestMethod.GET)
   @UserMenu
-  @InjectResource(name = "权限模块列表", url = "authorities/module/list", grade = 2, parentName = "用户管理", parentOtherProps = {"PRJ_TYPE:0"},
-      customProps = {"RESOURCE_TYPE:URL", "SHOW_NAV:1"})
+  @InjectResource(name = "权限模块列表", url = "authorities/module/list", grade = 2, parentName = "用户管理",
+      customProps = {"SHOW_NAV:1"})
   public ModelAndView moduleList(HttpServletRequest request, AuthoritiesQueryBean aqb,
       Integer currentPage) throws Exception {
     // 记录日志
@@ -233,8 +231,8 @@ public class AuthoritiesController extends BaseController {
   @RequestMapping(value = "/module/add", method = RequestMethod.GET)
   @AvoidDuplicateSubmission(needSaveToken = true)
   @UserMenu
-  @InjectResource(name = "权限模块添加", url = "authorities/module/add", grade = 2, parentName = "用户管理", parentOtherProps = {"PRJ_TYPE:0"},
-      customProps = {"RESOURCE_TYPE:URL", "SHOW_NAV:1"})
+  @InjectResource(name = "权限模块添加", url = "authorities/module/add", grade = 2, parentName = "用户管理",
+      customProps = {"SHOW_NAV:1"})
   public ModelAndView addModule(HttpServletRequest request) throws Exception {
     ModelAndView mav = new ModelAndView("authorities/moduleAdd");
     // 记录日志
@@ -255,8 +253,7 @@ public class AuthoritiesController extends BaseController {
   @RequestMapping(value = "/module/edit/{authModuleId}", method = RequestMethod.GET)
   @AvoidDuplicateSubmission(needSaveToken = true)
   @UserMenu
-  @InjectResource(name = "权限模块编辑", url = "authorities/module/edit", grade = 3, parentName = "权限模块列表", parentOtherProps = {"PRJ_TYPE:0"},
-      customProps = {"RESOURCE_TYPE:URL", "SHOW_NAV:0"})
+  @InjectResource(name = "权限模块编辑", url = "authorities/module/edit", grade = 3, parentName = "权限模块列表")
   public ModelAndView editModule(HttpServletRequest request, @PathVariable Integer authModuleId)
       throws Exception {
     ModelAndView mav = new ModelAndView("authorities/moduleAdd");
@@ -284,8 +281,7 @@ public class AuthoritiesController extends BaseController {
   @RequestMapping(value = "/module/save", method = RequestMethod.POST)
   @AvoidDuplicateSubmission(needRemoveToken = true)
   @UserMenu
-  @InjectResource(name = "权限模块保存", url = "authorities/module/save", grade = 3, parentName = "权限模块列表", parentOtherProps = {"PRJ_TYPE:0"},
-      customProps = {"RESOURCE_TYPE:URL", "SHOW_NAV:0"})
+  @InjectResource(name = "权限模块保存", url = "authorities/module/save", grade = 3, parentName = "权限模块列表")
   public ModelAndView saveModule(HttpServletRequest request,
       @Valid @ModelAttribute("amab") AuthoritiesModuleAddBean amab, BindingResult result)
           throws Exception {
@@ -325,8 +321,7 @@ public class AuthoritiesController extends BaseController {
    */
   @RequestMapping(value = "/judgeNameSingle", method = RequestMethod.POST)
   @ResponseBody
-  @InjectResource(name = "验证权限名称是否唯一", url = "authorities/judgeNameSingle", grade = 3, parentName = "添加权限", parentOtherProps = {"PRJ_TYPE:0"},
-      customProps = {"RESOURCE_TYPE:URL", "SHOW_NAV:0"})
+  @InjectResource(name = "验证权限名称是否唯一", url = "authorities/judgeNameSingle", grade = 3, parentName = "添加权限")
   public JSONMessage judgeNameSingle(HttpServletRequest request, HttpServletResponse response,
       @RequestBody AuthNameBean anb) throws Exception {
     SessionBean session = getSessionBean(request);
@@ -353,8 +348,7 @@ public class AuthoritiesController extends BaseController {
    */
   @RequestMapping(value = "/module/judgeNameSingle", method = RequestMethod.POST)
   @ResponseBody
-  @InjectResource(name = "验证权限模块名称是否唯一", url = "authorities/module/judgeNameSingle", grade = 3, parentName = "权限模块添加", parentOtherProps = {"PRJ_TYPE:0"},
-      customProps = {"RESOURCE_TYPE:URL", "SHOW_NAV:0"})
+  @InjectResource(name = "验证权限模块名称是否唯一", url = "authorities/module/judgeNameSingle", grade = 3, parentName = "权限模块添加")
   public JSONMessage judgeNameSingle2(HttpServletRequest request, HttpServletResponse response,
       @RequestBody AuthModuleNameBean anb) throws Exception {
     SessionBean session = getSessionBean(request);
@@ -377,8 +371,7 @@ public class AuthoritiesController extends BaseController {
    */
   @RequestMapping(value = "/judgeUrlSingle", method = RequestMethod.GET)
   @ResponseBody
-  @InjectResource(name = "判断url是否唯一", url = "authorities/judgeUrlSingle", grade = 3, parentName = "添加权限", parentOtherProps = {"PRJ_TYPE:0"},
-      customProps = {"RESOURCE_TYPE:URL", "SHOW_NAV:0"})
+  @InjectResource(name = "判断url是否唯一", url = "authorities/judgeUrlSingle", grade = 3, parentName = "添加权限")
   public JSONMessage judgeUrlSingle(HttpServletRequest request, HttpServletResponse response,
       Integer resourceId) {
     SessionBean session = getSessionBean(request);

@@ -1,8 +1,8 @@
 package com.wen.test;
 
-import com.wen.AutoInjectResource;
-import com.wen.bean.ResourceBean;
-import com.wen.exception.InjectResourceException;
+import com.github.huwenwen.AutoInjectResource;
+import com.github.huwenwen.bean.ResourceBean;
+import com.github.huwenwen.exception.InjectResourceException;
 import org.junit.Test;
 
 import javax.inject.Inject;
